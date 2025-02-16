@@ -1,0 +1,21 @@
+# 🛑 Ignorer les fichiers système et les fichiers spécifiques aux éditeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+# 🛑 Ignorer les fichiers d'environnement contenant des mots de passe ou des configurations sensibles
+.env
+config.php
+
+# 🛑 Ignorer les fichiers de cache et sessions PHP
+/cache/
+session/
+*.cache
+*.session
+
+# 🛑 Ignorer les fichiers générés automatiquement
+/public/uploads/
+public/assets/
+public/images/generated/
