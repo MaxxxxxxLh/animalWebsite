@@ -1,20 +1,20 @@
 CREATE TABLE Personne
 (
-  personneId INT NOT NULL,
+  personneId INT NOT NULL AUTO_INCREMENT,
   nom VARCHAR(255) NOT NULL,
   prenom VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
-  isAdmin boolean NOT NULL,
+  isAdmin TINYINT(1) NOT NULL,
   PRIMARY KEY (personneId),
   UNIQUE (email)
 );
 
-CREATE TABLE EspèceAnimal
+CREATE TABLE EspeceAnimal
 (
-  animalId INT NOT NULL,
+  animalId INT NOT NULL AUTO_INCREMENT,
   nom VARCHAR(255) NOT NULL,
-  age VARCHAR(255) NOT NULL,
+  age INT NOT NULL,  
   type VARCHAR(255) NOT NULL,
   informations VARCHAR(255) NOT NULL,
   proprietaireId INT NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE EspèceAnimal
 
 CREATE TABLE Annonce
 (
-  annonceId INT NOT NULL,
+  annonceId INT NOT NULL AUTO_INCREMENT,
   nom VARCHAR(255) NOT NULL,
   date DATE NOT NULL,
   service VARCHAR(255) NOT NULL,
@@ -32,16 +32,16 @@ CREATE TABLE Annonce
   personneId INT NOT NULL,
   animalId INT NOT NULL,
   PRIMARY KEY (annonceId),
-  FOREIGN KEY (personneId) REFERENCES EspèceAnimal(animalId),
-  FOREIGN KEY (animalId) REFERENCES Personne(personneId)
+  FOREIGN KEY (personneId) REFERENCES Personne(personneId),
+  FOREIGN KEY (animalId) REFERENCES EspeceAnimal(animalId)
 );
 
 CREATE TABLE Messagerie
 (
+  messageId INT NOT NULL AUTO_INCREMENT,
   message VARCHAR(255) NOT NULL,
   date DATE NOT NULL,
-  isProprietaireMessage boolean NOT NULL,
-  messageId INT NOT NULL,
+  isProprietaireMessage TINYINT(1) NOT NULL,
   proprietaireId INT NOT NULL,
   personneId INT NOT NULL,
   PRIMARY KEY (messageId),
@@ -51,10 +51,10 @@ CREATE TABLE Messagerie
 
 CREATE TABLE AvisUtilisateur
 (
+  id INT NOT NULL AUTO_INCREMENT,
   commentaire VARCHAR(255) NOT NULL,
   notes INT NOT NULL,
   date DATE NOT NULL,
-  id INT NOT NULL,
   envoyeurId INT NOT NULL,
   receveurId INT NOT NULL,
   annonceId INT NOT NULL,

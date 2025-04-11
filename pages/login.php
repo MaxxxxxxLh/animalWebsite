@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="loginContainer">
         <h1>Se connecter</h1>
         <p class="subtitle">Pas de compte? <a href="signup.html">Créer un compte</a></p>
         <form>
