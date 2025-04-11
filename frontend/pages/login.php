@@ -9,8 +9,8 @@
 <body>
     <div class="loginContainer">
         <h1>Se connecter</h1>
-        <p class="subtitle">Pas de compte? <a href="signup.html">Créer un compte</a></p>
-        <form>
+        <p class="subtitle">Pas de compte? <a href="register.php">Créer un compte</a></p>
+        <form method="POST" action="/handler/login_handler.php">
             <div class="form-group">
                 <label for="email">Votre mail</label>
                 <input type="email" id="email" name="email" required>
