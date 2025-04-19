@@ -9,7 +9,7 @@
 <body>
     <div class="loginContainer">
         <h2>Inscription</h2>
-        <form method="POST" action="/handler/register_handler.php">
+        <form method="POST" action="/register">
             <div class="form-group">
                 <label for="email">Votre email</label>
                 <input type="email" id="email" name="email" placeholder="" required>
