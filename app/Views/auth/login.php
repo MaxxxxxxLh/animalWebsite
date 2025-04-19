@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion - Gardiennage d'Animaux</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <div class="loginContainer">
         <h1>Se connecter</h1>
-        <p class="subtitle">Pas de compte? <a href="register.php">Créer un compte</a></p>
-        <form method="POST" action="/handler/login_handler.php">
+        <p class="subtitle">Pas de compte? <a href="/register">Créer un compte</a></p>
+        <form method="POST" action="/login">
             <div class="form-group">
                 <label for="email">Votre mail</label>
                 <input type="email" id="email" name="email" required>
@@ -18,7 +18,7 @@
             <div class="form-group">
                 <label for="password">Votre mot de passe</label>
                 <input type="password" id="password" name="password" required>
-                <p class="forgot-password"><a href="forgotPassword.html">Mot de passe oublié</a></p>
+                <p class="forgot-password"><a href="/forgotPassword.php">Mot de passe oublié</a></p>
             </div>
             <button type="submit" class="btn">Se connecter</button>
         </form>

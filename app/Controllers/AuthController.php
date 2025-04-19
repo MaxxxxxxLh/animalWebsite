@@ -1,16 +1,32 @@
 <?php
-namespace App\Controllers;
 
-use App\Models\User;
+
+use app\Models\User;
 
 class AuthController
 {
-    public function login()
+    // Méthode pour afficher la vue
+    private function render($view, $data = [])
     {
+        extract($data);
+        include __DIR__ . '/../Views/auth/' . $view . '.php';
+    }
+
+    public function login()
+    {   
+        include __DIR__ . '/../Views/auth/login.php';
+        /*
         session_start();
 
+        // Si l'utilisateur est déjà connecté, redirection vers la page d'accueil
+        if (isset($_SESSION['user'])) {
+            header("Location: /");
+            exit();
+        }
+
+        // Affichage du formulaire de login
         if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-            echo "Méthode non autorisée.";
+            $this->render('login');
             return;
         }
 
@@ -31,18 +47,27 @@ class AuthController
                 "email" => $user["email"],
                 "isAdmin" => $user["isAdmin"]
             ];
-            header("Location: /"); // vers l'accueil
+            header("Location: /");
             exit();
         } else {
-            echo "Identifiants incorrects.";
-        }
+            // Rediriger ou afficher un message d'erreur détaillé
+            $this->render('login', ['error' => 'Identifiants incorrects.']);
+        }*/
     }
+
     public function register()
     {
         session_start();
 
+        // Si l'utilisateur est déjà connecté, redirection vers la page d'accueil
+        if (isset($_SESSION['user'])) {
+            header("Location: /");
+            exit();
+        }
+
+        // Affichage du formulaire d'inscription
         if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-            echo "Méthode non autorisée.";
+            $this->render('register');
             return;
         }
 
@@ -68,7 +93,6 @@ class AuthController
 
         $userId = User::create($email, $password);
 
-        // Connexion automatique
         $_SESSION['user'] = [
             'id' => $userId,
             'email' => $email,
@@ -78,5 +102,4 @@ class AuthController
         header("Location: /");
         exit();
     }
-
 }
