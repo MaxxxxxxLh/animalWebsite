@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="loginContainer">
         <h1>Mot de passe oublié</h1>
         <p class="subtitle">Entrez votre adresse email pour recevoir un lien de réinitialisation.</p>
         <form>
