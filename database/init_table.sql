@@ -1,3 +1,5 @@
+USE `site_db`;
+
 CREATE TABLE Personne
 (
   personneId INT NOT NULL AUTO_INCREMENT,
