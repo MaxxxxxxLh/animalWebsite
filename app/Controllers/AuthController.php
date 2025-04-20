@@ -14,8 +14,6 @@ class AuthController
 
     public function login()
     {   
-        include __DIR__ . '/../Views/auth/login.php';
-        /*
         session_start();
 
         // Si l'utilisateur est déjà connecté, redirection vers la page d'accueil
@@ -52,7 +50,7 @@ class AuthController
         } else {
             // Rediriger ou afficher un message d'erreur détaillé
             $this->render('login', ['error' => 'Identifiants incorrects.']);
-        }*/
+        }
     }
 
     public function register()
