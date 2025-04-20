@@ -13,8 +13,8 @@ Ce projet est un site web de mise en relation entre propriétaires d’animaux e
 
 1. **Cloner le dépôt**
    ```bash
-   git clone https://github.com/ton-utilisateur/nom-du-repo.git
-   cd nom-du-repo
+   git clone https://github.com/ton-utilisateur/animalWebsite.git
+   cd animalWebsite
 2. **Lancer le projet**
    ```bash
    docker-compose up --build
