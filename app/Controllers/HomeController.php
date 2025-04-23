@@ -1,6 +1,6 @@
 <?php
 class HomeController {
     public function index() {
-        include __DIR__ . '/../Views/home/index.php';
+        include __DIR__ . '/../Views/annonces.php';
     }
 }
