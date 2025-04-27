@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail = filter_var($_POST['mail'], FILTER_SANITIZE_EMAIL);
     $message = htmlspecialchars($_POST['message']);
 
-    $to = "adresse@tonsite.com"; // Remplacer par votre adresse email de réception
+    $to = "adresse@tonsite.com"; // TODO: Remplacer par votre adresse email de réception
     $subject = "Nouveau message de contact de $prenom $nom";
     $body = "Nom: $nom\nPrénom: $prenom\nEmail: $mail\n\nMessage:\n$message";
     $headers = "From: $mail" . "\r\n" .
@@ -13,10 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                "X-Mailer: PHP/" . phpversion();
 
     if (mail($to, $subject, $body, $headers)) {
-        header("Location: contact.php?success=1");
+        header("Location: /contact.php?success=1");
         exit();
     } else {
-        header("Location: contact.php?success=0");
+        header("Location: /contact.php?success=0");
         exit();
     }
 }
