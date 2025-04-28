@@ -1,28 +1,45 @@
 <?php
 
-
-use app\Models\User;
+namespace App\Controllers;
 
 class AuthController
 {
-    // Méthode pour afficher la vue
     private function render($view, $data = [])
     {
         extract($data);
         include __DIR__ . '/../Views/auth/' . $view . '.php';
     }
 
+    private function apiGet(string $url): array
+    {
+        $response = file_get_contents($url);
+        return json_decode($response, true);
+    }
+
+    private function apiPost(string $url, array $data): array
+    {
+        $options = [
+            'http' => [
+                'header'  => "Content-Type: application/json\r\n",
+                'method'  => 'POST',
+                'content' => json_encode($data),
+            ],
+        ];
+        $context = stream_context_create($options);
+        $response = file_get_contents($url, false, $context);
+
+        return json_decode($response, true);
+    }
+
     public function login()
-    {   
+    {
         session_start();
 
-        // Si l'utilisateur est déjà connecté, redirection vers la page d'accueil
         if (isset($_SESSION['user'])) {
             header("Location: /");
             exit();
         }
 
-        // Affichage du formulaire de login
         if ($_SERVER["REQUEST_METHOD"] !== "POST") {
             $this->render('login');
             return;
@@ -35,9 +52,14 @@ class AuthController
             die("Veuillez remplir tous les champs.");
         }
 
-        $user = User::findByEmail($email);
+        $user = $this->apiGet("http://localhost/api/users/find?email=" . urlencode($email));
 
-        if ($user && password_verify($password, $user["password"])) {
+        if (isset($user['error'])) {
+            $this->render('login', ['error' => 'Identifiants incorrects.']);
+            return;
+        }
+
+        if (password_verify($password, $user["password"])) {
             $_SESSION["user"] = [
                 "id" => $user["personneId"],
                 "nom" => $user["nom"],
@@ -48,7 +70,6 @@ class AuthController
             header("Location: /");
             exit();
         } else {
-            // Rediriger ou afficher un message d'erreur détaillé
             $this->render('login', ['error' => 'Identifiants incorrects.']);
         }
     }
@@ -57,13 +78,11 @@ class AuthController
     {
         session_start();
 
-        // Si l'utilisateur est déjà connecté, redirection vers la page d'accueil
         if (isset($_SESSION['user'])) {
             header("Location: /");
             exit();
         }
 
-        // Affichage du formulaire d'inscription
         if ($_SERVER["REQUEST_METHOD"] !== "POST") {
             $this->render('register');
             return;
@@ -85,11 +104,22 @@ class AuthController
             die("Les mots de passe ne correspondent pas.");
         }
 
-        if (User::existsByEmail($email)) {
+        $existsData = $this->apiGet("http://localhost/api/users/exists?email=" . urlencode($email));
+        
+        if (!empty($existsData['exists'])) {
             die("Un compte existe déjà avec cet email.");
         }
 
-        $userId = User::create($email, $password);
+        $createData = $this->apiPost("http://localhost/api/users/create", [
+            'email' => $email,
+            'password' => $password
+        ]);
+
+        if (!isset($createData['success']) || !$createData['success']) {
+            die("Erreur lors de la création du compte.");
+        }
+
+        $userId = $createData['user_id'];
 
         $_SESSION['user'] = [
             'id' => $userId,
