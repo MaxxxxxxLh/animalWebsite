@@ -3,6 +3,7 @@ session_start();
 
 require_once __DIR__ . '/../app/Controllers/HomeController.php';
 require_once __DIR__ . '/../app/Controllers/AuthController.php';
+require_once __DIR__ . '/../app/Controllers/ContactController.php';
 
 // Récupère l'URI sans les paramètres GET
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -23,6 +24,11 @@ switch ($uri) {
     case '/register':
         $controller = new AuthController();
         $controller->register();
+        break;
+
+    case '/contact':
+        $controller = new ContactController();
+        $controller->render();
         break;
 
     default:
