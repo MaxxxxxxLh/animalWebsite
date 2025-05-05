@@ -12,8 +12,14 @@ class AuthController
 
     private function apiGet(string $url): array
     {
-        $response = file_get_contents($url);
-        return json_decode($response, true);
+        $response = @file_get_contents($url);
+
+        if ($response === false) {
+            return ['error' => 'API request failed'];
+        }
+
+        $data = json_decode($response, true);
+        return is_array($data) ? $data : ['error' => 'Invalid JSON'];
     }
 
     private function apiPost(string $url, array $data): array
@@ -26,14 +32,18 @@ class AuthController
             ],
         ];
         $context = stream_context_create($options);
-        $response = file_get_contents($url, false, $context);
+        $response = @file_get_contents($url, false, $context);
 
-        return json_decode($response, true);
+        if ($response === false) {
+            return ['error' => 'API POST request failed'];
+        }
+
+        $data = json_decode($response, true);
+        return is_array($data) ? $data : ['error' => 'Invalid JSON'];
     }
 
     public function login()
     {
-
         if (isset($_SESSION['user'])) {
             header("Location: /");
             exit();
@@ -55,7 +65,7 @@ class AuthController
         $user = $this->apiGet("http://localhost/api/users/find?email=" . urlencode($email) . "&includePassword=true");
 
         if (isset($user['error'])) {
-            $this->render('login', ['error' => 'Identifiants incorrects.']);
+            $this->render('login', ['error' => 'Identifiants incorrects ou erreur serveur.']);
             return;
         }
 
@@ -81,7 +91,6 @@ class AuthController
 
     public function register()
     {
-
         if (isset($_SESSION['user'])) {
             header("Location: /");
             exit();
@@ -97,21 +106,39 @@ class AuthController
         $passwordConfirmation = $_POST["passwordConfirmation"] ?? '';
 
         if (empty($email) || empty($password) || empty($passwordConfirmation)) {
-            die("Tous les champs sont obligatoires.");
+            $this->render('register', ['error' => "Tous les champs sont obligatoires."]);
+            return;
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            die("Email invalide.");
+            $this->render('register', ['error' => "Email invalide."]);
+            return;
         }
 
         if ($password !== $passwordConfirmation) {
-            die("Les mots de passe ne correspondent pas.");
+            $this->render('register', ['error' => "Les mots de passe ne correspondent pas."]);
+            return;
+        }
+
+        if (strlen($password) < 8 || 
+            !preg_match('/[A-Z]/', $password) || 
+            !preg_match('/[a-z]/', $password) || 
+            !preg_match('/[0-9]/', $password) || 
+            !preg_match('/[\W]/', $password)) {
+            $this->render('register', ['error' => "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial."]);
+            return;
         }
 
         $existsData = $this->apiGet("http://localhost/api/users/exists?email=" . urlencode($email));
 
+        if (isset($existsData['error'])) {
+            $this->render('register', ['error' => "Erreur lors de la vérification de l'utilisateur."]);
+            return;
+        }
+
         if (!empty($existsData['exists'])) {
-            die("Un compte existe déjà avec cet email.");
+            $this->render('register', ['error' => "Un compte existe déjà avec cet email."]);
+            return;
         }
 
         $createData = $this->apiPost("http://localhost/api/users/create", [
@@ -120,7 +147,8 @@ class AuthController
         ]);
 
         if (!isset($createData['success']) || !$createData['success']) {
-            die("Erreur lors de la création du compte.");
+            $this->render('register', ['error' => "Erreur lors de la création du compte."]);
+            return;
         }
 
         $userId = $createData['user_id'];
@@ -151,6 +179,7 @@ class AuthController
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             die("Email invalide.");
         }
+
     }
 
     public function logout()

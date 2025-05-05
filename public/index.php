@@ -78,6 +78,7 @@ switch ($uri) {
         break;
     default:
         http_response_code(404);
-        echo "Page non trouvée.";
+        include __DIR__ . '/../app/Views/default/notFound.php';
         break;
+    
 }

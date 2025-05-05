@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion - Gardiennage d'Animaux</title>
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+    </style>
 </head>
 <body>
     <div class="loginContainer">
@@ -21,8 +32,11 @@
                 <p class="forgot-password"><a href="/forgotPassword">Mot de passe oublié</a></p>
             </div>
             <button type="submit" class="loginBtn">Se connecter</button>
+
+            <?php if (isset($error)): ?>
+                <div class="alert-danger"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
         </form>
-        
     </div>
 </body>
 </html>
