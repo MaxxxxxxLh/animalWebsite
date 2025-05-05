@@ -18,7 +18,7 @@
             <div class="form-group">
                 <label for="password">Votre mot de passe</label>
                 <input type="password" id="password" name="password" required>
-                <p class="forgot-password"><a href="/forgotPassword.php">Mot de passe oublié</a></p>
+                <p class="forgot-password"><a href="/forgotPassword">Mot de passe oublié</a></p>
             </div>
             <button type="submit" class="loginBtn">Se connecter</button>
         </form>

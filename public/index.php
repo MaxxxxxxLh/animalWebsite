@@ -68,9 +68,14 @@ switch ($uri) {
         (new \App\Controllers\AuthController())->register();
         break;
     case '/logout':
-        session_destroy();
-        header('Location: /login');
-        exit;
+        (new \App\Controllers\AuthController())->logout();
+        break;
+    case '/forgotPassword':
+        (new \App\Controllers\AuthController())->forgotPassword();
+        break;
+    case '/contact':
+        (new \App\Controllers\ContactController())->render();
+        break;
     default:
         http_response_code(404);
         echo "Page non trouvée.";

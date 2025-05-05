@@ -6,7 +6,7 @@
             <a href="../pages/messagerie.php">Messagerie</a>
             <a href="../pages/annonces.php">Annonces</a>
             <a href="../pages/faq.php">FAQ</a>
-            <a href="../pages/contact.php">Contact</a>
+            <a href="/contact">Contact</a>
         </div>
         <div class="profile-icon">
         <?php if (isset($_SESSION['user'])): ?>

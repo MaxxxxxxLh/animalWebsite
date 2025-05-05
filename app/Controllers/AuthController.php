@@ -134,4 +134,29 @@ class AuthController
         header("Location: /");
         exit();
     }
+
+    public function forgotPassword()
+    {
+        if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+            $this->render('forgotPassword');
+            return;
+        }
+
+        $email = $_POST["email"] ?? '';
+
+        if (empty($email)) {
+            die("Veuillez entrer votre adresse email.");
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            die("Email invalide.");
+        }
+    }
+
+    public function logout()
+    {
+        session_destroy();
+        header("Location: /login");
+        exit();
+    }
 }
