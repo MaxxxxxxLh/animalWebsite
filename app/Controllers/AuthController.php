@@ -33,7 +33,6 @@ class AuthController
 
     public function login()
     {
-        session_start();
 
         if (isset($_SESSION['user'])) {
             header("Location: /");
@@ -49,13 +48,19 @@ class AuthController
         $password = $_POST["password"] ?? '';
 
         if (empty($email) || empty($password)) {
-            die("Veuillez remplir tous les champs.");
+            $this->render('login', ['error' => 'Veuillez remplir tous les champs.']);
+            return;
         }
 
-        $user = $this->apiGet("http://localhost/api/users/find?email=" . urlencode($email));
+        $user = $this->apiGet("http://localhost/api/users/find?email=" . urlencode($email) . "&includePassword=true");
 
         if (isset($user['error'])) {
             $this->render('login', ['error' => 'Identifiants incorrects.']);
+            return;
+        }
+
+        if (!isset($user['password'])) {
+            $this->render('login', ['error' => 'Erreur interne : mot de passe manquant.']);
             return;
         }
 
@@ -76,7 +81,6 @@ class AuthController
 
     public function register()
     {
-        session_start();
 
         if (isset($_SESSION['user'])) {
             header("Location: /");
@@ -105,7 +109,7 @@ class AuthController
         }
 
         $existsData = $this->apiGet("http://localhost/api/users/exists?email=" . urlencode($email));
-        
+
         if (!empty($existsData['exists'])) {
             die("Un compte existe déjà avec cet email.");
         }

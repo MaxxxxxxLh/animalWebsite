@@ -18,7 +18,11 @@ class UserController
         $user = User::findByEmail($email);
 
         if ($user) {
-            unset($user['password']);
+            // On ne renvoie le mot de passe que si "includePassword=true" est précisé
+            if (!isset($_GET['includePassword']) || $_GET['includePassword'] !== 'true') {
+                unset($user['password']);
+            }
+
             header('Content-Type: application/json');
             echo json_encode($user);
         } else {

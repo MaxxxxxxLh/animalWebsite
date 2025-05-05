@@ -32,7 +32,6 @@ class MessagerieController
 
     public function showConversation()
     {
-        session_start();
 
         if (!isset($_SESSION['user'])) {
             header("Location: /login");
@@ -56,7 +55,6 @@ class MessagerieController
 
     public function envoyerMessage()
     {
-        session_start();
 
         if (!isset($_SESSION['user'])) {
             header("Location: /login");

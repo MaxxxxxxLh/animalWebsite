@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="loginContainer">
-        <h1>Se connecter</h1>
+        <h2>Se connecter</h2>
         <p class="subtitle">Pas de compte? <a href="/register">Créer un compte</a></p>
         <form method="POST" action="/login">
             <div class="form-group">
@@ -20,8 +20,9 @@
                 <input type="password" id="password" name="password" required>
                 <p class="forgot-password"><a href="/forgotPassword.php">Mot de passe oublié</a></p>
             </div>
-            <button type="submit" class="btn">Se connecter</button>
+            <button type="submit" class="loginBtn">Se connecter</button>
         </form>
+        
     </div>
 </body>
 </html>

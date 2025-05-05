@@ -1,7 +1,17 @@
 <?php
 
+// Initialisation
+session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Headers généraux
+header('Content-Type: text/html; charset=utf-8');
+
+// Chargement config
 require_once __DIR__ . '/../config/config.php';
-// Autoloader
+
+// Autoloader PSR-4 simple
 spl_autoload_register(function ($class) {
     $prefix = 'App\\';
     $base_dir = __DIR__ . '/../app/';
@@ -19,28 +29,23 @@ spl_autoload_register(function ($class) {
     }
 });
 
+// Récupération de l’URI
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Gestion API
+// === Gestion API ===
 if (strpos($uri, '/api/') === 0) {
     $apiRoute = substr($uri, 5);
 
     switch ($apiRoute) {
-        case 'user/findByEmail':
-            $controller = new \App\Controllers\Api\UserController();
-            $controller->findByEmail();
+        case 'users/find':
+            (new \App\Controllers\Api\UserController())->findByEmail();
             break;
-
-        case 'user/exists':
-            $controller = new \App\Controllers\Api\UserController();
-            $controller->exists();
+        case 'users/exists':
+            (new \App\Controllers\Api\UserController())->exists();
             break;
-
-        case 'user/create':
-            $controller = new \App\Controllers\Api\UserController();
-            $controller->create();
+        case 'users/create':
+            (new \App\Controllers\Api\UserController())->create();
             break;
-
         default:
             http_response_code(404);
             echo json_encode(['error' => 'API endpoint not found']);
@@ -50,24 +55,22 @@ if (strpos($uri, '/api/') === 0) {
     exit;
 }
 
-// Gestion Web (HTML)
+// === Gestion Web ===
 switch ($uri) {
     case '/':
     case '/home':
-        $controller = new \App\Controllers\HomeController();
-        $controller->index();
+        (new \App\Controllers\HomeController())->index();
         break;
-
     case '/login':
-        $controller = new \App\Controllers\AuthController();
-        $controller->login();
+        (new \App\Controllers\AuthController())->login();
         break;
-
     case '/register':
-        $controller = new \App\Controllers\AuthController();
-        $controller->register();
+        (new \App\Controllers\AuthController())->register();
         break;
-
+    case '/logout':
+        session_destroy();
+        header('Location: /login');
+        exit;
     default:
         http_response_code(404);
         echo "Page non trouvée.";
