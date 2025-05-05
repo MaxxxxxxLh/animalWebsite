@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Controllers;
+
 class ContactController
 {
     public function render()
@@ -24,7 +26,8 @@ class ContactController
             exit();
         }
 
-        $to = "adresse@tonsite.com"; 
+        $to = "maximilien.lhote@gmail.com"; 
+
         $subject = "Nouveau message de contact de $prenom $nom";
         $body = "Nom: $nom\nPrénom: $prenom\nEmail: $mail\n\nMessage:\n$message";
         $headers = "From: $mail\r\nReply-To: $mail\r\nX-Mailer: PHP/" . phpversion();
@@ -39,3 +42,4 @@ class ContactController
     }
 }
 ?>
+
