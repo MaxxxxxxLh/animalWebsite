@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+
+<?php include(__DIR__ . '/../includes/header.php');?>
+
     <div class="loginContainer">
         <h2>Inscription</h2>
         <form method="POST" action="/register">
