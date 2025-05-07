@@ -21,7 +21,7 @@
             </div>
             <button type="submit" class="btn">Envoyer</button>
         </form>
-        <p class="subtitle"><a href="login.html">Retour à la connexion</a></p>
+        <p class="subtitle"><a href="/login">Retour à la connexion</a></p>
     </div>
 </body>
 </html>
