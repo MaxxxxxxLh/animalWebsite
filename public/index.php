@@ -77,6 +77,9 @@ switch ($uri) {
     case '/contact':
         (new \App\Controllers\ContactController())->render();
         break;
+    case '/messagerie':
+        (new \App\Controllers\MessagerieController())->showAllConversations();
+        break;
     default:
         http_response_code(404);
         include __DIR__ . '/../app/Views/default/notFound.php';

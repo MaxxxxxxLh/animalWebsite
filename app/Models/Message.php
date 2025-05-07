@@ -28,6 +28,37 @@ class Message
         return (int)$pdo->lastInsertId();
     }
     
+    public static function findAllConversations(int $userId): array
+    {
+        $pdo = self::getPDO();
+
+        $stmt = $pdo->prepare("
+            SELECT 
+                CASE 
+                    WHEN personneId = :userId THEN proprietaireId
+                    ELSE personneId
+                END AS interlocuteurId,
+                MAX(date) AS dateDernierMessage,
+                (
+                    SELECT message FROM Messagerie m2 
+                    WHERE 
+                        (m2.personneId = :userId AND m2.proprietaireId = interlocuteurId)
+                        OR 
+                        (m2.personneId = interlocuteurId AND m2.proprietaireId = :userId)
+                    ORDER BY m2.date DESC
+                    LIMIT 1
+                ) AS dernierMessage
+            FROM Messagerie
+            WHERE personneId = :userId OR proprietaireId = :userId
+            GROUP BY interlocuteurId
+            ORDER BY dateDernierMessage DESC
+        ");
+
+        $stmt->execute(['userId' => $userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     public static function findConversation(int $personneId, int $proprietaireId): array
     {
         $pdo = self::getPDO();

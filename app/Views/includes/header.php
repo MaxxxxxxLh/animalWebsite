@@ -3,7 +3,7 @@
         <img src="/assets/images/logo.png" alt="Logo" class="logo">
         <div class="nav-links">
             <a href="/">Accueil</a>
-            <a href="../pages/messagerie.php">Messagerie</a>
+            <a href="/messagerie">Messagerie</a>
             <a href="../pages/annonces.php">Annonces</a>
             <a href="../pages/faq.php">FAQ</a>
             <a href="/contact">Contact</a>
