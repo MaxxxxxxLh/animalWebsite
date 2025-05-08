@@ -6,107 +6,85 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Mentions légales</title>
+    <title>Mentions légales - ISEP</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: url('animaux-fond.jpg') center/cover no-repeat fixed;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-        }
-        /* Ajout d'un voile blanc semi-transparent pour la lisibilité */
-        .container {
-            max-width: 800px;
             margin: 40px auto;
-            background: rgba(255,255,255,0.92);
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-            padding: 40px 30px;
-            position: relative;
-            z-index: 2;
+            max-width: 800px;
+            background: #f9f9f9;
+            color: #222;
         }
-        .logo-container {
-            text-align: center;
-            margin-bottom: 30px;
+        h1, h2 {
+            color: #2e8b57;
         }
         .logo {
+            display: block;
+            margin: 0 auto 30px auto;
             width: 120px;
             height: auto;
-            display: inline-block;
         }
-        h1 {
-            color: #355c36;
-            border-bottom: 2px solid #355c36;
-            padding-bottom: 10px;
+        section {
             margin-bottom: 30px;
         }
-        h2 {
-            color: #8eb04e;
-            margin-top: 30px;
+        .subtitle {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 10px;
         }
-        p {
-            margin: 15px 0;
-            line-height: 1.6;
-        }
-        em {
-            color: #888;
-        }
-        .note {
-            font-size: small;
-            color: gray;
-            margin-top: 40px;
-        }
-        /* Optionnel : effet de flou sur le fond avec un pseudo-élément */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: inherit;
-            filter: blur(6px);
-            z-index: 1;
-            pointer-events: none;
+        hr {
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 30px 0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo-container">
-            <img src="logo.png" alt="Logo chien et chat en cœur" class="logo">
-        </div>
-        <h1>Mentions légales</h1>
+    <!-- Adapte le chemin du logo si besoin -->
+    <img src="/animalWebsite/public/assets/img/logo.png" alt="Logo ISEP" class="logo">
 
+    <h1>Mentions légales</h1>
+
+    <section>
         <h2>Éditeur du site</h2>
-        <p>
-            Ce site est édité par le groupe "App" dans le cadre d’un projet scolaire à <strong>[Nom de ton école d’ingénieur]</strong>.<br>
-            Ce site est un projet pédagogique fictif et ne représente pas une entité commerciale réelle.<br>
-            Adresse email : contact@app-fictif.com
-        </p>
+        <div class="subtitle">Institut Supérieur d’Électronique de Paris (ISEP)</div>
+        Adresse : 28 rue Notre-Dame des Champs, 75006 Paris, France<br>
+        Téléphone : 01 49 54 52 00<br>
+        Email : info@isep.fr<br>
+        SIRET : 784 280 745 00026<br>
+        Directeur de la publication : Directeur Général de l’ISEP
+    </section>
 
+    <section>
         <h2>Hébergement</h2>
-        <p>
-            Hébergeur fictif : HébergeurExemple<br>
-            Adresse : 1 rue de l'Exemple, 00000 Ville Imaginaire
-        </p>
+        Hébergeur : acti, agence digitale basée à Lyon<br>
+        Site hébergé dans un green data center par acti<br>
+        Pour contacter l’hébergeur : www.acti.fr
+    </section>
 
-        <h2>Traitement des données</h2>
-        <p>
-            Aucune donnée personnelle réelle n'est collectée. Les éventuelles données affichées ou utilisées sur ce site sont purement fictives et servent uniquement à illustrer le fonctionnement du projet scolaire.
-        </p>
+    <section>
+        <h2>Traitement des données personnelles</h2>
+        Les informations recueillies sur ce site sont enregistrées dans un fichier informatisé par l’ISEP pour la gestion des utilisateurs et des contacts.<br>
+        Conformément à la loi « Informatique et Libertés » et au Règlement Général sur la Protection des Données (RGPD), vous disposez d’un droit d’accès, de rectification, d’opposition, de limitation, d’effacement et de portabilité de vos données.<br>
+        Vous pouvez exercer ces droits en contactant le DPO de l’ISEP :<br>
+        - Par courrier : Service DPO, 28 rue Notre-Dame des Champs, 75006 Paris<br>
+        - Par mail : dpo@isep.fr
+    </section>
 
+    <section>
         <h2>Propriété intellectuelle</h2>
-        <p>
-            Le contenu de ce site est réalisé à des fins pédagogiques et n'est pas destiné à être diffusé publiquement ou commercialisé.
-        </p>
+        L’ensemble du contenu du site (textes, images, logo, etc.) est protégé par le droit d’auteur. Toute reproduction, représentation ou diffusion, totale ou partielle, sans autorisation écrite de l’ISEP, est interdite.
+    </section>
 
+    <section>
         <h2>Cookies</h2>
-        <p>
-            Ce site n'utilise pas de cookies à des fins de suivi ou de collecte de données personnelles.
-        </p>
+        Ce site utilise des cookies pour améliorer votre expérience de navigation et réaliser des statistiques de visites. Vous pouvez configurer votre navigateur pour refuser les cookies.
+    </section>
 
-        <p class="note">
-            Ceci est une page de mentions légales fictive réalisée pour un projet scolaire à [ISEP].
-        </p>
+    <hr>
+    <div style="text-align: center; color: #888; font-size: 0.9em;">
+        &copy; <?= date('Y') ?> ISEP – Institut Supérieur d’Électronique de Paris. Tous droits réservés.
     </div>
 </body>
 </html>
+        
