@@ -83,7 +83,9 @@ switch ($uri) {
     case '/profile':
         (new \App\Controllers\ProfileController())->profile();
         break;
-    
+    case '/faq':
+        include __DIR__ . '/../app/Views/pages/faq.php';
+        break;
     default:
         http_response_code(404);
         include __DIR__ . '/../app/Views/default/notFound.php';

@@ -296,6 +296,69 @@ input[type="file"] {
   color: var(--nature-text);
 }
 
+.faq-section {
+  max-width: 800px;
+  margin: 4em auto;
+  background: var(--nature-white);
+  padding: 2em;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  color: var(--nature-text);
+}
+
+.faq-section h2 {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 1.5em;
+  color: var(--nature-green);
+}
+
+.faq-item {
+  border: 1px solid var(--nature-border);
+  border-radius: 12px;
+  margin-bottom: 1em;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+  background-color: #fdfdfc;
+}
+
+.faq-item h3 {
+  cursor: pointer;
+  padding: 1em;
+  margin: 0;
+  background: var(--nature-beige);
+  font-size: 1.2em;
+  position: relative;
+}
+
+.faq-item h3::after {
+  content: '+';
+  position: absolute;
+  right: 1.5em;
+  font-size: 1.5em;
+  transition: transform 0.3s ease;
+}
+
+.faq-item.active h3::after {
+  content: '-';
+  transform: rotate(180deg);
+}
+
+.faq-item p {
+  padding: 0 1em;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.5s ease, opacity 0.4s ease;
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+.faq-item.active p {
+  max-height: 200px;
+  opacity: 1;
+  padding: 1em;
+}
+
 /* Media Queries */
 @media (min-width: 1200px) {
   .navbar {
