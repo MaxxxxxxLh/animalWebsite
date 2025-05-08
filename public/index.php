@@ -21,6 +21,7 @@ spl_autoload_register(function ($class) {
         return;
     }
 
+
     $relative_class = substr($class, $len);
     $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
 
@@ -75,6 +76,9 @@ switch ($uri) {
         break;
     case '/contact':
         (new \App\Controllers\ContactController())->render();
+        break;
+    case '/messagerie':
+        (new \App\Controllers\MessagerieController())->showAllConversations();
         break;
     default:
         http_response_code(404);

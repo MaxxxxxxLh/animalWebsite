@@ -6,16 +6,16 @@ use App\Models\Message;
 
 class MessageController
 {
-    public function findByUserId()
+    public function findBypersonneId()
     {
-        if (!isset($_GET['userId'])) {
+        if (!isset($_GET['personneId'])) {
             http_response_code(400);
-            echo json_encode(['error' => 'Missing userId parameter']);
+            echo json_encode(['error' => 'Missing personneId parameter']);
             return;
         }
 
-        $userId = (int)$_GET['userId'];
-        $messages = Message::findByUserId($userId);
+        $personneId = (int)$_GET['personneId'];
+        $messages = Message::findBypersonneId($personneId);
 
         header('Content-Type: application/json');
         echo json_encode($messages);
@@ -42,6 +42,22 @@ class MessageController
         header('Content-Type: application/json');
         echo json_encode(['success' => true, 'message_id' => $id]);
     }
+
+    public function findAllConversations()
+    {
+        if (!isset($_GET['personneId'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing personneId parameter']);
+            return;
+        }
+
+        $personneId = (int)$_GET['personneId'];
+        $conversations = Message::findAllConversations($personneId);
+
+        header('Content-Type: application/json');
+        echo json_encode($conversations);
+    }
+
 
     public function findConversation()
     {

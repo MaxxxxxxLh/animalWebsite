@@ -27,6 +27,7 @@ class ContactController
         }
 
         $to = "maximilien.lhote@gmail.com"; 
+
         $subject = "Nouveau message de contact de $prenom $nom";
         $body = "Nom: $nom\nPrénom: $prenom\nEmail: $mail\n\nMessage:\n$message";
         $headers = "From: $mail\r\nReply-To: $mail\r\nX-Mailer: PHP/" . phpversion();
@@ -41,3 +42,4 @@ class ContactController
     }
 }
 ?>
+

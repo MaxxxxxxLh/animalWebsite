@@ -7,13 +7,19 @@ class MessagerieController
     private function render($view, $data = [])
     {
         extract($data);
-        include __DIR__ . '/../Views/messagerie/' . $view . '.php';
+        include __DIR__ . '/../Views/pages/' . $view . '.php';
     }
 
     private function apiGet(string $url): array
     {
-        $response = file_get_contents($url);
-        return json_decode($response, true);
+        $response = @file_get_contents($url);
+
+        if ($response === false) {
+            return ['error' => 'API request failed'];
+        }
+
+        $data = json_decode($response, true);
+        return is_array($data) ? $data : ['error' => 'Invalid JSON'];
     }
 
     private function apiPost(string $url, array $data): array
@@ -26,8 +32,30 @@ class MessagerieController
             ],
         ];
         $context = stream_context_create($options);
-        $response = file_get_contents($url, false, $context);
-        return json_decode($response, true);
+        $response = @file_get_contents($url, false, $context);
+
+        if ($response === false) {
+            return ['error' => 'API POST request failed'];
+        }
+
+        $data = json_decode($response, true);
+        return is_array($data) ? $data : ['error' => 'Invalid JSON'];
+    }
+
+    public function showAllConversations()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("Location: /login");
+            exit();
+        }
+
+        $userId = $_SESSION['user']['id'];
+
+        $conversations = $this->apiGet("http://localhost/api/message/findAllConversations?personneId=$userId");
+
+        $this->render('messagerie', [
+            'conversations' => $conversations
+        ]);
     }
 
     public function showConversation()
@@ -45,7 +73,7 @@ class MessagerieController
             die("Aucun interlocuteur spécifié.");
         }
 
-        $messages = $this->apiGet("http://localhost/api/messagerie/conversation?personneId=$userId&proprietaireId=$proprietaireId");
+        $messages = $this->apiGet("http://localhost/api/message/findConversation?personneId=$userId&proprietaireId=$proprietaireId");
 
         $this->render('conversation', [
             'messages' => $messages,
@@ -77,12 +105,15 @@ class MessagerieController
         $data = [
             'personneId' => $userId,
             'proprietaireId' => $proprietaireId,
-            'message' => $message
+            'message' => $message,
+            'date' => date('Y-m-d H:i:s'),
+            'isProprietaireMessage' => false
         ];
+        
 
-        $this->apiPost("http://localhost/api/messagerie/create", $data);
+        $this->apiPost("http://localhost/api/message/create", $data);
 
-        header("Location: /messagerie/conversation?proprietaireId=$proprietaireId");
+        header("Location: /messagerie/findConversation?proprietaireId=$proprietaireId");
         exit();
     }
 }

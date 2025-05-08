@@ -11,6 +11,17 @@
             background-color: #f8d7da;
             border: 1px solid #f5c6cb;
             padding: 10px;
+            margin-top: 15px;   
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+    </style>
+    <style>
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
             margin-top: 15px;
             border-radius: 4px;
             font-size: 0.95em;
@@ -18,6 +29,9 @@
     </style>
 </head>
 <body>
+
+<?php include(__DIR__ . '/../includes/header.php');?>
+
     <div class="loginContainer">
         <h2>Se connecter</h2>
         <p class="subtitle">Pas de compte? <a href="/register">Créer un compte</a></p>
