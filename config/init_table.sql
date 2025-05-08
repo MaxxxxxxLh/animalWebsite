@@ -1,3 +1,4 @@
+CREATE DATABASE IF NOT EXISTS site_db;
 USE `site_db`;
 
 CREATE TABLE Personne
@@ -8,6 +9,7 @@ CREATE TABLE Personne
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   isAdmin TINYINT(1) NOT NULL,
+  photoUrl VARCHAR(255),
   PRIMARY KEY (personneId),
   UNIQUE (email)
 );

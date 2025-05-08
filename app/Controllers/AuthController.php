@@ -12,15 +12,16 @@ class AuthController
 
     private function apiGet(string $url): array
     {
-        $response = @file_get_contents($url);
-
+        $response = file_get_contents($url);
+    
         if ($response === false) {
-            return ['error' => 'API request failed'];
+            $error = error_get_last();
+            return ['error' => 'API GET request failed: ' . ($error['message'] ?? 'Unknown error')];
         }
-
+    
         $data = json_decode($response, true);
         return is_array($data) ? $data : ['error' => 'Invalid JSON'];
-    }
+    }    
 
     private function apiPost(string $url, array $data): array
     {
@@ -33,14 +34,16 @@ class AuthController
         ];
         $context = stream_context_create($options);
         $response = @file_get_contents($url, false, $context);
-
+    
         if ($response === false) {
-            return ['error' => 'API POST request failed'];
+            $error = error_get_last();
+            return ['error' => 'API POST request failed: ' . ($error['message'] ?? 'Unknown error')];
         }
-
+    
         $data = json_decode($response, true);
-        return is_array($data) ? $data : ['error' => 'Invalid JSON'];
-    }
+        return is_array($data) ? $data : ['error' => 'Invalid JSON: ' . $response];
+    }    
+    
 
     public function login()
     {
@@ -80,7 +83,8 @@ class AuthController
                 "nom" => $user["nom"],
                 "prenom" => $user["prenom"],
                 "email" => $user["email"],
-                "isAdmin" => $user["isAdmin"]
+                "isAdmin" => $user["isAdmin"],
+                "photoUrl" => $user["photoUrl"] ?? null,
             ];
             header("Location: /");
             exit();
@@ -91,6 +95,7 @@ class AuthController
 
     public function register()
     {
+    
         if (isset($_SESSION['user'])) {
             header("Location: /");
             exit();
@@ -156,10 +161,11 @@ class AuthController
         $_SESSION['user'] = [
             'id' => $userId,
             'email' => $email,
-            'isAdmin' => 0
+            'isAdmin' => 0,
+            'photoUrl' => null
         ];
-
-        header("Location: /");
+        
+        header("Location: /profile");
         exit();
     }
 

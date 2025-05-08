@@ -31,9 +31,20 @@ class User
     {
         $pdo = self::getPDO();
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("INSERT INTO Personne (nom, prenom, email, password, isAdmin) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute(['', '', $email, $hashedPassword, 0]);
+        $stmt = $pdo->prepare("INSERT INTO Personne (nom, prenom, email, password, isAdmin, photoUrl) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute(['', '', $email, $hashedPassword, 0, null]);
 
         return (int)$pdo->lastInsertId();
     }
+    public static function updateProfile(string $email, string $nom, string $prenom, ?string $photoUrl): bool
+    {
+        $pdo = self::getPDO();
+        $stmt = $pdo->prepare("
+            UPDATE Personne
+            SET nom = ?, prenom = ?, photoUrl = ?
+            WHERE email = ?
+        ");
+        return $stmt->execute([$nom, $prenom, $photoUrl, $email]);
+    }
+
 }

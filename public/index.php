@@ -80,6 +80,10 @@ switch ($uri) {
     case '/messagerie':
         (new \App\Controllers\MessagerieController())->showAllConversations();
         break;
+    case '/profile':
+        (new \App\Controllers\ProfileController())->profile();
+        break;
+    
     default:
         http_response_code(404);
         include __DIR__ . '/../app/Views/default/notFound.php';
