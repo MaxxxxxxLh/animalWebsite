@@ -1,0 +1,133 @@
+:root {
+  --nature-green: #6b8e23;
+  --nature-green-dark: #5a7a1b;
+  --nature-beige: #faf3e0;
+  --nature-white: #ffffff;
+  --nature-text: #2f3e2e;
+  --nature-border: rgba(104, 142, 59, 0.35);
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+/* Styles pour le footer avec éléments en ligne */
+.main-footer {
+  width: 100%;
+  background-color: var(--nature-beige);
+  padding: 1.5rem 0;
+  margin-top: auto;
+  border-top: 1px solid var(--nature-border);
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 10;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* <-- centre horizontalement */
+  align-items: center;
+  gap: 2rem; /* espace entre logo et liens */
+  text-align: center;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+}
+
+.footer-logo img {
+  width: 3.5rem;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.footer-logo img:hover {
+  transform: scale(1.05);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.footer-links a {
+  color: var(--nature-text);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0.5rem 0;
+}
+
+.footer-links a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--nature-green);
+  transition: width 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: var(--nature-green-dark);
+}
+
+.footer-links a:hover::after {
+  width: 100%;
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 1rem;
+  margin-top: 1rem;
+  text-align: center;
+  border-top: 1px solid var(--nature-border);
+  font-size: 0.85rem;
+  color: var(--nature-text);
+  opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+    align-items: center;
+  }
+
+  .footer-links {
+    justify-content: center;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem 1.5rem;
+  }
+
+  .footer-links a {
+    font-size: 0.9rem;
+  }
+
+  .footer-bottom {
+    font-size: 0.8rem;
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+}
