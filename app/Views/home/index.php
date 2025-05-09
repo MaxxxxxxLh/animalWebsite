@@ -11,17 +11,23 @@
 <?php include(__DIR__ . '/../includes/header.php');?>
 
     <main class="container">
-        <section class="intro"> 
+        <?php
+        if (isset($_SESSION["user"])) {
+            $prenom = htmlspecialchars($_SESSION["user"]["prenom"]);
+            $nom = htmlspecialchars($_SESSION["user"]["nom"]);
+            echo "<p class='welcome-msg'>Bienvenue, $prenom $nom !</p>";
+        }
+        ?>
+            <section class="intro"> 
             <div class="text-box">
                 <h1 class="h1Index">Envie de garder des animaux ou de les promener ?</h1>
                 <button class="btn">Voir les annonces</button>
             </div>
             <div class="text-box">
                 <h1 class="h1Index">Pas le temps de promener votre animal ?</h1>
-                <button class="btn">Créer une annonce</button>
+                <a href="/creerAnnonces"><button class="btn">Créer une annonce</button></a>
             </div>
         </section>
     </main>
-
 </body>
 </html>

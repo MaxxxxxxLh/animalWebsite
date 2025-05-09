@@ -20,5 +20,6 @@
     <h1 class="h1Index">404 - Page non trouvée</h1>
     <p>Désolé, la page que vous cherchez n'existe pas ou a été déplacée.</p>
     <a href="/"><button class="btn" >Retour à l'accueil</button></a>
+    <?php include(__DIR__ . '/../includes/footer.php');?>
 </body>
 </html>

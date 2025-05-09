@@ -6,7 +6,6 @@
             <a href="/messagerie">Messagerie</a>
             <a href="../pages/annonces.php">Annonces</a>
             <a href="/faq">FAQ</a>
-            <a href="/contact">Contact</a>
         </div>
 
         <div class="profile-icon" id="profile-container">
