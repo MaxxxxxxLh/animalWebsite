@@ -15,6 +15,14 @@
             border-radius: 4px;
             font-size: 0.95em;
         }
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 65%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -28,15 +36,15 @@
                 <label for="email">Votre email</label>
                 <input type="email" id="email" name="email" placeholder="" required>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="position: relative;">
                 <label for="password">Votre mot de passe</label>
-                <input type="password" id="password" name="password" placeholder="" required>
-                <i class="fa fa-eye eye-icon" class="eye-icon" onclick="togglePassword()">👁️</i>
+                <input type="password" id="password" name="password" required style="padding-right: 30px;">
+                <i class="fa fa-eye eye-icon" id="eye-password" onclick="togglePassword()">👁️</i>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="position: relative;">
                 <label for="passwordConfirmation">Confirmez votre mot de passe</label>
-                <input type="password" id="passwordConfirmation" name="passwordConfirmation" placeholder="" required>
-                <i class="fa fa-eye eye-icon" class="eye-icon" onclick="togglePasswordConfirmation()">👁️</i>
+                <input type="password" id="passwordConfirmation" name="passwordConfirmation" required style="padding-right: 30px;">
+                <i class="fa fa-eye eye-icon" id="eye-confirm" onclick="togglePasswordConfirmation()">👁️</i>
             </div>
             <button type="submit" class="loginBtn">S'inscrire</button>
 
@@ -46,30 +54,31 @@
         </form>
     </div>
     <script>
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const eyeIcon = document.querySelector('.eye-icon');
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eye-password');
 
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeIcon.textContent = '🙈'; 
-            } else {
-                passwordInput.type = 'password';
-                eyeIcon.textContent = '👁️'; 
-            }
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.textContent = '🙈';
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.textContent = '👁️';
         }
-        function togglePasswordConfirmation() {
-            const passwordInput = document.getElementById('passwordConfirmation');
-            const eyeIcon = document.querySelector('.eye-icon');
+    }
 
-            if (passwordInput.type === 'passwordConfirmation') {
-                passwordInput.type = 'text';
-                eyeIcon.textContent = '🙈'; 
-            } else {
-                passwordInput.type = 'passwordConfirmation';
-                eyeIcon.textContent = '👁️'; 
-            }
+    function togglePasswordConfirmation() {
+        const passwordInput = document.getElementById('passwordConfirmation');
+        const eyeIcon = document.getElementById('eye-confirm');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.textContent = '🙈';
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.textContent = '👁️';
         }
-    </script>
+    }
+</script>
 </body>
 </html>

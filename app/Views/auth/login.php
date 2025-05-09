@@ -15,6 +15,14 @@
             border-radius: 4px;
             font-size: 0.95em;
         }
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%; 
+            font-size: 2em; 
+            cursor: pointer; 
+            transform: translateY(-50%); 
+        }
     </style>
 </head>
 <body>

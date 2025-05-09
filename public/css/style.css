@@ -101,14 +101,7 @@ body {
   margin-bottom: 15px;
   text-align: center;
 }
-.eye-icon {
-  position: absolute;
-  right: 10px;
-  top: 50%; 
-  font-size: 2em; 
-  cursor: pointer; 
-  transform: translateY(-50%); 
-}
+
 .form-group {
   position: relative; 
 }
