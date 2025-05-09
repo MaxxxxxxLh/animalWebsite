@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    
   <meta charset="UTF-8">
   <title>Accueil - Gardiennage d'animaux</title>
   <link rel="stylesheet" href="style.css">
@@ -8,13 +9,13 @@
 </head>
 <body>
   <?php include_once('../includes/header.php'); ?>
-
+  
   <main class="homepage">
     <section class="homepage-section">
       <div class="homepage-box">
         <img src="chat1.jpg" alt="Chat mangeant">
         <p>Envie de garder des animaux domestiques, de les promener ?</p>
-        <a href="voir-annonces.php" class="homepage-button">Voir les annonces disponibles</a>
+        <a href="annonces.php" class="homepage-button">Voir les annonces disponibles</a>
       </div>
       <div class="homepage-box">
         <img src="chat2.jpg" alt="Chat mangeant">
@@ -23,5 +24,6 @@
       </div>
     </section>
   </main>
+  <?php include_once('../includes/footer.php'); ?>
 </body>
 </html>

@@ -8,7 +8,7 @@
 <body>
 
 <header>
-    <?php include('header.php'); ?> <!-- Si vous avez un header commun -->
+<?php include_once('../includes/header.php'); ?> <!-- Si vous avez un header commun -->
 </header>
 
 <main>

@@ -131,3 +131,219 @@
     margin-top: 1rem;
   }
 }
+/*CSS du Header*/
+.main-header {
+  width: 100%;
+  background-color: var(--nature-beige);
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--nature-border);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.navbar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* <-- centre horizontalement */
+  align-items: center;
+  gap: 2rem; /* espace entre logo et liens */
+  text-align: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--nature-text);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--nature-green-dark);
+}
+
+.logo {
+  width: 60px;
+  height: auto;
+  .navbar {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Ajouté pour mobile */
+  }
+
+  .profile-icon {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  .logoutBtn {
+    background-color: var(--nature-green);
+    color: var(--nature-white);
+    border: none;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .logoutBtn:hover {
+    background-color: var(--nature-green-dark);
+  }
+
+  /* Responsive header */
+
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      gap: 1.2rem;
+      align-items: center;
+    }
+
+    .nav-links {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .logoutBtn {
+      margin-top: 0.5rem;
+    }
+  }
+}
+/* Responsive */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .header-links {
+    justify-content: center;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem 1.5rem;
+  }
+
+  .header-links a {
+    font-size: 0.9rem;
+  }
+
+  .header-bottom {
+    font-size: 0.8rem;
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+} /* Global de la page*/
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: --nature-beige;
+  color: --nature-beige;
+}
+
+h2 {
+  text-align: center;
+  color: --nature-beige;
+  margin-top: 30px;
+}
+
+/* Container pour les annonces */
+.annonces-container {
+  width: 90%;
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.annonce {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 15px 0;
+}
+
+.annonce:last-child {
+  border-bottom: none;
+}
+
+/* Formulaire */
+.form-container {
+  width: 90%;
+  max-width: 600px;
+  margin: 30px auto;
+  background-color: --nature-beige;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-container select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: vertical; /* l'utilisateur peut agrandir verticalement */
+  box-sizing: border-box;
+}
+.form-container button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+  background-color: #45a049;
+}
+
+/* Header/Footer (optionnel selon ton site) */
+header,
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+}
