@@ -11,7 +11,7 @@
 <?php include(__DIR__ . '/../includes/header.php');?>
 
     <main class="container">
-        <section class="intro">
+        <section class="intro"> 
             <div class="text-box">
                 <h1 class="h1Index">Envie de garder des animaux ou de les promener ?</h1>
                 <button class="btn">Voir les annonces</button>

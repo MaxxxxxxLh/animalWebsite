@@ -3,11 +3,10 @@ namespace App\Controllers;
 
 use App\Models\User;
 
-class ProfileController
-{
+class ProfileController{
+    
     public function profile()
     {
-
         if (!isset($_SESSION['user']['email'])) {
             header('Location: /login');
             exit;
@@ -17,44 +16,52 @@ class ProfileController
         $user = User::findByEmail($email);
 
         if (!$user) {
-            $error = "Utilisateur introuvable.";
-            require __DIR__ . '/../Views/pages/profile.php';
-            return;
+            $_SESSION['error'] = "Utilisateur introuvable.";
+            header('Location: /profile');
+            exit;
         }
 
-        $nom = $_POST['nom'] ?? '';
-        $prenom = $_POST['prenom'] ?? '';
-        $photoUrl = $user['photoUrl'];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $nom = $_POST['nom'] ?? '';
+            $prenom = $_POST['prenom'] ?? '';
+            $photoUrl = $user['photoUrl'];
 
-        if (!empty($_FILES['photo']['tmp_name']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = __DIR__ . '/../../public/uploads/';
-            $fileName = basename($_FILES['photo']['name']);
-            $filePath = $uploadDir . $fileName;
+            if (!empty($_FILES['photo']['tmp_name']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+                $uploadDir = __DIR__ . '/../../public/uploads/';
+                $fileName = basename($_FILES['photo']['name']);
+                $filePath = $uploadDir . $fileName;
 
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0777, true);
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+
+                if (move_uploaded_file($_FILES['photo']['tmp_name'], $filePath)) {
+                    $photoUrl = '/uploads/' . $fileName;
+                } else {
+                    $_SESSION['error'] = "Erreur lors du téléchargement de la photo.";
+                    header('Location: /profile');
+                    exit;
+                }
             }
 
-            if (move_uploaded_file($_FILES['photo']['tmp_name'], $filePath)) {
-                $photoUrl = '/uploads/' . $fileName;
+            $updated = User::updateProfile($email, $nom, $prenom, $photoUrl);
+
+            if ($updated) {
+                $_SESSION['success'] = "Profil mis à jour avec succès.";
             } else {
-                $error = "Erreur lors du téléchargement de la photo.";
-                require __DIR__ . '/../Views/pages/profile.php';
-                return;
+                $_SESSION['error'] = "Erreur lors de la mise à jour du profil.";
             }
+
+            header('Location: /profile');
+            exit;
         }
 
-        $updated = User::updateProfile($email, $nom, $prenom, $photoUrl);
+        $success = $_SESSION['success'] ?? null;
+        $error = $_SESSION['error'] ?? null;
 
-        if ($updated) {
-            $user['nom'] = $nom;
-            $user['prenom'] = $prenom;
-            $user['photoUrl'] = $photoUrl;
-            $success = "Profil mis à jour avec succès.";
-        } else {
-            $error = "Erreur lors de la mise à jour du profil.";
-        }
+        unset($_SESSION['success'], $_SESSION['error']);
 
         require __DIR__ . '/../Views/pages/profile.php';
     }
+
 }

@@ -15,6 +15,11 @@
             <div class="error-message"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
+        <?php if (!empty($success)): ?>
+            <div class="success-message"><?= htmlspecialchars($success) ?></div>
+        <?php endif; ?>
+
+
         <form action="/profile" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="nom">Nom</label>
@@ -35,6 +40,7 @@
 
 
             <button type="submit">Sauvegarder</button>
+
         </form>
     </div>
     <script>

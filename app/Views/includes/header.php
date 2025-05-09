@@ -5,7 +5,7 @@
             <a href="/">Accueil</a>
             <a href="/messagerie">Messagerie</a>
             <a href="../pages/annonces.php">Annonces</a>
-            <a href="../pages/faq.php">FAQ</a>
+            <a href="/faq">FAQ</a>
             <a href="/contact">Contact</a>
         </div>
 

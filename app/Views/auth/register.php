@@ -31,10 +31,12 @@
             <div class="form-group">
                 <label for="password">Votre mot de passe</label>
                 <input type="password" id="password" name="password" placeholder="" required>
+                <i class="fa fa-eye eye-icon" class="eye-icon" onclick="togglePassword()">👁️</i>
             </div>
             <div class="form-group">
                 <label for="passwordConfirmation">Confirmez votre mot de passe</label>
                 <input type="password" id="passwordConfirmation" name="passwordConfirmation" placeholder="" required>
+                <i class="fa fa-eye eye-icon" class="eye-icon" onclick="togglePasswordConfirmation()">👁️</i>
             </div>
             <button type="submit" class="loginBtn">S'inscrire</button>
 
@@ -43,5 +45,31 @@
             <?php endif; ?>
         </form>
     </div>
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.querySelector('.eye-icon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.textContent = '🙈'; 
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.textContent = '👁️'; 
+            }
+        }
+        function togglePasswordConfirmation() {
+            const passwordInput = document.getElementById('passwordConfirmation');
+            const eyeIcon = document.querySelector('.eye-icon');
+
+            if (passwordInput.type === 'passwordConfirmation') {
+                passwordInput.type = 'text';
+                eyeIcon.textContent = '🙈'; 
+            } else {
+                passwordInput.type = 'passwordConfirmation';
+                eyeIcon.textContent = '👁️'; 
+            }
+        }
+    </script>
 </body>
 </html>

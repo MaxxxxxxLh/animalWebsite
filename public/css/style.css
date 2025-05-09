@@ -86,6 +86,31 @@ body {
   align-items: center;
   margin-top: 50px;
   flex-wrap: wrap;
+  background-image: url('../assets/images/bg.jpg');
+  background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
+.success-message {
+  color: green;
+  padding: 10px;
+  border: 1px solid green;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%; 
+  font-size: 2em; 
+  cursor: pointer; 
+  transform: translateY(-50%); 
+}
+.form-group {
+  position: relative; 
 }
 
 .loginContainer {
