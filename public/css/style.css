@@ -19,11 +19,8 @@ body {
   background: var(--nature-beige);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  justify-content: center;
+  min-height: 100vh;
   color: var(--nature-text);
-  
 }
 
 .welcome-msg {
@@ -34,24 +31,23 @@ body {
 }
 
 .navbar {
-  position: absolute;
+  position: fixed;
   top: 0;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
   height: 5em;
-  width: max-content;
-  min-width: 60%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1em 2em;
   background: var(--nature-white);
   border-bottom: 1px solid #D9D9D9;
-  border-radius: 8px;
+  border-radius: 0; /* on retire le border-radius pour un look full-width propre */
   box-shadow: var(--shadow);
-  flex-wrap: nowrap; 
+  flex-wrap: nowrap;
   gap: 1em;
+  z-index: 1000; /* pour qu'elle reste au-dessus de tout */
 }
-
 .logo {
   width: 2.5em;
   margin-bottom: 1em;
@@ -112,12 +108,12 @@ body {
 }
 
 .loginContainer {
-  width: 90%;
-  max-width: 528px;
-  background: var(--nature-white);
-  padding: 32px;
-  border-radius: 24px;
-  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 600px;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
   text-align: center;
 }
 
@@ -618,4 +614,50 @@ input[type="file"] {
   h1 {
       font-size: 24px;
   }
+}
+main {
+  flex: 1;
+  padding-top: 6em; /* Espace pour ne pas passer sous la navbar */
+}
+
+.messagerie-page,
+.faq-section,
+.contact-form {
+  padding-top: 6em; /* Assure l’espace sous la navbar sur toutes les pages concernées */
+}
+.contact-form {
+  background: var(--nature-white);
+  padding: 2em;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  max-width: 600px;
+  width: 90%;
+  margin: 2em auto; /* 💥 centre le bloc */
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--nature-border);
+  border-radius: 12px;
+  font-size: 16px;
+  background-color: #F8FFF4;
+  resize: vertical;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: var(--nature-green);
+  background-color: #F2FFF0;
+}
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: 6em; /* important pour ne pas passer sous la navbar */
 }

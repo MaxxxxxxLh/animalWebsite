@@ -13,7 +13,7 @@
     <h2 style="text-align: center; color: #2e6531; margin-top: 50px;">
         N'hésitez pas à nous contacter avec le formulaire ci-dessous<br>si vous avez des questions ou des remarques.
     </h2>
-
+    <div class="contact-form">
     <form action="/contact" method="POST" class="loginContainer">
         <div class="form-group">
             <label for="nom">Nom</label>
@@ -47,7 +47,9 @@
             }
         ?>
     </form>
+    </div>
 </main>
+    <?php include(__DIR__ . '/../includes/footer.php');?>
 </body>
 </html>
 
