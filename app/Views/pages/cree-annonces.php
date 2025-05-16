@@ -2,38 +2,121 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Créer une annonce</title>
-    <link rel="stylesheet" href="./style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= htmlspecialchars($pageTitle ?? 'AnimalWebsite') ?></title>
+    <link rel="stylesheet" href="../../../public/assets/css/pages/annonces.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <?php if (isset($page_css)): ?>
+        <link rel="stylesheet" href="../../../public/assets/css/pages/<?= $page_css ?>.css">
+    <?php endif; ?>
 </head>
-<body>
-    <?php include '../includes/header.php'; ?>
+<?php include __DIR__ . '/../includes/header.php'; ?>
 
-    <div class="form-container">
-        <h2>Créer une nouvelle annonce</h2>
-        <form action="/animalWebsite/public/index.php?page=storeAnnonce" method="POST">
-        <li><a><label for="nom">Nom de l'annonce :</label></a></li>
-            <li><input type="text" id="titre" name="titre" required></li>
+<div class="form-container">
+    <h2><i class="fas fa-plus-circle"></i> Créer une nouvelle annonce</h2>
+    <form id="annonceForm" action="/cree-annonces/store" method="POST" enctype="multipart/form-data">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="titre">Titre de l'annonce</label>
+                <div class="input-icon">
+                    <i class="fas fa-heading"></i>
+                    <input type="text" id="titre" name="titre" placeholder="Ex: Garde de chien à domicile" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="date">Date de service</label>
+                <div class="input-icon">
+                    <i class="far fa-calendar-alt"></i>
+                    <input type="date" id="date" name="date" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="service">Type de service</label>
+                <div class="input-icon">
+                    <i class="fas fa-paw"></i>
+                    <select id="service" name="service" required>
+                        <option value="">Sélectionnez un service</option>
+                        <option value="garde">Garde d'animal</option>
+                        <option value="promenade">Promenade</option>
+                        <option value="nourrissage">Nourrissage</option>
+                        <option value="autre">Autre service</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="tarif">Tarif (€)</label>
+                <div class="price-input">
+                    <span>€</span>
+                    <input type="number" id="tarif" name="tarif" min="0" step="5" placeholder="Ex: 25">
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                <label for="description">Description détaillée</label>
+                <div class="input-icon">
+                    <i class="fas fa-align-left"></i>
+                    <textarea id="description" name="description" placeholder="Décrivez en détail votre annonce..." required></textarea>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="lieu">Ville/Quartier</label>
+                <div class="input-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" id="lieu" name="lieu" placeholder="Ex: Paris 15ème" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="personneId">Propriétaire</label>
+                <div class="input-icon">
+                    <i class="fas fa-user"></i>
+                    <select id="personneId" name="personneId" required>
+                        <option value="">Sélectionnez un propriétaire</option>
+                        <?php foreach ($proprietaires as $proprietaire): ?>
+                            <option value="<?= $proprietaire['id'] ?>">
+                                <?= htmlspecialchars($proprietaire['nom']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="animalId">Animal concerné</label>
+                <div class="input-icon">
+                    <i class="fas fa-dog"></i>
+                    <select id="animalId" name="animalId" required>
+                        <option value="">Sélectionnez un animal</option>
+                        <?php foreach ($animaux as $animal): ?>
+                            <option value="<?= $animal['id'] ?>">
+                                <?= htmlspecialchars($animal['nom']) ?> (<?= htmlspecialchars($animal['type']) ?> - <?= htmlspecialchars($animal['race']) ?>)
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                <label>Photos de l'animal (max 3)</label>
+                <div class="file-upload" id="fileUpload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span>Glissez-déposez vos photos ou cliquez pour parcourir</span>
+                    <input type="file" id="photos" name="photos[]" accept="image/*" multiple>
+                </div>
+                <div class="preview-container" id="previewContainer"></div>
+            </div>
+        </div>
+        
+        <button type="submit"><i class="fas fa-paper-plane"></i> Publier l'annonce</button>
+    </form>
+</div>
 
-            <li><label for="date">Date :</label></li>
-            <li><input type="date" id="date" name="date" required></li>
+<?php include __DIR__ . '/../includes/footer.php'; ?>
 
-            <li><label for="service">Service :</label></li>
-            <li><input type="text" id="service" name="service" required></li>
-
-            <li><label for="lieu">Lieu :</label></li>
-            <li><input type="text" id="lieu" name="lieu" required></li>
-
-            <li><label for="personneId">propriétaire :</label></li>
-            <li><input type="number" id="personneId" name="personneId" required></li>
-
-            <li><label for="animalId">nom de l'animal :</label></li>
-            <li><input type="number" id="animalId" name="animalId" required></li>
-
-            <li><button type="submit">Enregistrer</button>
-        </form>
-    </div>
-
-    <?php include '../includes/footer.php'; ?>
-</body>
-</html>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script src="../../../public/assets/js/create-annonce.js"></script>

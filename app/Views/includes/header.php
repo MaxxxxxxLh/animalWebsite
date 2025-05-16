@@ -1,23 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= htmlspecialchars($pageTitle ?? 'AnimalWebsite') ?></title>
+    <link rel="stylesheet" href="../../../public/assets/css/components/header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <?php if (isset($page_css)): ?>
+        <link rel="stylesheet" href="../../../public/assets/css/components/<?= $page_css ?>.css">
+    <?php endif; ?>
+</head>
+<body>
 <header>
     <nav class="navbar">
-        <img src="/assets/images/logo.png" alt="Logo" class="logo">
+        <a href="/" class="logo-link">
+            <img src="/assets/images/logo.png" alt="Logo AnimalWebsite" class="logo" width="120" height="60">
+        </a>
+        
         <div class="nav-links">
-            <a href="/">Accueil</a>
-            <a href="../pages/messagerie.php">Messagerie</a>
-            <a href="../pages/annonces.php">Annonces</a>
-            <a href="../pages/faq.php">FAQ</a>
-            <a href="/contact">Contact</a>
+            <a href="/" class="<?= basename($_SERVER['PHP_SELF']) === 'index.php' ? 'active' : '' ?>">Accueil</a>
+            
+            <a href="/annonces" class="<?= basename($_SERVER['PHP_SELF']) === 'annonces.php' ? 'active' : '' ?>">Annonces</a>
+            <a href="/messagerie" class="<?= basename($_SERVER['PHP_SELF']) === 'messagerie.php' ? 'active' : '' ?>">Messagerie</a>
+            <a href="/faq" class="<?= basename($_SERVER['PHP_SELF']) === 'faq.php' ? 'active' : '' ?>">FAQ</a>
+            <a href="/contact" class="<?= basename($_SERVER['PHP_SELF']) === 'contact.php' ? 'active' : '' ?>">Contact</a>
         </div>
+        
         <div class="profile-icon">
-        <?php if (isset($_SESSION['user'])): ?>
-            <a href="/logout">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 58 61' width='58' height='61' fill='none'%3E%3Crect y='0.5' width='58' height='60' rx='29' fill='%236B8E23'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M37.7004 24.5C37.7004 29.4706 33.8052 33.5 29.0004 33.5C24.1955 33.5 20.3004 29.4706 20.3004 24.5C20.3004 19.5294 24.1955 15.5 29.0004 15.5C33.8052 15.5 37.7004 19.5294 37.7004 24.5ZM34.8004 24.5C34.8004 27.8137 32.2036 30.5 29.0004 30.5C25.7971 30.5 23.2004 27.8137 23.2004 24.5C23.2004 21.1863 25.7971 18.5 29.0004 18.5C32.2036 18.5 34.8004 21.1863 34.8004 24.5Z' fill='%234F378A'/%3E%3Cpath d='M29.0004 38C19.6125 38 11.6138 43.7426 8.56689 51.7881C9.30914 52.5505 10.091 53.2717 10.9091 53.9481C13.178 46.5615 20.2956 41 29.0004 41C37.7051 41 44.8227 46.5615 47.0916 53.9481C47.9097 53.2718 48.6916 52.5506 49.4338 51.7881C46.3869 43.7426 38.3882 38 29.0004 38Z' fill='%234F378A'/%3E%3C/svg%3E" alt="Profil">
-            </a>
-        <?php else: ?>
-            <a href="/login">
-                <button class="logoutBtn">Se connecter</button>
-            </a>
-        <?php endif; ?>
+            <?php if (isset($_SESSION['user'])): ?>
+                <div class="dropdown">
+                    <button class="dropdown-toggle">
+                        <img src="<?= htmlspecialchars($_SESSION['user']['avatar'] ?? '/assets/images/default-avatar.png') ?>" 
+                             alt="Photo de profil" 
+                             class="profile-avatar"
+                             width="40" 
+                             height="40">
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="/profil">Mon profil</a>
+                        <a href="/mes-annonces">Mes annonces</a>
+                        <a href="/logout">Déconnexion</a>
+                    </div>
+                </div>
+            <?php else: ?>
+                <a href="/login" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Se connecter
+                </a>
+            <?php endif; ?>
         </div>
     </nav>
 </header>
