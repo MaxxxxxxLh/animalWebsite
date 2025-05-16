@@ -4,6 +4,6 @@ namespace App\Controllers;
 
 class HomeController {
     public function index() {
-        include __DIR__ . '/../Views/pages/annonces.php';
+        include __DIR__ . '/../Views/pages/Quisommenous.php';
     }
 }
