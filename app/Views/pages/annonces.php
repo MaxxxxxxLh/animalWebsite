@@ -26,3 +26,4 @@ $annonces = [
     </p>
     <hr>
 <?php endforeach; ?>
+<a href="/mentions_legales.php">Mentions légales</a>

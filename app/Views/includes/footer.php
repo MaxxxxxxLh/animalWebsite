@@ -2,7 +2,7 @@
     <div class="footer-container">
         <div class="footer-links">
             <img src="/assets/images/logo.png" alt="Logo" style="width: 100px; height: auto; margin-bottom: 20px;">
-            <a href="/mentions-legales">Mentions légales</a>
+            <a href="/mentions_legales.php">Mentions légales</a>
             <a href="/cgu">CGU</a>
             <a href="/contact">Contact</a>
         </div>
