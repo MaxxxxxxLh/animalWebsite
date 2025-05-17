@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const formData = new FormData(annonceForm);
 
       // Envoyer les données via fetch
-      fetch("/cree-annonces/store", {
+      fetch("/creeAnnonces/store", {
         method: "POST",
         body: formData,
       })

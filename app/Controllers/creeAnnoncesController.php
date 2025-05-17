@@ -9,7 +9,7 @@ class CreeAnnoncesController
         $animaux = $this->getAnimaux();
         
         // Inclusion de la vue
-        require __DIR__ . '/../../Views/pages/cree-annonces.php';
+        require __DIR__ . '/../../Views/pages/creeAnnonces.php';
     }
     
     public function processForm()

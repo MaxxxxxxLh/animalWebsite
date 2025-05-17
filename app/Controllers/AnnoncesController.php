@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Api;
+namespace App\Controllers;
 
 use App\Models\Annonce;
 
@@ -67,6 +67,11 @@ class AnnonceController
         $annonces = $this->searchAnnonces($search, $service, $lieu);
         
         require __DIR__ . '/../Views/pages/annonces.php';
+    }
+
+    public function showForm(){
+        $animaux = $this->Animal::findByProprietaireId($_SESSION['user']['personneId']);
+        require __DIR__ . '/../Views/pages/creerAnnonces.php';
     }
 
     private function searchAnnonces($search = '', $service = '', $lieu = '')

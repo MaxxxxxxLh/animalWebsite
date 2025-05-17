@@ -4,18 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($pageTitle ?? 'AnimalWebsite') ?></title>
-    <link rel="stylesheet" href="../../../public/assets/css/pages/creer_annonces.css">
+    <link rel="stylesheet" href="../assets/css/pages/creer_annonces.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <?php if (isset($page_css)): ?>
-        <link rel="stylesheet" href="../../../public/assets/css/pages/<?= $page_css ?>.css">
-    <?php endif; ?>
+    <link rel="stylesheet" href="../assets/css/pages/creerAnnonces.css">
+
 </head>
 <?php include __DIR__ . '/../includes/header.php'; ?>
 
 <main class="container">
         <div class="form-container">
             <h2><i class="fas fa-plus-circle"></i> Créer une nouvelle annonce</h2>
-            <form id="annonceForm" action="/cree-annonces/store" method="POST" enctype="multipart/form-data">
+            <form id="annonceForm" action="/annonces/create" method="POST" enctype="multipart/form-data">
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="titre">Titre de l'annonce</label>
@@ -72,21 +71,6 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="personneId">Propriétaire</label>
-                        <div class="input-icon">
-                            <i class="fas fa-user"></i>
-                            <select id="personneId" name="personneId" required>
-                                <option value="">Sélectionnez un propriétaire</option>
-                                <?php foreach ($proprietaires as $proprietaire): ?>
-                                    <option value="<?= $proprietaire['id'] ?>">
-                                        <?= htmlspecialchars($proprietaire['nom']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
                         <label for="animalId">Animal concerné</label>
                         <div class="input-icon">
                             <i class="fas fa-dog"></i>
@@ -134,4 +118,4 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<script src="../../../public/assets/js/create-annonce.js"></script>
+<script src="../assets/js/createAnnonce.js"></script>
