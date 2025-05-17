@@ -1,22 +1,20 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Contact</title>
-    <link rel="stylesheet" href="/css/contact.css"> <!-- À adapter selon ton projet -->
+    <link rel="stylesheet" href="/css/style.css"> 
 </head>
 <body>
 
-<header>
-<?php include_once('../includes/header.php'); ?> <!-- Si vous avez un header commun -->
-</header>
-
+<?php include(__DIR__ . '/../includes/header.php');?>
 <main>
     <h2 style="text-align: center; color: #2e6531; margin-top: 50px;">
         N'hésitez pas à nous contacter avec le formulaire ci-dessous<br>si vous avez des questions ou des remarques.
     </h2>
 
-    <form action="/contact_controller.php" method="POST" class="loginContainer">
+    <form action="/contact" method="POST" class="loginContainer">
         <div class="form-group">
             <label for="nom">Nom</label>
             <input type="text" name="nom" id="nom" required>
@@ -50,6 +48,6 @@
         ?>
     </form>
 </main>
-
 </body>
 </html>
+

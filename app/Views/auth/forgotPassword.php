@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+
+<?php include(__DIR__ . '/../includes/header.php');?>
+
+
     <div class="loginContainer">
         <h1>Mot de passe oublié</h1>
         <p class="subtitle">Entrez votre adresse email pour recevoir un lien de réinitialisation.</p>
@@ -17,7 +21,7 @@
             </div>
             <button type="submit" class="btn">Envoyer</button>
         </form>
-        <p class="subtitle"><a href="login.html">Retour à la connexion</a></p>
+        <p class="subtitle"><a href="/login">Retour à la connexion</a></p>
     </div>
 </body>
 </html>

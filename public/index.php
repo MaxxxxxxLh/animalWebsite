@@ -87,11 +87,10 @@ switch ($uri) {
         include __DIR__ . '/../app/Views/pages/faq.php';
         break;
     case '/creerAnnonces':
-        (new \App\Controllers\AnnoncesController())->showForm();
+        include __DIR__ . '/../app/Views/pages/creerAnnonces.php';
         break;
     default:
         http_response_code(404);
         include __DIR__ . '/../app/Views/default/notFound.php';
         break;
-    
 }
