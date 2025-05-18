@@ -4,47 +4,47 @@ namespace App\Models;
 use PDO;
 
 
-class User
+class Animal
 {
     public static function getPDO()
     {
         global $pdo;
         return $pdo;
     }
-    public static function findByPersonneId(int $personneId): ?array
+    public static function findByProprietaireId(int $proprietaireId): ?array
     {
         $pdo = self::getPDO();
-        $stmt = $pdo->prepare("SELECT * FROM Animal WHERE personneId = ?");
-        $stmt->execute([$personneId]);
-        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+        $stmt = $pdo->prepare("SELECT * FROM EspeceAnimal WHERE proprietaireId = ?");
+        $stmt->execute([$proprietaireId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
 
-    public static function existsByPersonneId(int $personneId): bool
+    public static function existsByProprietaireId(int $proprietaireId): bool
     {
         $pdo = self::getPDO();
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM Animal WHERE personneId = ?");
-        $stmt->execute([$personneId]);
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM EspeceAnimal WHERE proprietaireId = ?");
+        $stmt->execute([$proprietaireId]);
         return $stmt->fetchColumn() > 0;
     }        
 
-    public static function create(string $nom, int $age, string $type, string $informations, int $personneId): int
+    public static function create(string $nom, int $age, string $type, string $informations, int $proprietaireId): int
     {
         $pdo = self::getPDO();
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("INSERT INTO Animal (nom, age, type, informations, personneId) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$nom, $age, $type, $informations, $personneId]);
+        $stmt = $pdo->prepare("INSERT INTO EspeceAnimal (nom, age, type, informations, proprietaireId) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$nom, $age, $type, $informations, $proprietaireId]);
 
         return (int)$pdo->lastInsertId();
     }
-    public static function updateAnimal(string $nom, int $age, string $type, string $informations, int $personneId): bool
+    public static function updateAnimal(string $nom, int $age, string $type, string $informations, int $proprietaireId): bool
     {
         $pdo = self::getPDO();
         $stmt = $pdo->prepare("
-            UPDATE Animal
+            UPDATE EspeceAnimal
             SET nom = ?, age = ?, type = ?, informations = ?
-            WHERE personneId = ?
+            WHERE proprietaireId = ?
         ");
-        return $stmt->execute([$nom, $age, $type, $informations, $personneId]);
+        return $stmt->execute([$nom, $age, $type, $informations, $proprietaireId]);
     }
 
 }

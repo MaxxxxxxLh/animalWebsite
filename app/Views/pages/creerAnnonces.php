@@ -1,20 +1,26 @@
+<?php
+$proprietaireId = $_SESSION['user']['id'] ?? null;
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($pageTitle ?? 'AnimalWebsite') ?></title>
-    <link rel="stylesheet" href="../assets/css/pages/creer_annonces.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/pages/creerAnnonces.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 </head>
+<body>
 <?php include __DIR__ . '/../includes/header.php'; ?>
 
 <main class="container">
         <div class="form-container">
             <h2><i class="fas fa-plus-circle"></i> Créer une nouvelle annonce</h2>
-            <form id="annonceForm" action="/annonces/create" method="POST" enctype="multipart/form-data">
+            <form id="annonceForm" action="/api/annonce" method="POST" enctype="multipart/form-data">
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="titre">Titre de l'annonce</label>
@@ -77,8 +83,8 @@
                             <select id="animalId" name="animalId" required>
                                 <option value="">Sélectionnez un animal</option>
                                 <?php foreach ($animaux as $animal): ?>
-                                    <option value="<?= $animal['id'] ?>">
-                                        <?= htmlspecialchars($animal['nom']) ?> (<?= htmlspecialchars($animal['type']) ?> - <?= htmlspecialchars($animal['race']) ?>)
+                                    <option value="<?= $animal['animalId'] ?>">
+                                        <?= htmlspecialchars($animal['nom']) ?> (<?= htmlspecialchars($animal['type']) ?>)
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -115,7 +121,46 @@
 
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
+<script>
+    const proprietaireId = <?= json_encode($proprietaireId) ?>;
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('annonceForm');
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<script src="../assets/js/createAnnonce.js"></script>
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const data = {
+                nom: document.getElementById('titre').value,
+                date: document.getElementById('date').value,
+                service: document.getElementById('service').value,
+                lieu: document.getElementById('lieu').value,
+                personneId: proprietaireId, 
+                animalId: document.getElementById('animalId').value
+            };
+            console.log(data);
+            try {
+                const response = await fetch('/api/annonce', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    window.location.href = "/";
+                } else {
+                    alert("Erreur: " + (result.error || "Une erreur inconnue"));
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Erreur lors de l'envoi des données.");
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>

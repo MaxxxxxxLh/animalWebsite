@@ -1,11 +1,41 @@
 <?php
-
 namespace App\Controllers;
 
-use App\Models\Annonce;
-
-class AnnonceController
+class AnnoncesController
 {
+    private function apiGet(string $url): array
+    {
+        $response = @file_get_contents($url);
+        if ($response === false) {
+            $error = error_get_last();
+            return ['error' => 'API GET request failed: ' . ($error['message'] ?? 'Unknown error')];
+        }
+
+        $data = json_decode($response, true);
+        return is_array($data) ? $data : ['error' => 'Invalid JSON'];
+    }
+
+    private function apiPost(string $url, array $data): array
+    {
+        $options = [
+            'http' => [
+                'header'  => "Content-Type: application/json\r\n",
+                'method'  => 'POST',
+                'content' => json_encode($data),
+            ],
+        ];
+        $context = stream_context_create($options);
+        $response = @file_get_contents($url, false, $context);
+
+        if ($response === false) {
+            $error = error_get_last();
+            return ['error' => 'API POST request failed: ' . ($error['message'] ?? 'Unknown error')];
+        }
+
+        $data = json_decode($response, true);
+        return is_array($data) ? $data : ['error' => 'Invalid JSON: ' . $response];
+    }
+
     public function findById()
     {
         if (!isset($_GET['id'])) {
@@ -15,47 +45,39 @@ class AnnonceController
         }
 
         $id = (int)$_GET['id'];
-        $annonce = Annonce::findById($id);
+        $annonce = $this->apiGet("http://localhost/api/annonce?id=$id");
 
-        if ($annonce) {
+        if (!isset($annonce['error'])) {
             header('Content-Type: application/json');
             echo json_encode($annonce);
         } else {
             http_response_code(404);
             echo json_encode(['error' => 'Annonce not found']);
         }
-    }   
+    }
 
     public function create()
     {
         $input = json_decode(file_get_contents('php://input'), true);
 
-        if (
-            !isset($input['annonceId']) ||
-            !isset($input['nom']) ||
-            !isset($input['date']) ||
-            !isset($input['service']) ||
-            !isset($input['lieu']) ||
-            !isset($input['personneId']) ||
-            !isset($input['animalId'])
-        ) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Missing parameters']);
-            return;
+        $requiredFields = ['nom', 'date', 'service', 'lieu', 'personneId', 'animalId'];
+        foreach ($requiredFields as $field) {
+            if (!isset($input[$field])) {
+                http_response_code(400);
+                echo json_encode(['error' => "Missing parameter: $field"]);
+                return;
+            }
         }
 
-        $annonceId = (int)$input['annonceId'];
-        $nom = $input['nom'];
-        $date = $input['date'];
-        $service = $input['service'];
-        $lieu = $input['lieu'];
-        $personneId = (int)$input['personneId'];
-        $animalId = (int)$input['animalId'];
+        $response = $this->apiPost("http://localhost/api/annonce", $input);
 
-        $id = Annonce::create($annonceId, $nom, $date, $service, $lieu, $personneId, $animalId);
-
-        header('Content-Type: application/json');
-        echo json_encode(['success' => true, 'annonce_id' => $id]);
+        if (!isset($response['error'])) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'annonce_id' => $response['annonce_id']]);
+        } else {
+            http_response_code(500);
+            echo json_encode($response);
+        }
     }
 
     public function index()
@@ -64,17 +86,50 @@ class AnnonceController
         $service = $_GET['service'] ?? '';
         $lieu = $_GET['lieu'] ?? '';
 
-        $annonces = $this->searchAnnonces($search, $service, $lieu);
-        
+        $query = http_build_query([
+            'search' => $search,
+            'service' => $service,
+            'lieu' => $lieu
+        ]);
+
+        $annonces = $this->apiGet("http://localhost/api/annonce/search?$query");
+
         require __DIR__ . '/../Views/pages/annonces.php';
     }
 
-    public function showForm(){
-        $animaux = $this->Animal::findByProprietaireId($_SESSION['user']['personneId']);
+    public function showForm()
+    {
+        if (!isset($_SESSION['user']['email'])) {
+            header('Location: /login');
+            exit;
+        }
+
+        $proprietaireId = $_SESSION['user']['id'] ?? null;
+        if ($proprietaireId === null) {
+            http_response_code(404);
+            echo json_encode(['error' => 'User not found']);
+            return;
+        }
+        $animaux = $this->apiGet("http://localhost/api/animal?proprietaireId=$proprietaireId");
+
         require __DIR__ . '/../Views/pages/creerAnnonces.php';
     }
 
-    private function searchAnnonces($search = '', $service = '', $lieu = '')
+    public function showAnnonces()
+    {
+        $annonces = $this->apiGet("http://localhost/api/annonce/all");
+
+        if (!isset($annonces['error'])) {
+            header('Content-Type: application/json');
+            echo json_encode($annonces);
+        } else {
+            http_response_code(404);
+            echo json_encode(['error' => 'Annonce not found']);
+        }
+        require __DIR__ . '/../Views/pages/annonces.php';
+    }
+
+    public function searchAnnonces($search = '', $service = '', $lieu = '')
     {
         $query = "SELECT a.*, p.nom as auteur, e.nom as animal 
                  FROM Annonce a 

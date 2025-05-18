@@ -8,10 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <?php include '../includes/header.php'; ?>
+<?php include __DIR__ . '/../includes/header.php'; ?>
     
     <main class="container">
-        <!-- Formulaire de recherche -->
         <section class="search-section">
             <h2>Rechercher une annonce</h2>
             <form class="search-form" method="GET" action="/annonces">
@@ -59,7 +58,6 @@
             </form>
         </section>
 
-        <!-- Liste des annonces -->
         <section class="annonces-section">
             <h2>Liste des annonces</h2>
             
@@ -118,6 +116,6 @@
         </section>
     </main>
     
-    <?php include '../includes/footer.php'; ?>
+    <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
 </html>

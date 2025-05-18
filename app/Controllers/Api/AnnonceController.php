@@ -26,12 +26,24 @@ class AnnonceController
         }
     }   
 
+    public function findAll()
+    {
+        $annonces = Annonce::findAll();
+
+        if ($annonces) {
+            header('Content-Type: application/json');
+            echo json_encode($annonces);
+        } else {
+            http_response_code(404);
+            echo json_encode(['error' => 'No annonces found']);
+        }
+    }
+
     public function create()
     {
         $input = json_decode(file_get_contents('php://input'), true);
 
         if (
-            !isset($input['annonceId']) ||
             !isset($input['nom']) ||
             !isset($input['date']) ||
             !isset($input['service']) ||
@@ -44,7 +56,6 @@ class AnnonceController
             return;
         }
 
-        $annonceId = (int)$input['annonceId'];
         $nom = $input['nom'];
         $date = $input['date'];
         $service = $input['service'];
@@ -52,7 +63,7 @@ class AnnonceController
         $personneId = (int)$input['personneId'];
         $animalId = (int)$input['animalId'];
 
-        $id = Annonce::create($annonceId, $nom, $date, $service, $lieu, $personneId, $animalId);
+        $id = Annonce::create($nom, $date, $service, $lieu, $personneId, $animalId);
 
         header('Content-Type: application/json');
         echo json_encode(['success' => true, 'annonce_id' => $id]);
