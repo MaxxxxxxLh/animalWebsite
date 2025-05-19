@@ -136,10 +136,11 @@ $proprietaireId = $_SESSION['user']['id'] ?? null;
                 date: document.getElementById('date').value,
                 service: document.getElementById('service').value,
                 lieu: document.getElementById('lieu').value,
+                tarif: document.getElementById('tarif').value,
+                description: document.getElementById('description').value,
                 personneId: proprietaireId, 
                 animalId: document.getElementById('animalId').value
             };
-            console.log(data);
             try {
                 const response = await fetch('/api/annonce', {
                     method: 'POST',

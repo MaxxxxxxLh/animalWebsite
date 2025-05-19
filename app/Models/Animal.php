@@ -30,8 +30,7 @@ class Animal
     public static function create(string $nom, int $age, string $type, string $informations, int $proprietaireId): int
     {
         $pdo = self::getPDO();
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("INSERT INTO EspeceAnimal (nom, age, type, informations, proprietaireId) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO EspeceAnimal (nom, age, type, informations, proprietaireId) VALUES (?, ?, ?, ?, ?)");
         $stmt->execute([$nom, $age, $type, $informations, $proprietaireId]);
 
         return (int)$pdo->lastInsertId();

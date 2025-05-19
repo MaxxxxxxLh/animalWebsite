@@ -89,11 +89,11 @@
                                     </div>
                                     <div class="detail">
                                         <i class="fas fa-paw"></i>
-                                        <span><?= htmlspecialchars($annonce['animal']) ?></span>
+                                        <span><?= htmlspecialchars($annonce['animalId']) ?></span>
                                     </div>
                                     <div class="detail">
                                         <i class="fas fa-user"></i>
-                                        <span><?= htmlspecialchars($annonce['auteur']) ?></span>
+                                        <span><?= htmlspecialchars($annonce['personneId']) ?></span>
                                     </div>
                                 </div>
                             </div>

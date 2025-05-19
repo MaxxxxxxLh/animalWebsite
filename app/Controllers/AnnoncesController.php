@@ -60,7 +60,7 @@ class AnnoncesController
     {
         $input = json_decode(file_get_contents('php://input'), true);
 
-        $requiredFields = ['nom', 'date', 'service', 'lieu', 'personneId', 'animalId'];
+        $requiredFields = ['nom', 'date', 'service', 'lieu', 'tarif', 'description', 'personneId', 'animalId'];
         foreach ($requiredFields as $field) {
             if (!isset($input[$field])) {
                 http_response_code(400);
@@ -117,7 +117,7 @@ class AnnoncesController
 
     public function showAnnonces()
     {
-        $annonces = $this->apiGet("http://localhost/api/annonce/all");
+    
 
         if (!isset($annonces['error'])) {
             header('Content-Type: application/json');
@@ -127,39 +127,5 @@ class AnnoncesController
             echo json_encode(['error' => 'Annonce not found']);
         }
         require __DIR__ . '/../Views/pages/annonces.php';
-    }
-
-    public function searchAnnonces($search = '', $service = '', $lieu = '')
-    {
-        $query = "SELECT a.*, p.nom as auteur, e.nom as animal 
-                 FROM Annonce a 
-                 JOIN Personne p ON a.personneId = p.personneId 
-                 JOIN EspeceAnimal e ON a.animalId = e.animalId 
-                 WHERE 1=1";
-        $params = [];
-
-        if (!empty($search)) {
-            $query .= " AND (a.nom LIKE ? OR a.description LIKE ?)";
-            $params[] = "%$search%";
-            $params[] = "%$search%";
-        }
-
-        if (!empty($service)) {
-            $query .= " AND a.service = ?";
-            $params[] = $service;
-        }
-
-        if (!empty($lieu)) {
-            $query .= " AND a.lieu LIKE ?";
-            $params[] = "%$lieu%";
-        }
-
-        $query .= " ORDER BY a.date DESC";
-
-        $pdo = \App\Core\Database::getInstance();
-        $stmt = $pdo->prepare($query);
-        $stmt->execute($params);
-
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }
