@@ -49,7 +49,9 @@ class AnnonceController
             !isset($input['service']) ||
             !isset($input['lieu']) ||
             !isset($input['personneId']) ||
-            !isset($input['animalId'])
+            !isset($input['animalId']) ||
+            !isset($input['tarif']) ||
+            !isset($input['description'])
         ) {
             http_response_code(400);
             echo json_encode(['error' => 'Missing parameters']);
@@ -58,12 +60,14 @@ class AnnonceController
 
         $nom = $input['nom'];
         $date = $input['date'];
-        $service = $input['service'];
+        $service = $input['service'];   
         $lieu = $input['lieu'];
+        $tarif = (int)$input['tarif'] ?? 0; 
+        $description = $input['description'] ?? "";
         $personneId = (int)$input['personneId'];
         $animalId = (int)$input['animalId'];
 
-        $id = Annonce::create($nom, $date, $service, $lieu, $personneId, $animalId);
+        $id = Annonce::create($nom, $date, $service, $lieu, $tarif, $description, $personneId, $animalId);
 
         header('Content-Type: application/json');
         echo json_encode(['success' => true, 'annonce_id' => $id]);

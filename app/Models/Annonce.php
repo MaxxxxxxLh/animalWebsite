@@ -26,11 +26,11 @@ class Annonce
         return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
 
-    public static function create(string $nom, string $date, string $service, string $lieu, int $personneId, int $animalId): int
+    public static function create(string $nom, string $date, string $service, string $lieu, int $tarif, string $description, int $personneId, int $animalId): int
     {
         $pdo = self::getPDO();
-        $stmt = $pdo->prepare("INSERT INTO Annonce (nom, date, service, lieu, personneId, animalId) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$nom, $date, $service, $lieu, $personneId, $animalId]);
+        $stmt = $pdo->prepare("INSERT INTO Annonce (nom, date, service, lieu, tarif, description, personneId, animalId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$nom, $date, $service, $lieu, $tarif, $description, $personneId, $animalId]);
         return (int)$pdo->lastInsertId();
     }
 }

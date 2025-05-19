@@ -4,8 +4,8 @@ USE `site_db`;
 CREATE TABLE Personne
 (
   personneId INT NOT NULL AUTO_INCREMENT,
-  nom VARCHAR(255) NOT NULL,
-  prenom VARCHAR(255) NOT NULL,
+  nom VARCHAR(255),
+  prenom VARCHAR(255),
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   isAdmin TINYINT(1) NOT NULL,
@@ -33,6 +33,8 @@ CREATE TABLE Annonce
   date DATE NOT NULL,
   service VARCHAR(255) NOT NULL,
   lieu VARCHAR(255) NOT NULL,
+  tarif INT NOT NULL,
+  description VARCHAR(255) NOT NULL,
   personneId INT NOT NULL,
   animalId INT NOT NULL,
   PRIMARY KEY (annonceId),
