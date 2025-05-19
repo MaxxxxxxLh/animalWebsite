@@ -6,7 +6,7 @@
     <title>Contact</title>
     <link rel="stylesheet" href="/css/style.css"> 
 </head>
-<body>
+<body class="bg-contact">
 
 <?php include(__DIR__ . '/../includes/header.php');?>
 <main>

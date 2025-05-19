@@ -10,7 +10,7 @@
 
 <?php include(__DIR__ . '/../includes/header.php');?>
 
-    <main class="container">
+    <main class="container home-page">
         <?php
         if (isset($_SESSION["user"])) {
             $prenom = htmlspecialchars($_SESSION["user"]["prenom"]);

@@ -659,5 +659,21 @@ textarea:focus {
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
-  padding-top: 6em; /* important pour ne pas passer sous la navbar */
+  padding-top: 6em; 
+}
+.home-page {
+  background: url("/assets/images/Chien-chat-fond.png") no-repeat center center;
+  background-size: cover;
+  backdrop-filter: blur(3px);
+  padding: 6em 1em 2em;
+  min-height: calc(100vh - 5em); 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.bg-contact {
+  background: url('/assets/images/Chien-chat-fond.png') center/cover no-repeat fixed;
+  backdrop-filter: blur(4px);
+  background-color: rgba(250, 243, 224, 0.8); 
 }
