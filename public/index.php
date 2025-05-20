@@ -79,6 +79,10 @@ if (strpos($uri, '/api/') === 0) {
         case 'annonce/all':
             (new \App\Controllers\Api\AnnonceController())->findAll();
             break;
+
+        case 'annonce/search':
+            (new \App\Controllers\Api\AnnonceController())->search();
+            break;
         
         default:
             http_response_code(404);

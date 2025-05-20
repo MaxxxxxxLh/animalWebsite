@@ -107,5 +107,8 @@ class AnnoncesController
         require __DIR__ . '/../Views/pages/annonces.php';
     }
 
-    
+    public function showSearchAnnonces()
+    {
+        $annonces = $this->apiGet("http://localhost/api/annonce/search");
+    }
 }

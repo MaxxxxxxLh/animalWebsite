@@ -72,4 +72,24 @@ class AnnonceController
         header('Content-Type: application/json');
         echo json_encode(['success' => true, 'annonce_id' => $id]);
     }
+
+    public function search()
+    {
+        $search = $_GET['search'] ?? '';
+        $service = $_GET['service'] ?? '';
+        $lieu = $_GET['lieu'] ?? '';
+    
+        $annonces = Annonce::search($search, $service, $lieu);
+    
+        header('Content-Type: application/json');
+    
+        if ($annonces && count($annonces) > 0) {
+            echo json_encode($annonces);
+        } else {
+            http_response_code(404);
+            echo json_encode(['error' => 'No annonces found']);
+        }
+    }
+    
+
 }

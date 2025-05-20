@@ -33,4 +33,32 @@ class Annonce
         $stmt->execute([$nom, $date, $service, $lieu, $tarif, $description, $personneId, $animalId]);
         return (int)$pdo->lastInsertId();
     }
+
+    public static function search(?string $search = '', ?string $service = '', ?string $lieu = ''): array
+    {
+        $pdo = self::getPDO();
+        $query = "SELECT * FROM Annonce WHERE 1=1";
+        $params = [];
+
+        if (!empty($search)) {
+            $query .= " AND (nom LIKE :search OR description LIKE :search)";
+            $params['search'] = '%' . $search . '%';
+        }
+
+        if (!empty($service)) {
+            $query .= " AND service = :service";
+            $params['service'] = $service;
+        }
+
+        if (!empty($lieu)) {
+            $query .= " AND lieu LIKE :lieu";
+            $params['lieu'] = '%' . $lieu . '%';
+        }
+
+        $stmt = $pdo->prepare($query);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
