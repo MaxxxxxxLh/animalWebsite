@@ -106,4 +106,6 @@ class AnnoncesController
         
         require __DIR__ . '/../Views/pages/annonces.php';
     }
+
+    
 }
