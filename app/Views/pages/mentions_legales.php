@@ -7,6 +7,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Mentions légales - ISEP</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/style.css">
     <style>
         body {
             font-family: Arial, sans-serif;

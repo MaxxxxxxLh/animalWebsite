@@ -48,6 +48,9 @@ class ProfileController{
 
             if ($updated) {
                 $_SESSION['success'] = "Profil mis à jour avec succès.";
+                $_SESSION['user']['nom'] = $nom;
+                $_SESSION['user']['prenom'] = $prenom;
+                $_SESSION['user']['photoUrl'] = $photoUrl;
             } else {
                 $_SESSION['error'] = "Erreur lors de la mise à jour du profil.";
             }

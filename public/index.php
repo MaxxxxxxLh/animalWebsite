@@ -47,6 +47,43 @@ if (strpos($uri, '/api/') === 0) {
         case 'users/create':
             (new \App\Controllers\Api\UserController())->create();
             break;
+
+        case 'animal':
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                (new \App\Controllers\Api\AnimalController())->findByProprietaireId();
+            } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                (new \App\Controllers\Api\AnimalController())->create();
+            } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+                (new \App\Controllers\Api\AnimalController())->update();
+            } else {
+                http_response_code(405); 
+                echo json_encode(['error' => 'Method not allowed']);
+            }
+            break;
+
+        case 'animal/exists':
+            (new \App\Controllers\Api\AnimalController())->exists();
+            break;
+
+        case 'annonce':
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                (new \App\Controllers\Api\AnnonceController())->findById();
+            } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                (new \App\Controllers\Api\AnnonceController())->create();
+            } else {
+                http_response_code(405);
+                echo json_encode(['error' => 'Method not allowed']);
+            }
+            break;
+
+        case 'annonce/all':
+            (new \App\Controllers\Api\AnnonceController())->findAll();
+            break;
+
+        case 'annonce/search':
+            (new \App\Controllers\Api\AnnonceController())->search();
+            break;
+        
         default:
             http_response_code(404);
             echo json_encode(['error' => 'API endpoint not found']);
@@ -87,11 +124,13 @@ switch ($uri) {
         include __DIR__ . '/../app/Views/pages/faq.php';
         break;
     case '/creerAnnonces':
-        include __DIR__ . '/../app/Views/pages/creerAnnonces.php';
+        (new \App\Controllers\AnnoncesController())->showForm();
+        break;
+    case '/annonces':
+        (new \App\Controllers\AnnoncesController())->showAnnonces();
         break;
     default:
         http_response_code(404);
         include __DIR__ . '/../app/Views/default/notFound.php';
         break;
-    
 }

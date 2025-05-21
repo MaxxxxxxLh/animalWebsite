@@ -4,7 +4,7 @@
         <div class="nav-links">
             <a href="/">Accueil</a>
             <a href="/messagerie">Messagerie</a>
-            <a href="../pages/annonces.php">Annonces</a>
+            <a href="/annonces">Annonces</a>
             <a href="/faq">FAQ</a>
         </div>
 

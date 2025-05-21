@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Profil - Gardiennage d'Animaux</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
     <?php include(__DIR__ . '/../includes/header.php'); ?>

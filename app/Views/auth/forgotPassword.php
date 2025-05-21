@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mot de passe oublié - Gardiennage d'Animaux</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
 
@@ -23,5 +25,7 @@
         </form>
         <p class="subtitle"><a href="/login">Retour à la connexion</a></p>
     </div>
+    
+    <?php include(__DIR__ . '/../includes/footer.php');?>
 </body>
 </html>
