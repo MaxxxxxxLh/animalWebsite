@@ -80,22 +80,7 @@ class AnnoncesController
         }
     }
 
-    public function index()
-    {
-        $search = $_GET['search'] ?? '';
-        $service = $_GET['service'] ?? '';
-        $lieu = $_GET['lieu'] ?? '';
 
-        $query = http_build_query([
-            'search' => $search,
-            'service' => $service,
-            'lieu' => $lieu
-        ]);
-
-        $annonces = $this->apiGet("http://localhost/api/annonce/search?$query");
-
-        require __DIR__ . '/../Views/pages/annonces.php';
-    }
 
     public function showForm()
     {
@@ -117,15 +102,8 @@ class AnnoncesController
 
     public function showAnnonces()
     {
-    
-
-        if (!isset($annonces['error'])) {
-            header('Content-Type: application/json');
-            echo json_encode($annonces);
-        } else {
-            http_response_code(404);
-            echo json_encode(['error' => 'Annonce not found']);
-        }
+        $annonces = $this->apiGet("http://localhost/api/annonce/all");  
+        
         require __DIR__ . '/../Views/pages/annonces.php';
     }
 }
