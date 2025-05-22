@@ -11,6 +11,15 @@ class User
         global $pdo;
         return $pdo;
     }
+
+    public static function findById(int $id): ?array
+    {
+        $pdo = self::getPDO();
+        $stmt = $pdo->prepare("SELECT * FROM Personne WHERE personneId = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
+
     public static function findByEmail(string $email): ?array
     {
         $pdo = self::getPDO();
@@ -56,6 +65,20 @@ class User
             WHERE email = ?
         ");
         return $stmt->execute([$isAdmin, $photoUrl, $email]);
+    }
+
+    public static function findAll(): array
+    {
+        $pdo = self::getPDO();
+        $stmt = $pdo->query("SELECT * FROM Personne");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function delete(int $id): bool
+    {
+        $pdo = self::getPDO();
+        $stmt = $pdo->prepare("DELETE FROM Personne WHERE personneId = ?");
+        return $stmt->execute([$id]);
     }
 
 }

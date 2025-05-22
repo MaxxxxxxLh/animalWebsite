@@ -50,6 +50,13 @@ if (strpos($uri, '/api/') === 0) {
         case 'users/update':
             (new \App\Controllers\Api\UserController())->update();
             break;
+        case 'users/findAll':
+            (new \App\Controllers\Api\UserController())->findAll();
+            break;
+        case 'users/delete':
+            (new \App\Controllers\Api\UserController())->delete();
+            break;
+
         case 'animal':
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 (new \App\Controllers\Api\AnimalController())->findByProprietaireId();

@@ -36,6 +36,26 @@ class AdminController {
         return is_array($data) ? $data : ['error' => 'Invalid JSON: ' . $response];
     }
 
+    private function apiDelete(string $url): array
+    {
+        $options = [
+            'http' => [
+                'header'  => "Content-Type: application/json\r\n",
+                'method'  => 'DELETE',
+            ],
+        ];
+        $context = stream_context_create($options);
+        $response = @file_get_contents($url, false, $context);
+
+        if ($response === false) {
+            $error = error_get_last();
+            return ['error' => 'API DELETE request failed: ' . ($error['message'] ?? 'Unknown error')];
+        }
+
+        $data = json_decode($response, true);
+        return is_array($data) ? $data : ['error' => 'Invalid JSON: ' . $response];
+    }
+
     public function dashboard() {
         // Statistiques générales
         $totalUsers = $this->db->query("SELECT COUNT(*) as count FROM users")->fetch()['count'];
@@ -107,5 +127,16 @@ class AdminController {
     public function showUsers() {
         $users = $this->apiGet("http://localhost/api/users/findAll");
         require __DIR__ . '/../Views/admin/users.php';
+    }
+
+    public function deleteUser() {
+        if($_SESSION['user']['isAdmin'] == 0) {
+            header('Location: /');
+            exit;
+        }
+        $id = $_POST['id'];
+        $this->apiDelete("http://localhost/api/user/delete?id=$id");
+        header('Location: /admin/users');
+        exit;
     }
 }
