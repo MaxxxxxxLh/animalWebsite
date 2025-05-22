@@ -75,6 +75,19 @@ class AnimalController
         echo json_encode(['success' => true, 'animal_id' => $id]);
     }
     
+    public function findAll()
+    {
+        $animals = Animal::findAll();
+
+        if ($animals) {
+            header('Content-Type: application/json');
+            echo json_encode($animals);
+        } else {
+            http_response_code(404);
+            echo json_encode(['error' => 'No animals found']);
+        }
+    }
+
     public function update()
     {
         $input = json_decode(file_get_contents('php://input'), true);
@@ -105,6 +118,27 @@ class AnimalController
         } else {
             http_response_code(500);
             echo json_encode(['error' => 'Update failed']);
+        }
+    }
+
+    public function delete()
+    {
+        if (!isset($_GET['id'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing id parameter']);
+            return;
+        }
+
+        $id = (int)$_GET['id'];
+        $animal = Animal::findById($id);
+
+        if ($animal) {
+            Animal::delete($id);
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true]);
+        } else {
+            http_response_code(404);
+            echo json_encode(['error' => 'Animal not found']);
         }
     }
 }

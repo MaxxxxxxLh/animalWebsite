@@ -6,6 +6,11 @@
             <a href="/messagerie">Messagerie</a>
             <a href="/annonces">Annonces</a>
             <a href="/faq">FAQ</a>
+            <?php if (isset($_SESSION['user'])): ?>
+                <?php if ($_SESSION['user']['isAdmin'] === 1): ?>
+                    <a href="/admin/users">Admin</a>
+                <?php endif; ?>
+            <?php endif; ?>
         </div>
 
         <div class="profile-icon" id="profile-container">

@@ -47,7 +47,9 @@ if (strpos($uri, '/api/') === 0) {
         case 'users/create':
             (new \App\Controllers\Api\UserController())->create();
             break;
-
+        case 'users/update':
+            (new \App\Controllers\Api\UserController())->update();
+            break;
         case 'animal':
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 (new \App\Controllers\Api\AnimalController())->findByProprietaireId();
@@ -128,6 +130,10 @@ switch ($uri) {
         break;
     case '/annonces':
         (new \App\Controllers\AnnoncesController())->showAnnonces();
+        break;
+
+    case '/admin/users':
+        (new \App\Controllers\AdminController())->showUsers();
         break;
     default:
         http_response_code(404);

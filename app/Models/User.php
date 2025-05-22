@@ -47,4 +47,15 @@ class User
         return $stmt->execute([$nom, $prenom, $photoUrl, $email]);
     }
 
+    public static function edit(string $email, int $isAdmin, ?string $photoUrl): bool
+    {
+        $pdo = self::getPDO();
+        $stmt = $pdo->prepare("
+            UPDATE Personne
+            SET isAdmin = ?, photoUrl = ?
+            WHERE email = ?
+        ");
+        return $stmt->execute([$isAdmin, $photoUrl, $email]);
+    }
+
 }
