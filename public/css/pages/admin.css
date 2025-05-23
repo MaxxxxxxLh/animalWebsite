@@ -578,7 +578,7 @@
 }
 
 .annonce-card {
-  background: var(--nature-green-dark);
+  background: var(--nature-green);
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -662,7 +662,7 @@
 
 .modal-content {
   position: relative;
-  background: var(--nature-green-dark);
+  background: var(--nature-beige);
   margin: 5% auto;
   padding: 0;
   width: 90%;

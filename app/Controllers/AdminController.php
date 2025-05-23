@@ -73,15 +73,27 @@ class AdminController {
             GROUP BY MONTH(created_at)
         ")->fetchAll();
 
-        require_once 'app/Views/admin/dashboard.php';
+        require __DIR__ . 'app/Views/admin/dashboard.php';
     }
 
     public function users() {
+        if(!isset($_SESSION['user'])) {
+            header('Location: /');
+            exit;
+        }
+        if($_SESSION['user']['isAdmin'] == 0) {
+            header('Location: /');
+            exit;
+        }
         $users = $this-> apiGet("http://localhost/api/user/findAll");
-        require_once 'app/Views/admin/users.php';
+        require __DIR__ . 'app/Views/admin/users.php';
     }
 
     public function editUser() {
+        if(!isset($_SESSION['user'])) {
+            header('Location: /');
+            exit;
+        }
         if($_SESSION['user']['isAdmin'] == 0) {
             header('Location: /');
             exit;
@@ -98,12 +110,20 @@ class AdminController {
         $_SESSION['user']['photoUrl'] = $photoUrl;
         header('Location: /admin/users');
         exit;
-        require_once 'app/Views/admin/edit_user.php';
+        require __DIR__ . 'app/Views/admin/edit_user.php';
     }
 
     public function annonces() {
-        $annonces = $this->apiGet("http://localhost/api/annonce/findAll");
-        require_once '/../Views/admin/annonces.php';
+        if(!isset($_SESSION['user'])) {
+            header('Location: /');
+            exit;
+        }
+        if($_SESSION['user']['isAdmin'] == 0) {
+            header('Location: /');
+            exit;
+        }
+        $annonces = $this->apiGet("http://localhost/api/annonce/all");
+        require __DIR__ . '/../Views/admin/annonces.php';
     }
 
     public function analytics() {
@@ -121,7 +141,7 @@ class AdminController {
             FROM annonces
         ")->fetch();
 
-        require_once 'app/Views/admin/analytics.php';
+        require __DIR__ . 'app/Views/admin/analytics.php';
     }
 
     public function showUsers() {

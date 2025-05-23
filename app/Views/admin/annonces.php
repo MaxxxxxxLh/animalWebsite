@@ -1,41 +1,29 @@
-<?php require_once 'app/Views/includes/header.php'; ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestion des Annonces - Admin Panel</title>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/pages/admin.css">
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/header.css">
+</head>
+
+<?php include __DIR__ . '/../includes/header.php'; ?>
 
 <div class="admin-dashboard">
-    <div class="admin-sidebar">
-        <div class="admin-logo">
-            <i class="fas fa-paw"></i>
-            <span>Admin Panel</span>
-        </div>
-        <nav class="admin-nav">
-            <a href="/admin/dashboard">
-                <i class="fas fa-chart-line"></i>
-                Tableau de bord
-            </a>
-            <a href="/admin/users">
-                <i class="fas fa-users"></i>
-                Utilisateurs
-            </a>
-            <a href="/admin/annonces" class="active">
-                <i class="fas fa-bullhorn"></i>
-                Annonces
-            </a>
-            <a href="/admin/analytics">
-                <i class="fas fa-chart-bar"></i>
-                Statistiques
-            </a>
-        </nav>
-    </div>
+    <?php include __DIR__ . '/../includes/adminSidebar.php';?>
 
     <div class="admin-main">
-        <header class="admin-header">
+        <div class="admin-header">
             <h1>Gestion des Annonces</h1>
             <div class="admin-profile">
-                <span>Bienvenue, <?= htmlspecialchars($_SESSION['user']['email']) ?></span>
                 <a href="/logout" class="btn-logout">
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
             </div>
-        </header>
+        </div>
 
         <div class="annonces-controls">
             <div class="search-box">
@@ -60,46 +48,43 @@
         </div>
 
         <div class="annonces-grid">
-            <?php foreach ($annonces as $annonce): ?>
-            <div class="annonce-card" data-status="<?= htmlspecialchars($annonce['status']) ?>" data-category="<?= htmlspecialchars($annonce['category']) ?>">
-                <div class="annonce-header">
-                    <span class="badge <?= $annonce['status'] === 'active' ? 'badge-active' : ($annonce['status'] === 'pending' ? 'badge-pending' : 'badge-inactive') ?>">
-                        <?= htmlspecialchars($annonce['status']) ?>
-                    </span>
-                    <div class="annonce-actions">
-                        <button class="btn-edit" data-id="<?= $annonce['id'] ?>">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn-delete" data-id="<?= $annonce['id'] ?>">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="annonce-image">
-                    <img src="<?= htmlspecialchars($annonce['image_url']) ?>" alt="<?= htmlspecialchars($annonce['title']) ?>">
-                </div>
-
-                <div class="annonce-content">
-                    <h3><?= htmlspecialchars($annonce['title']) ?></h3>
-                    <p class="annonce-category">
-                        <i class="fas fa-tag"></i>
-                        <?= htmlspecialchars($annonce['category']) ?>
-                    </p>
-                    <p class="annonce-description"><?= htmlspecialchars(substr($annonce['description'], 0, 100)) ?>...</p>
-                    <div class="annonce-meta">
-                        <span>
-                            <i class="fas fa-user"></i>
-                            <?= htmlspecialchars($annonce['user_email']) ?>
-                        </span>
-                        <span>
-                            <i class="fas fa-calendar"></i>
-                            <?= date('d/m/Y', strtotime($annonce['created_at'])) ?>
-                        </span>
-                    </div>
+        <?php foreach ($annonces as $annonce): ?>
+        <div class="annonce-card" data-status="active" data-category="<?= htmlspecialchars($annonce['type']) ?>">
+            <div class="annonce-header">
+                <div class="annonce-actions">
+                    <button class="btn-edit" data-id="<?= $annonce['annonceId'] ?>">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-delete" data-id="<?= $annonce['annonceId'] ?>">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </div>
             </div>
-            <?php endforeach; ?>
+
+            <div class="annonce-content">
+                <h3><?= htmlspecialchars($annonce['nom_annonce']) ?></h3>
+                <p class="annonce-description"><?= htmlspecialchars(substr($annonce['description'], 0, 100)) ?>...</p>
+                <ul class="annonce-details">
+                    <li><strong>Service :</strong> <?= htmlspecialchars($annonce['service']) ?></li>
+                    <li><strong>Lieu :</strong> <?= htmlspecialchars($annonce['lieu']) ?></li>
+                    <li><strong>Tarif :</strong> <?= htmlspecialchars($annonce['tarif']) ?> €</li>
+                    <li><strong>Animal :</strong> <?= htmlspecialchars($annonce['type']) ?></li>
+                </ul>
+                <div class="annonce-meta">
+                    <span>
+                        <i class="fas fa-user"></i>
+                        <?= htmlspecialchars($annonce['email']) ?>
+                    </span>
+                    <span>
+                        <i class="fas fa-calendar"></i>
+                        <?= date('d/m/Y', strtotime($annonce['date'])) ?>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+
+
         </div>
     </div>
 </div>
@@ -224,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData(this);
 
         try {
-            const response = await fetch(`/admin/annonces/edit/${formData.get('id')}`, {
+            const response = await fetch(`/api/annonces/edit/id=${formData.get('id')}`, {
                 method: 'POST',
                 body: formData
             });
@@ -246,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (confirm('Êtes-vous sûr de vouloir supprimer cette annonce ?')) {
                 const annonceId = this.dataset.id;
                 try {
-                    const response = await fetch(`/admin/annonces/delete/${annonceId}`, {
+                    const response = await fetch(`/api/annonces/delete/id=${annonceId}`, {
                         method: 'POST'
                     });
                     if (response.ok) {
@@ -264,4 +249,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<?php require_once 'app/Views/includes/footer.php'; ?>
+<?php include __DIR__ . '/../includes/footer.php'; ?>

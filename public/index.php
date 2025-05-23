@@ -142,6 +142,11 @@ switch ($uri) {
     case '/admin/users':
         (new \App\Controllers\AdminController())->showUsers();
         break;
+
+    case '/admin/annonces':
+        (new \App\Controllers\AdminController())->annonces();
+        break;
+
     default:
         http_response_code(404);
         include __DIR__ . '/../app/Views/default/notFound.php';
