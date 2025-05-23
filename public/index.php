@@ -47,6 +47,15 @@ if (strpos($uri, '/api/') === 0) {
         case 'users/create':
             (new \App\Controllers\Api\UserController())->create();
             break;
+        case 'users/update':
+            (new \App\Controllers\Api\UserController())->update();
+            break;
+        case 'users/findAll':
+            (new \App\Controllers\Api\UserController())->findAll();
+            break;
+        case 'users/delete':
+            (new \App\Controllers\Api\UserController())->delete();
+            break;
 
         case 'animal':
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -129,6 +138,15 @@ switch ($uri) {
     case '/annonces':
         (new \App\Controllers\AnnoncesController())->showAnnonces();
         break;
+
+    case '/admin/users':
+        (new \App\Controllers\AdminController())->showUsers();
+        break;
+
+    case '/admin/annonces':
+        (new \App\Controllers\AdminController())->annonces();
+        break;
+
     default:
         http_response_code(404);
         include __DIR__ . '/../app/Views/default/notFound.php';
