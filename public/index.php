@@ -102,6 +102,16 @@ if (strpos($uri, '/api/') === 0) {
         case 'auth/refreshToken':
             (new \App\Controllers\Api\TokenController())->refreshToken();
             break;
+
+        case 'message/create':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                (new \App\Controllers\Api\MessageController())->create();
+            } else {
+                http_response_code(405);
+                echo json_encode(['error' => 'Method not allowed']);
+            }
+            break;
+
         default:
             http_response_code(404);
             echo json_encode(['error' => 'API endpoint not found']);

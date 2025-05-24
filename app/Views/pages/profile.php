@@ -45,7 +45,6 @@
 
         </form>
     </div>
-    <script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 const input = document.getElementById("photo");
