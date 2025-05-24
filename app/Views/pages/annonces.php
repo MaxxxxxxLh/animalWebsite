@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Annonces - Gardiennage d'animaux</title>
-    <link rel="stylesheet" href="../../../public/assets/css/pages/annonces.css">
+    <link rel="stylesheet" href="../../../public/assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-<?php include __DIR__ . '/../includes/header.php'; ?>
+    <?php include __DIR__ . '/../includes/header.php'; ?>
     
     <main class="container">
         <section class="search-section">
