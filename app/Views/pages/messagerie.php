@@ -72,6 +72,6 @@ $selectedUserId = $_GET['userId'] ?? null;
 
     <?php include(__DIR__ . '/../includes/footer.php'); ?>
     <script src="/js/secureFetch.js"></script>
-    <script src="/js/messagerie.js"></script> <
+    <script src="/js/messagerie.js"></script> 
 </body>
 </html>

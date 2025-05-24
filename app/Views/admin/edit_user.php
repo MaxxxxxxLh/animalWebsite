@@ -100,7 +100,7 @@ document.querySelector('.btn-delete')?.addEventListener('click', async function(
     if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.')) {
         const userId = this.dataset.id;
         try {
-            const response = await fetch(`/admin/users/delete/${userId}`, {
+            const response = await fetch(`/admin/users/delete?userId=${userId}`, {
                 method: 'POST'
             });
             if (response.ok) {
