@@ -1,3 +1,9 @@
+<?php
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -35,6 +41,7 @@
         <h2>Se connecter</h2>
         <p class="subtitle">Pas de compte? <a href="/register">Créer un compte</a></p>
         <form method="POST" action="/login">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
             <div class="form-group">
                 <label for="email">Votre mail</label>
                 <input type="email" id="email" name="email" required>

@@ -87,4 +87,11 @@ class Annonce
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function delete(int $id): bool
+    {
+        $pdo = self::getPDO();
+        $stmt = $pdo->prepare("DELETE FROM Annonce WHERE annonceId = ?");
+        return $stmt->execute([$id]);
+    }
+
 }

@@ -2,44 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Utils\APIClient;
+
 class MessagerieController
 {
     private function render($view, $data = [])
     {
         extract($data);
         include __DIR__ . '/../Views/pages/' . $view . '.php';
-    }
-
-    private function apiGet(string $url): array
-    {
-        $response = @file_get_contents($url);
-
-        if ($response === false) {
-            return ['error' => 'API request failed'];
-        }
-
-        $data = json_decode($response, true);
-        return is_array($data) ? $data : ['error' => 'Invalid JSON'];
-    }
-
-    private function apiPost(string $url, array $data): array
-    {
-        $options = [
-            'http' => [
-                'header'  => "Content-Type: application/json\r\n",
-                'method'  => 'POST',
-                'content' => json_encode($data),
-            ],
-        ];
-        $context = stream_context_create($options);
-        $response = @file_get_contents($url, false, $context);
-
-        if ($response === false) {
-            return ['error' => 'API POST request failed'];
-        }
-
-        $data = json_decode($response, true);
-        return is_array($data) ? $data : ['error' => 'Invalid JSON'];
     }
 
     public function showAllConversations()
@@ -50,8 +20,7 @@ class MessagerieController
         }
 
         $userId = $_SESSION['user']['id'];
-
-        $conversations = $this->apiGet("http://localhost/api/message/findAllConversations?personneId=$userId");
+        $conversations = APIClient::get("http://localhost/api/message/conversations?personneId=$userId");
 
         $this->render('messagerie', [
             'conversations' => $conversations
@@ -60,30 +29,37 @@ class MessagerieController
 
     public function showConversation()
     {
-
         if (!isset($_SESSION['user'])) {
             header("Location: /login");
             exit();
         }
 
         $userId = $_SESSION['user']['id'];
-        $proprietaireId = $_GET['proprietaireId'] ?? null;
+        $autrePersonneId = $_GET['proprietaireId'] ?? null;
 
-        if (!$proprietaireId) {
+        if (!$autrePersonneId) {
             die("Aucun interlocuteur spécifié.");
         }
 
-        $messages = $this->apiGet("http://localhost/api/message/findConversation?personneId=$userId&proprietaireId=$proprietaireId");
+        // Obtenir ou créer une conversation
+        $conversation = APIClient::get("http://localhost/api/message/getOrCreateConversation?personneId=$userId&proprietaireId=$autrePersonneId");
+
+        if (!isset($conversation['id'])) {
+            die("Erreur lors de la récupération ou création de la conversation.");
+        }
+
+        $conversationId = $conversation['id'];
+        $messages = APIClient::get("http://localhost/api/message/conversation?conversationId=$conversationId");
 
         $this->render('conversation', [
             'messages' => $messages,
-            'interlocuteurId' => $proprietaireId
+            'interlocuteurId' => $autrePersonneId,
+            'conversationId' => $conversationId
         ]);
     }
 
     public function envoyerMessage()
     {
-
         if (!isset($_SESSION['user'])) {
             header("Location: /login");
             exit();
@@ -95,23 +71,24 @@ class MessagerieController
         }
 
         $userId = $_SESSION['user']['id'];
+        $conversationId = $_POST['conversationId'] ?? null;
         $proprietaireId = $_POST['proprietaireId'] ?? null;
         $message = $_POST['message'] ?? '';
 
-        if (empty($proprietaireId) || empty($message)) {
+        if (empty($conversationId) || empty($proprietaireId) || empty($message)) {
             die("Tous les champs sont requis.");
         }
 
         $data = [
+            'conversationId' => $conversationId,
             'personneId' => $userId,
             'proprietaireId' => $proprietaireId,
             'message' => $message,
             'date' => date('Y-m-d H:i:s'),
             'isProprietaireMessage' => false
         ];
-        
 
-        $this->apiPost("http://localhost/api/message/create", $data);
+        APIClient::post("http://localhost/api/message/create", $data);
 
         header("Location: /messagerie/findConversation?proprietaireId=$proprietaireId");
         exit();

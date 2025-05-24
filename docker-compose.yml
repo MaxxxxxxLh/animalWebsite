@@ -6,6 +6,7 @@ services:
     container_name: php_server
     volumes:
       - ./:/var/www/html
+      - vendor_data:/var/www/html/vendor
       - ./apache/default.conf:/etc/apache2/sites-available/000-default.conf
     ports:
       - "8080:80"
@@ -38,3 +39,4 @@ services:
 
 volumes:
   db_data:
+  vendor_data:

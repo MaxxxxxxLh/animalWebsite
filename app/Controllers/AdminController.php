@@ -2,131 +2,86 @@
 
 namespace App\Controllers;
 
+use App\Utils\ApiClient;
+
 class AdminController {
-    private function apiGet(string $url): array
-    {
-        $response = @file_get_contents($url);
-        if ($response === false) {
-            $error = error_get_last();
-            return ['error' => 'API GET request failed: ' . ($error['message'] ?? 'Unknown error')];
-        }
 
-        $data = json_decode($response, true);
-        return is_array($data) ? $data : ['error' => 'Invalid JSON'];
+    private function checkAdmin()
+    {
+        if (!isset($_SESSION['user']) || ($_SESSION['user']['isAdmin'] ?? 0) == 0) {
+            header('Location: /');
+            exit;
+        }
     }
 
-    private function apiPost(string $url, array $data): array
+    public function dashboard()
     {
-        $options = [
-            'http' => [
-                'header'  => "Content-Type: application/json\r\n",
-                'method'  => 'POST',
-                'content' => json_encode($data),
-            ],
-        ];
-        $context = stream_context_create($options);
-        $response = @file_get_contents($url, false, $context);
+        $this->checkAdmin();
 
-        if ($response === false) {
-            $error = error_get_last();
-            return ['error' => 'API POST request failed: ' . ($error['message'] ?? 'Unknown error')];
-        }
-
-        $data = json_decode($response, true);
-        return is_array($data) ? $data : ['error' => 'Invalid JSON: ' . $response];
-    }
-
-    private function apiDelete(string $url): array
-    {
-        $options = [
-            'http' => [
-                'header'  => "Content-Type: application/json\r\n",
-                'method'  => 'DELETE',
-            ],
-        ];
-        $context = stream_context_create($options);
-        $response = @file_get_contents($url, false, $context);
-
-        if ($response === false) {
-            $error = error_get_last();
-            return ['error' => 'API DELETE request failed: ' . ($error['message'] ?? 'Unknown error')];
-        }
-
-        $data = json_decode($response, true);
-        return is_array($data) ? $data : ['error' => 'Invalid JSON: ' . $response];
-    }
-
-    public function dashboard() {
-        // Statistiques générales
         $totalUsers = $this->db->query("SELECT COUNT(*) as count FROM users")->fetch()['count'];
         $totalAnnonces = $this->db->query("SELECT COUNT(*) as count FROM annonces")->fetch()['count'];
         $recentAnnonces = $this->db->query("SELECT * FROM annonces ORDER BY created_at DESC LIMIT 5")->fetchAll();
         $newUsers = $this->db->query("SELECT * FROM users ORDER BY created_at DESC LIMIT 5")->fetchAll();
-        
-        // Statistiques mensuelles
+
         $monthlyStats = $this->db->query("
-            SELECT 
-                COUNT(*) as count,
-                MONTH(created_at) as month 
+            SELECT COUNT(*) as count, MONTH(created_at) as month 
             FROM annonces 
             WHERE created_at >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
             GROUP BY MONTH(created_at)
         ")->fetchAll();
 
-        require __DIR__ . 'app/Views/admin/dashboard.php';
+        require __DIR__ . '/../Views/admin/dashboard.php';
     }
 
-    public function users() {
-        if(!isset($_SESSION['user'])) {
-            header('Location: /');
-            exit;
-        }
-        if($_SESSION['user']['isAdmin'] == 0) {
-            header('Location: /');
-            exit;
-        }
-        $users = $this-> apiGet("http://localhost/api/user/findAll");
-        require __DIR__ . 'app/Views/admin/users.php';
+    public function users()
+    {
+        $this->checkAdmin();
+
+        $users = ApiClient::get("http://localhost/api/user/findAll");
+        require __DIR__ . '/../Views/admin/users.php';
     }
 
-    public function editUser() {
-        if(!isset($_SESSION['user'])) {
-            header('Location: /');
+    public function editUser()
+    {
+        $this->checkAdmin();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
+            http_response_code(403);
+            echo "CSRF token invalid.";
             exit;
         }
-        if($_SESSION['user']['isAdmin'] == 0) {
-            header('Location: /');
-            exit;
-        }
-        $email = $_POST['email'];
-        $isAdmin = $_POST['idAdmin'];
-        $photoUrl = $_POST['photoUrl'];
-        $this -> apiPost("http://localhost/api/users/update", [
+
+        $email = $_POST['email'] ?? '';
+        $isAdmin = $_POST['idAdmin'] ?? 0;
+        $photoUrl = $_POST['photoUrl'] ?? '';
+
+        $response = ApiClient::post("http://localhost/api/users/update", [
             'email' => $email,
             'isAdmin' => $isAdmin,
             'photoUrl' => $photoUrl,
         ]);
-        $_SESSION['user']['isAdmin'] = $isAdmin;
-        $_SESSION['user']['photoUrl'] = $photoUrl;
+
+        if (!isset($response['error'])) {
+            $_SESSION['user']['isAdmin'] = $isAdmin;
+            $_SESSION['user']['photoUrl'] = $photoUrl;
+        }
+
         header('Location: /admin/users');
         exit;
-        require __DIR__ . 'app/Views/admin/edit_user.php';
     }
 
-    public function annonces() {
-        if(!isset($_SESSION['user'])) {
-            header('Location: /');
-            exit;
-        }
-        if($_SESSION['user']['isAdmin'] == 0) {
-            header('Location: /');
-            exit;
-        }
-        $annonces = $this->apiGet("http://localhost/api/annonce/all");
+    public function annonces()
+    {
+        $this->checkAdmin();
+
+        $annonces = ApiClient::get("http://localhost/api/annonce/all");
         require __DIR__ . '/../Views/admin/annonces.php';
     }
 
-    public function analytics() {
+    public function analytics()
+    {
+        $this->checkAdmin();
+
         $userStats = $this->db->query("
             SELECT 
                 COUNT(*) as total_users,
@@ -141,22 +96,53 @@ class AdminController {
             FROM annonces
         ")->fetch();
 
-        require __DIR__ . 'app/Views/admin/analytics.php';
+        require __DIR__ . '/../Views/admin/analytics.php';
     }
 
-    public function showUsers() {
-        $users = $this->apiGet("http://localhost/api/users/findAll");
+    public function showUsers()
+    {
+        $this->checkAdmin();
+
+        $users = ApiClient::get("http://localhost/api/users/findAll");
         require __DIR__ . '/../Views/admin/users.php';
     }
 
-    public function deleteUser() {
-        if($_SESSION['user']['isAdmin'] == 0) {
-            header('Location: /');
+    public function deleteUser()
+    {
+        $this->checkAdmin();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
+            http_response_code(403);
+            echo "CSRF token invalid.";
             exit;
         }
-        $id = $_POST['id'];
-        $this->apiDelete("http://localhost/api/user/delete?id=$id");
+
+        $id = $_POST['id'] ?? null;
+
+        if ($id !== null) {
+            ApiClient::delete("http://localhost/api/user/delete?id=$id");
+        }
+
         header('Location: /admin/users');
+        exit;
+    }
+    public function deleteAnnonce()
+    {
+        $this->checkAdmin();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
+            http_response_code(403);
+            echo "CSRF token invalid.";
+            exit;
+        }
+
+        $id = $_POST['id'] ?? null;
+
+        if ($id !== null) {
+            ApiClient::delete("http://localhost/api/annonce/delete?id=$id");
+        }
+
+        header('Location: /admin/annonces');
         exit;
     }
 }

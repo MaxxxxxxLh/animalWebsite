@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData(this);
 
         try {
-            const response = await fetch(`/api/annonces/edit/id=${formData.get('id')}`, {
+            const response = await fetch(`/api/annonce/edit/id=${formData.get('id')}`, {
                 method: 'POST',
                 body: formData
             });
@@ -231,8 +231,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (confirm('Êtes-vous sûr de vouloir supprimer cette annonce ?')) {
                 const annonceId = this.dataset.id;
                 try {
-                    const response = await fetch(`/api/annonces/delete/id=${annonceId}`, {
-                        method: 'POST'
+                    const response = await fetch(`/api/annonce?id=${annonceId}`, {
+                        method: 'DELETE'
                     });
                     if (response.ok) {
                         this.closest('.annonce-card').remove();
