@@ -20,8 +20,7 @@ class MessagerieController
         }
 
         $userId = $_SESSION['user']['id'];
-
-        $conversations = APIClient::get("http://localhost/api/message/findAllConversations?personneId=$userId");
+        $conversations = APIClient::get("http://localhost/api/message/conversations?personneId=$userId");
 
         $this->render('messagerie', [
             'conversations' => $conversations
@@ -36,17 +35,26 @@ class MessagerieController
         }
 
         $userId = $_SESSION['user']['id'];
-        $proprietaireId = $_GET['proprietaireId'] ?? null;
+        $autrePersonneId = $_GET['proprietaireId'] ?? null;
 
-        if (!$proprietaireId) {
+        if (!$autrePersonneId) {
             die("Aucun interlocuteur spécifié.");
         }
 
-        $messages = APIClient::get("http://localhost/api/message/findConversation?personneId=$userId&proprietaireId=$proprietaireId");
+        // Obtenir ou créer une conversation
+        $conversation = APIClient::get("http://localhost/api/message/getOrCreateConversation?personneId=$userId&proprietaireId=$autrePersonneId");
+
+        if (!isset($conversation['id'])) {
+            die("Erreur lors de la récupération ou création de la conversation.");
+        }
+
+        $conversationId = $conversation['id'];
+        $messages = APIClient::get("http://localhost/api/message/conversation?conversationId=$conversationId");
 
         $this->render('conversation', [
             'messages' => $messages,
-            'interlocuteurId' => $proprietaireId
+            'interlocuteurId' => $autrePersonneId,
+            'conversationId' => $conversationId
         ]);
     }
 
@@ -63,14 +71,16 @@ class MessagerieController
         }
 
         $userId = $_SESSION['user']['id'];
+        $conversationId = $_POST['conversationId'] ?? null;
         $proprietaireId = $_POST['proprietaireId'] ?? null;
         $message = $_POST['message'] ?? '';
 
-        if (empty($proprietaireId) || empty($message)) {
+        if (empty($conversationId) || empty($proprietaireId) || empty($message)) {
             die("Tous les champs sont requis.");
         }
 
         $data = [
+            'conversationId' => $conversationId,
             'personneId' => $userId,
             'proprietaireId' => $proprietaireId,
             'message' => $message,

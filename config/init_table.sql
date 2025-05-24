@@ -42,17 +42,26 @@ CREATE TABLE Annonce
   FOREIGN KEY (animalId) REFERENCES EspeceAnimal(animalId)
 );
 
-CREATE TABLE Messagerie
-(
+CREATE TABLE Conversation (
+  conversationId INT NOT NULL AUTO_INCREMENT,
+  personne1Id INT NOT NULL,
+  personne2Id INT NOT NULL,
+  createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (conversationId),
+  FOREIGN KEY (personne1Id) REFERENCES Personne(personneId),
+  FOREIGN KEY (personne2Id) REFERENCES Personne(personneId)
+);
+
+CREATE TABLE Message (
   messageId INT NOT NULL AUTO_INCREMENT,
-  message VARCHAR(255) NOT NULL,
-  date DATE NOT NULL,
-  isProprietaireMessage TINYINT(1) NOT NULL,
-  proprietaireId INT NOT NULL,
-  personneId INT NOT NULL,
+  conversationId INT NOT NULL,
+  senderId INT NOT NULL,
+  content TEXT NOT NULL,
+  sentAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  isRead TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (messageId),
-  FOREIGN KEY (proprietaireId) REFERENCES Personne(personneId),
-  FOREIGN KEY (personneId) REFERENCES Personne(personneId)
+  FOREIGN KEY (conversationId) REFERENCES Conversation(conversationId),
+  FOREIGN KEY (senderId) REFERENCES Personne(personneId)
 );
 
 CREATE TABLE AvisUtilisateur

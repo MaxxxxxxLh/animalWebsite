@@ -21,7 +21,7 @@ class ProfileController {
             $nom = htmlspecialchars($_POST['nom'] ?? '');
             $prenom = htmlspecialchars($_POST['prenom'] ?? '');
             $photoUrl = $user['photoUrl'];
-
+            $email = htmlspecialchars($_POST['email'] ?? $user['email']);
             $newPhoto = $this->handlePhotoUpload();
             if ($newPhoto === false) {
                 $this->redirect('/profile', "Erreur lors du téléchargement de la photo.", "error");

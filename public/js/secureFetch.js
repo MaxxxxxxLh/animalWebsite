@@ -6,7 +6,7 @@ async function secureFetch(url, options = {}) {
     let response = await fetch(url, options);
 
     if (response.status === 401) {
-        const refreshResponse = await fetch('/api/rauth/refreshToken', {
+        const refreshResponse = await fetch('/api/auth/refreshToken', {
             method: 'POST',
             credentials: 'include'
         });
