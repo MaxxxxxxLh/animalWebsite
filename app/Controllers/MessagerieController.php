@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Services\APIClient;
+use App\Utils\APIClient;
 
 class MessagerieController
 {
