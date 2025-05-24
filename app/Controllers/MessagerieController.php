@@ -41,7 +41,6 @@ class MessagerieController
             die("Aucun interlocuteur spécifié.");
         }
 
-        // Obtenir ou créer une conversation
         $conversation = APIClient::get("http://localhost/api/message/getOrCreateConversation?personneId=$userId&proprietaireId=$autrePersonneId");
 
         if (!isset($conversation['id'])) {

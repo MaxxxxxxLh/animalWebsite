@@ -6,8 +6,12 @@ RUN docker-php-ext-install pdo pdo_mysql
 # Activer mod_rewrite
 RUN a2enmod rewrite
 
-# Installer curl et unzip (nécessaires pour composer)
-RUN apt-get update && apt-get install -y curl unzip
+# Installer curl, unzip, et ca-certificates (pour SSL)
+RUN apt-get update && apt-get install -y \
+    curl \
+    unzip \
+    ca-certificates \
+    && update-ca-certificates
 
 # Installer Composer globalement temporairement
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -20,5 +24,5 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 COPY . /var/www/html/
 WORKDIR /var/www/html/
 
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["apache2-foreground"]

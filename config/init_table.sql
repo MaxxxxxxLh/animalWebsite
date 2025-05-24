@@ -78,3 +78,11 @@ CREATE TABLE AvisUtilisateur
   FOREIGN KEY (receveurId) REFERENCES Personne(personneId),
   FOREIGN KEY (annonceId) REFERENCES Annonce(annonceId)
 );
+
+CREATE TABLE password_resets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    token VARCHAR(64) NOT NULL UNIQUE,
+    expires DATETIME NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
