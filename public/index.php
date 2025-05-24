@@ -206,6 +206,36 @@ switch ($uri) {
         (new \App\Controllers\AdminController())->annonces();
         break;
 
+    // Route : Ajouter un animal
+    if (preg_match('#^/ajouter-animal$#', $_SERVER['REQUEST_URI'])) {
+        (new \App\Controllers\AnimalController())->ajouterAnimal();
+        exit;
+    }
+
+    // Route : Mes animaux (utilisateur)
+    if (preg_match('#^/mes-animaux$#', $_SERVER['REQUEST_URI'])) {
+        require_once __DIR__ . '/../app/Views/pages/mes-animaux.php';
+        exit;
+    }
+
+    // Route : Editer un animal
+    if (preg_match('#^/edit-animal$#', $_SERVER['REQUEST_URI'])) {
+        require_once __DIR__ . '/../app/Views/pages/edit-animal.php';
+        exit;
+    }
+
+    // Route : Supprimer un animal
+    if (preg_match('#^/delete-animal$#', $_SERVER['REQUEST_URI'])) {
+        (new \App\Controllers\DeleteAnimalController())->handle();
+        exit;
+    }
+
+    // Route : Admin - voir tous les animaux
+    if (preg_match('#^/admin/animaux$#', $_SERVER['REQUEST_URI'])) {
+        require_once __DIR__ . '/../app/Views/admin/animaux.php';
+        exit;
+    }
+
     default:
         http_response_code(404);
         include __DIR__ . '/../app/Views/default/notFound.php';
