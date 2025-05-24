@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
 </head>
-<body>
+<body class="faq-page">
     <?php include(__DIR__ . '/../includes/header.php'); ?>
 
     <main>
