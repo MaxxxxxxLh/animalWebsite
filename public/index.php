@@ -11,6 +11,9 @@ header('Content-Type: text/html; charset=utf-8');
 // Chargement config
 require_once __DIR__ . '/../config/config.php';
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
+
 // Autoloader PSR-4 simple
 spl_autoload_register(function ($class) {
     $prefix = 'App\\';
@@ -79,7 +82,10 @@ if (strpos($uri, '/api/') === 0) {
                 (new \App\Controllers\Api\AnnonceController())->findById();
             } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 (new \App\Controllers\Api\AnnonceController())->create();
-            } else {
+            } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+                (new \App\Controllers\Api\AnnonceController())->delete();
+
+            }else {
                 http_response_code(405);
                 echo json_encode(['error' => 'Method not allowed']);
             }
@@ -93,6 +99,9 @@ if (strpos($uri, '/api/') === 0) {
             (new \App\Controllers\Api\AnnonceController())->search();
             break;
         
+        case 'auth/refreshToken':
+            (new \App\Controllers\Api\TokenController())->refreshToken();
+            break;
         default:
             http_response_code(404);
             echo json_encode(['error' => 'API endpoint not found']);

@@ -1,41 +1,10 @@
 <?php
 namespace App\Controllers;
 
+use App\Utils\ApiClient;
+
 class AnnoncesController
 {
-    private function apiGet(string $url): array
-    {
-        $response = @file_get_contents($url);
-        if ($response === false) {
-            $error = error_get_last();
-            return ['error' => 'API GET request failed: ' . ($error['message'] ?? 'Unknown error')];
-        }
-
-        $data = json_decode($response, true);
-        return is_array($data) ? $data : ['error' => 'Invalid JSON'];
-    }
-
-    private function apiPost(string $url, array $data): array
-    {
-        $options = [
-            'http' => [
-                'header'  => "Content-Type: application/json\r\n",
-                'method'  => 'POST',
-                'content' => json_encode($data),
-            ],
-        ];
-        $context = stream_context_create($options);
-        $response = @file_get_contents($url, false, $context);
-
-        if ($response === false) {
-            $error = error_get_last();
-            return ['error' => 'API POST request failed: ' . ($error['message'] ?? 'Unknown error')];
-        }
-
-        $data = json_decode($response, true);
-        return is_array($data) ? $data : ['error' => 'Invalid JSON: ' . $response];
-    }
-
     public function findById()
     {
         if (!isset($_GET['id'])) {
@@ -45,7 +14,7 @@ class AnnoncesController
         }
 
         $id = (int)$_GET['id'];
-        $annonce = $this->apiGet("http://localhost/api/annonce?id=$id");
+        $annonce = ApiClient::get("http://localhost/api/annonce?id=$id");
 
         if (!isset($annonce['error'])) {
             header('Content-Type: application/json');
@@ -69,7 +38,7 @@ class AnnoncesController
             }
         }
 
-        $response = $this->apiPost("http://localhost/api/annonce", $input);
+        $response = ApiClient::post("http://localhost/api/annonce", $input);
 
         if (!isset($response['error'])) {
             header('Content-Type: application/json');
@@ -79,8 +48,6 @@ class AnnoncesController
             echo json_encode($response);
         }
     }
-
-
 
     public function showForm()
     {
@@ -95,20 +62,20 @@ class AnnoncesController
             echo json_encode(['error' => 'User not found']);
             return;
         }
-        $animaux = $this->apiGet("http://localhost/api/animal?proprietaireId=$proprietaireId");
+
+        $animaux = ApiClient::get("http://localhost/api/animal?proprietaireId=$proprietaireId");
 
         require __DIR__ . '/../Views/pages/creerAnnonces.php';
     }
 
     public function showAnnonces()
     {
-        $annonces = $this->apiGet("http://localhost/api/annonce/all");  
-        
+        $annonces = ApiClient::get("http://localhost/api/annonce/all");  
         require __DIR__ . '/../Views/pages/annonces.php';
     }
 
     public function showSearchAnnonces()
     {
-        $annonces = $this->apiGet("http://localhost/api/annonce/search");
+        $annonces = ApiClient::get("http://localhost/api/annonce/search");
     }
 }
