@@ -48,13 +48,13 @@ if (empty($_SESSION['csrf_token'])) {
 </head>
 <body>
 
-<?php include(__DIR__ . '/../includes/header.php');?>
+<?php include(__DIR__ . '/../includes/header.php'); ?>
 
 <div class="loginContainer">
     <h2>Inscription</h2>
     <form method="POST" action="/register" onsubmit="return validateForm();">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
-        
+
         <div class="form-group">
             <label for="email">Votre email</label>
             <input type="email" id="email" name="email" required>
@@ -65,11 +65,11 @@ if (empty($_SESSION['csrf_token'])) {
             <input type="password" id="password" name="password" required style="padding-right: 30px;">
             <i class="fa fa-eye eye-icon" id="eye-password" onclick="togglePassword()">👁️</i>
             <div class="password-requirements" id="password-conditions">
-                <span id="length" class="invalid">✔️ Au moins 8 caractères</span>
-                <span id="uppercase" class="invalid">✔️ Une majuscule</span>
-                <span id="lowercase" class="invalid">✔️ Une minuscule</span>
-                <span id="number" class="invalid">✔️ Un chiffre</span>
-                <span id="special" class="invalid">✔️ Un caractère spécial</span>
+                <span id="length" class="invalid"> Au moins 8 caractères</span>
+                <span id="uppercase" class="invalid"> Une majuscule</span>
+                <span id="lowercase" class="invalid"> Une minuscule</span>
+                <span id="number" class="invalid"> Un chiffre</span>
+                <span id="special" class="invalid"> Un caractère spécial</span>
             </div>
         </div>
 
@@ -77,6 +77,10 @@ if (empty($_SESSION['csrf_token'])) {
             <label for="passwordConfirmation">Confirmez votre mot de passe</label>
             <input type="password" id="passwordConfirmation" name="passwordConfirmation" required style="padding-right: 30px;">
             <i class="fa fa-eye eye-icon" id="eye-confirm" onclick="togglePasswordConfirmation()">👁️</i>
+        </div>
+
+        <div class="password-requirements">
+            <span id="match" class="invalid">❌ Les mots de passe ne correspondent pas</span>
         </div>
 
         <div class="form-group">
@@ -120,27 +124,46 @@ if (empty($_SESSION['csrf_token'])) {
     }
 
     const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('passwordConfirmation');
+
     const conditions = {
         length: document.getElementById('length'),
         uppercase: document.getElementById('uppercase'),
         lowercase: document.getElementById('lowercase'),
         number: document.getElementById('number'),
-        special: document.getElementById('special')
+        special: document.getElementById('special'),
+        match: document.getElementById('match')
     };
 
-    passwordInput.addEventListener('input', () => {
-        const result = validatePasswordConditions(passwordInput.value);
+    function updateConditions() {
+        const password = passwordInput.value;
+        const confirm = confirmInput.value;
+        const result = validatePasswordConditions(password);
+
         for (const key in result) {
             conditions[key].className = result[key] ? 'valid' : 'invalid';
         }
-    });
+
+        const isMatch = password && confirm && password === confirm;
+        conditions.match.className = isMatch ? 'valid' : 'invalid';
+        conditions.match.textContent = isMatch ? '✔️ Les mots de passe correspondent' : '❌ Les mots de passe ne correspondent pas';
+    }
+
+    passwordInput.addEventListener('input', updateConditions);
+    confirmInput.addEventListener('input', updateConditions);
 
     function validateForm() {
         const result = validatePasswordConditions(passwordInput.value);
         const allValid = Object.values(result).every(Boolean);
+        const isMatch = passwordInput.value === confirmInput.value;
 
         if (!allValid) {
             alert("Le mot de passe ne respecte pas toutes les conditions.");
+            return false;
+        }
+
+        if (!isMatch) {
+            alert("Les mots de passe ne correspondent pas.");
             return false;
         }
 
@@ -154,6 +177,6 @@ if (empty($_SESSION['csrf_token'])) {
     }
 </script>
 
-<?php include(__DIR__ . '/../includes/footer.php');?>
+<?php include(__DIR__ . '/../includes/footer.php'); ?>
 </body>
 </html>
