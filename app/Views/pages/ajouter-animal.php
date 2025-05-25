@@ -32,7 +32,7 @@ $pageTitle = 'Ajouter un animal';
                 <label for="nom">Nom de l'animal</label>
                 <input type="text" id="nom" name="nom" value="<?= htmlspecialchars($_POST['nom'] ?? '') ?>" required>
             </div>
-            <div class="form-group">
+            <div class= "form-group">
                 <label for="age">Âge</label>
                 <input type="number" id="age" name="age" min="0" value="<?= htmlspecialchars($_POST['age'] ?? '') ?>" required>
             </div>
