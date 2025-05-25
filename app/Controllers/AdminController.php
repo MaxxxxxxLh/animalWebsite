@@ -14,24 +14,6 @@ class AdminController {
         }
     }
 
-    public function dashboard()
-    {
-        $this->checkAdmin();
-
-        $totalUsers = $this->db->query("SELECT COUNT(*) as count FROM users")->fetch()['count'];
-        $totalAnnonces = $this->db->query("SELECT COUNT(*) as count FROM annonces")->fetch()['count'];
-        $recentAnnonces = $this->db->query("SELECT * FROM annonces ORDER BY created_at DESC LIMIT 5")->fetchAll();
-        $newUsers = $this->db->query("SELECT * FROM users ORDER BY created_at DESC LIMIT 5")->fetchAll();
-
-        $monthlyStats = $this->db->query("
-            SELECT COUNT(*) as count, MONTH(created_at) as month 
-            FROM annonces 
-            WHERE created_at >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
-            GROUP BY MONTH(created_at)
-        ")->fetchAll();
-
-        require __DIR__ . '/../Views/admin/dashboard.php';
-    }
 
     public function users()
     {
@@ -78,33 +60,9 @@ class AdminController {
         require __DIR__ . '/../Views/admin/annonces.php';
     }
 
-    public function analytics()
-    {
-        $this->checkAdmin();
-
-        $userStats = $this->db->query("
-            SELECT 
-                COUNT(*) as total_users,
-                SUM(CASE WHEN created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY) THEN 1 ELSE 0 END) as new_users_month
-            FROM users
-        ")->fetch();
-
-        $annonceStats = $this->db->query("
-            SELECT 
-                COUNT(*) as total_annonces,
-                SUM(CASE WHEN created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY) THEN 1 ELSE 0 END) as new_annonces_month
-            FROM annonces
-        ")->fetch();
-
-        require __DIR__ . '/../Views/admin/analytics.php';
-    }
-
-    public function showUsers()
-    {
-        $this->checkAdmin();
-
-        $users = ApiClient::get("http://localhost/api/users/findAll");
-        require __DIR__ . '/../Views/admin/users.php';
+    public function getUser(){
+        $user = ApiClient::get("https://localhost/api/users/find", ['email' => $email]);
+        include __DIR__ . '/../Views/admin/edit_user.php';
     }
 
     public function deleteUser()
