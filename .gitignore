@@ -18,3 +18,9 @@ session/
 # 🛑 Ignorer les fichiers générés automatiquement
 /public/uploads/
 public/images/generated/
+
+
+app/Utils/jwt.key
+
+composer.lock
+

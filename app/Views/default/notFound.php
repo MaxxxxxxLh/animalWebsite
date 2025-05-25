@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
-<link rel="stylesheet" href="../css/style.css">
+
 <head>
     <meta charset="UTF-8">
     <title>Page non trouvée</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
     <style>
         h1 {
             font-size: 3em;

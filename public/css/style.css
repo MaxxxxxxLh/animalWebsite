@@ -30,6 +30,7 @@ body {
   text-align: center;
 }
 
+
 .navbar {
   position: fixed;
   top: 0;
@@ -42,11 +43,11 @@ body {
   padding: 1em 2em;
   background: var(--nature-white);
   border-bottom: 1px solid #D9D9D9;
-  border-radius: 0; /* on retire le border-radius pour un look full-width propre */
+  border-radius: 0; 
   box-shadow: var(--shadow);
   flex-wrap: nowrap;
   gap: 1em;
-  z-index: 1000; /* pour qu'elle reste au-dessus de tout */
+  z-index: 1000; 
 }
 .logo {
   width: 2.5em;
@@ -60,7 +61,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2em;
+  gap: 2fr;
   flex: 1;
   margin-left: 2em;
 }
@@ -499,34 +500,48 @@ input[type="file"] {
 }
 
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
   .navbar {
-      flex-direction: column;
-      height: auto;
-      padding: 1em 0.5em;
-      text-align: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em;
+    gap: 1em;
   }
 
   .nav-links {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1 1 100%;
+    gap: 0.8em;
   }
 
   .nav-links a {
-      margin: 1em 0;
+    font-size: 1em;
+    padding-left: 1em;
+  }
+
+  .logo {
+    width: 2em;
+  }
+
+  .loginBtn, .logoutBtn {
+    font-size: 1em;
+    padding: 0.5em 1em;
   }
 
   .intro {
-      flex-direction: column;
-      gap: 2em;
+    flex-direction: column;
+    gap: 2em;
   }
 
   .text-box {
-      width: 90%;
-      margin: 1em auto;
+    width: 90%;
+    margin: 1em auto;
   }
 }
+
 
 @media (max-width: 768px) {
   body {
@@ -617,13 +632,13 @@ input[type="file"] {
 }
 main {
   flex: 1;
-  padding-top: 6em; /* Espace pour ne pas passer sous la navbar */
+  padding-top: 6em; 
 }
 
 .messagerie-page,
 .faq-section,
 .contact-form {
-  padding-top: 6em; /* Assure l’espace sous la navbar sur toutes les pages concernées */
+  padding-top: 6em; 
 }
 .contact-form {
   background: var(--nature-white);
@@ -632,7 +647,7 @@ main {
   box-shadow: var(--shadow);
   max-width: 600px;
   width: 90%;
-  margin: 2em auto; /* 💥 centre le bloc */
+  margin: 2em auto; 
   display: flex;
   flex-direction: column;
   gap: 1em;
@@ -661,19 +676,118 @@ textarea:focus {
   min-height: 100vh;
   padding-top: 6em; 
 }
+@media (max-width: 768px) {
+  .login-page {
+    padding: 2em 1em;
+  }
+
+  .loginContainer {
+    width: 100%;
+    max-width: 90%;
+    padding: 1.5em;
+  }
+
+  .btn {
+    font-size: 1.2em;
+    padding: 0.8em 1em;
+    width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  .intro {
+    flex-direction: column;
+    gap: 2em;
+  }
+
+  .text-box {
+    width: 100%;
+    padding: 1.5em;
+    font-size: 1em;
+  }
+}
+@media (max-width: 768px) {
+  .nav-links {
+    flex-direction: column;
+    gap: 1em;
+    margin: 1em 0;
+  }
+
+  .nav-links a {
+    font-size: 1.1em;
+  }
+
+  .navbar {
+    padding: 1em;
+  }
+}
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    gap: 1em;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 0.5em;
+  }
+}
+@media (max-width: 768px) {
+  .contact-form {
+    width: 100%;
+    max-width: 90%;
+    padding: 1.5em;
+  }
+
+  .contact-form .btn {
+    width: 100%;
+    font-size: 1.2em;
+  }
+
+}
+
 .home-page {
-  background: url("/assets/images/Chien-chat-fond.png") no-repeat center center;
+  background-image: url('/assets/images/Chien-chat-fond.png');
   background-size: cover;
-  backdrop-filter: blur(3px);
-  padding: 6em 1em 2em;
-  min-height: calc(100vh - 5em); 
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+.home-page .container {
+  min-height: 100vh; 
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  padding-bottom: 2em; 
 }
-.bg-contact {
-  background: url('/assets/images/Chien-chat-fond.png') center/cover no-repeat fixed;
-  backdrop-filter: blur(4px);
-  background-color: rgba(250, 243, 224, 0.8); 
+.faq-page {
+  background: url('/assets/images/animaux-de-compagnie-2.png') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+}
+
+
+.contact-page {
+  background-image: url('/assets/images/animaux-de-compagnie.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  position: relative;
+  z-index: 0;
+}
+
+.loginContainer {
+  margin: 0 auto;
+  display: block;
+  padding: 2em;
+  margin-top: 8em;
+}
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: 6em;
+  padding-bottom: 6em;
 }

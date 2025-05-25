@@ -5,18 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gardiennage d'Animaux</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/animalwebsite/public/assets/css/create-annonce.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+
 </head>
-<body>
+<body class="home-page">
 
 <?php include(__DIR__ . '/../includes/header.php');?>
 
     <main class="container home-page">
         <?php
-        if (isset($_SESSION["user"])) {
-            $prenom = htmlspecialchars($_SESSION["user"]["prenom"]);
-            $nom = htmlspecialchars($_SESSION["user"]["nom"]);
-            echo "<p class='welcome-msg'>Bienvenue, $prenom $nom !</p>";
-        }
+            
+            $prenom = isset($_SESSION["user"]["prenom"]) ? htmlspecialchars($_SESSION["user"]["prenom"]) : null;
+            $nom = isset($_SESSION["user"]["nom"]) ? htmlspecialchars($_SESSION["user"]["nom"]) : null;
+
+            if ($prenom && $nom) {
+                echo "<p class='welcome-msg'>Bienvenue, $prenom $nom !</p>";
+            } else {
+                echo "<p class='welcome-msg'>Bonjour !</p>";
+            }
         ?>
             <section class="intro"> 
             <div class="text-box">
@@ -29,5 +37,7 @@
             </div>
         </section>
     </main>
+    
+    <?php include(__DIR__ . '/../includes/footer.php');?>
 </body>
 </html>

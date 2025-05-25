@@ -1,0 +1,124 @@
+.main-footer {
+  background-color: var(--nature-beige);
+  color: var(--footer-text);
+  padding: 25px 15px 5px;
+  margin-top: auto;
+  border-top: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  align-items: flex-start;
+  justify-items: center; 
+  text-align: center; 
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  text-align: center;
+}
+
+.footer-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 40px;
+  height: 2px;
+  background-color: var(--nature-green);
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.footer-links img {
+  max-width: 120px;
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  color: var(--footer-text);
+  font-size: 0.95rem;
+  transition: color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-links a:hover {
+  color: var(--nature-beige);
+  transform: translateX(3px);
+}
+
+.footer-links p {
+  line-height: 1.5;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+  
+.footer-newsletter form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 1em;
+}
+
+.footer-newsletter input {
+  padding: 10px 12px;
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: white;
+  color: var(--nature-text);
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.footer-newsletter input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-newsletter button {
+  background-color: var(--nature-green);
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.footer-newsletter button:hover {
+  background-color: var(--nature-green-dark);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 2px;
+  margin-top: 2;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.85rem;
+  color: var(--nature-text);
+}

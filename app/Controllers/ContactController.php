@@ -2,11 +2,85 @@
 
 namespace App\Controllers;
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 class ContactController
 {
     public function render()
     {
         include __DIR__ . '/../Views/pages/contact.php';
+    }
+
+    private function sendContactEmail(string $fromEmail, string $fromName, string $subject, string $body): bool
+    {
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'maximilien.lhote@gmail.com';
+            $mail->Password = 'vfau elsc tshx rwed'; 
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            $mail->setFrom('maximilien.lhote@gmail.com', 'Animaux Fascinants');
+            $mail->addAddress('maximilien.lhote@gmail.com');
+            $mail->addReplyTo($fromEmail, $fromName);
+
+            $mail->Subject = $subject;
+            $mail->Body = $body;
+
+            $mail->SMTPOptions = [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true,
+                ],
+            ];
+
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            error_log('Mail error (contact email): ' . $mail->ErrorInfo);
+            return false;
+        }
+    }
+
+    private function sendAutoReplyEmail(string $toEmail, string $toName): bool
+    {
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'maximilien.lhote@gmail.com';
+            $mail->Password = 'vfau elsc tshx rwed'; 
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            $mail->setFrom('maximilien.lhote@gmail.com', 'Animaux Fascinants');
+            $mail->addAddress($toEmail, $toName);
+
+            $mail->Subject = "Merci de nous avoir contactés";
+            $mail->Body = "Bonjour $toName,\n\nMerci de nous avoir contactés. Nous avons bien reçu votre message et nous vous répondrons dans les plus brefs délais.\n\nCordialement,\nL'équipe Animaux Fascinants";
+
+            $mail->SMTPOptions = [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true,
+                ],
+            ];
+
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            error_log('Mail error (auto reply): ' . $mail->ErrorInfo);
+            return false;
+        }
     }
 
     public function contact()
@@ -26,13 +100,16 @@ class ContactController
             exit();
         }
 
-        $to = "maximilien.lhote@gmail.com"; 
-
         $subject = "Nouveau message de contact de $prenom $nom";
         $body = "Nom: $nom\nPrénom: $prenom\nEmail: $mail\n\nMessage:\n$message";
-        $headers = "From: $mail\r\nReply-To: $mail\r\nX-Mailer: PHP/" . phpversion();
 
-        if (mail($to, $subject, $body, $headers)) {
+        $success = $this->sendContactEmail($mail, "$prenom $nom", $subject, $body);
+
+        if ($success) {
+            $this->sendAutoReplyEmail($mail, "$prenom $nom");
+        }
+
+        if ($success) {
             header("Location: /contact?success=1");
             exit();
         } else {
@@ -41,5 +118,3 @@ class ContactController
         }
     }
 }
-?>
-

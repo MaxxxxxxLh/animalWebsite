@@ -1,10 +1,18 @@
+<?php
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion - Gardiennage d'Animaux</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
     <style>
         .alert-danger {
             color: #721c24;
@@ -33,6 +41,7 @@
         <h2>Se connecter</h2>
         <p class="subtitle">Pas de compte? <a href="/register">Créer un compte</a></p>
         <form method="POST" action="/login">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
             <div class="form-group">
                 <label for="email">Votre mail</label>
                 <input type="email" id="email" name="email" required>
@@ -64,5 +73,6 @@
             }
         }
     </script>
+    <?php include(__DIR__ . '/../includes/footer.php');?>
 </body>
 </html>

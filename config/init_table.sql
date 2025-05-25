@@ -4,8 +4,8 @@ USE `site_db`;
 CREATE TABLE Personne
 (
   personneId INT NOT NULL AUTO_INCREMENT,
-  nom VARCHAR(255) NOT NULL,
-  prenom VARCHAR(255) NOT NULL,
+  nom VARCHAR(255),
+  prenom VARCHAR(255),
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   isAdmin TINYINT(1) NOT NULL,
@@ -33,6 +33,8 @@ CREATE TABLE Annonce
   date DATE NOT NULL,
   service VARCHAR(255) NOT NULL,
   lieu VARCHAR(255) NOT NULL,
+  tarif INT NOT NULL,
+  description VARCHAR(255) NOT NULL,
   personneId INT NOT NULL,
   animalId INT NOT NULL,
   PRIMARY KEY (annonceId),
@@ -40,17 +42,26 @@ CREATE TABLE Annonce
   FOREIGN KEY (animalId) REFERENCES EspeceAnimal(animalId)
 );
 
-CREATE TABLE Messagerie
-(
+CREATE TABLE Conversation (
+  conversationId INT NOT NULL AUTO_INCREMENT,
+  personne1Id INT NOT NULL,
+  personne2Id INT NOT NULL,
+  createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (conversationId),
+  FOREIGN KEY (personne1Id) REFERENCES Personne(personneId),
+  FOREIGN KEY (personne2Id) REFERENCES Personne(personneId)
+);
+
+CREATE TABLE Message (
   messageId INT NOT NULL AUTO_INCREMENT,
-  message VARCHAR(255) NOT NULL,
-  date DATE NOT NULL,
-  isProprietaireMessage TINYINT(1) NOT NULL,
-  proprietaireId INT NOT NULL,
-  personneId INT NOT NULL,
+  conversationId INT NOT NULL,
+  senderId INT NOT NULL,
+  content TEXT NOT NULL,
+  sentAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  isRead TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (messageId),
-  FOREIGN KEY (proprietaireId) REFERENCES Personne(personneId),
-  FOREIGN KEY (personneId) REFERENCES Personne(personneId)
+  FOREIGN KEY (conversationId) REFERENCES Conversation(conversationId),
+  FOREIGN KEY (senderId) REFERENCES Personne(personneId)
 );
 
 CREATE TABLE AvisUtilisateur
@@ -66,4 +77,12 @@ CREATE TABLE AvisUtilisateur
   FOREIGN KEY (envoyeurId) REFERENCES Personne(personneId),
   FOREIGN KEY (receveurId) REFERENCES Personne(personneId),
   FOREIGN KEY (annonceId) REFERENCES Annonce(annonceId)
+);
+
+CREATE TABLE password_resets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    token VARCHAR(64) NOT NULL UNIQUE,
+    expires DATETIME NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
