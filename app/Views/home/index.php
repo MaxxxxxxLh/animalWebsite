@@ -16,14 +16,13 @@
 
     <main class="container home-page">
         <?php
-            
             $prenom = isset($_SESSION["user"]["prenom"]) ? htmlspecialchars($_SESSION["user"]["prenom"]) : null;
             $nom = isset($_SESSION["user"]["nom"]) ? htmlspecialchars($_SESSION["user"]["nom"]) : null;
 
             if ($prenom && $nom) {
                 echo "<p class='welcome-msg'>Bienvenue, $prenom $nom !</p>";
             } else {
-                echo "<p class='welcome-msg'>Bonjour !</p>";
+                echo "<p class='welcome-msg'>Bienvenue sur notre plateforme de gardiennage d’animaux 🐾</p>";
             }
         ?>
             <section class="intro"> 

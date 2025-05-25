@@ -24,9 +24,10 @@ body {
 }
 
 .welcome-msg {
-  font-size: 1.5em;
-  color: #333;
-  margin: 1em 0;
+  font-size: 2.2em;
+  font-weight: 600;
+  color: var(--nature-text);
+  margin: 1.5em 0 1em 0;
   text-align: center;
 }
 
@@ -632,22 +633,22 @@ input[type="file"] {
 }
 main {
   flex: 1;
-  padding-top: 6em; 
+  padding-top: 1em; 
 }
 
 .messagerie-page,
 .faq-section,
 .contact-form {
-  padding-top: 6em; 
+  padding-top: 3em; 
 }
 .contact-form {
   background: var(--nature-white);
-  padding: 2em;
+  padding: 0 1em 6em 2em;
   border-radius: 24px;
   box-shadow: var(--shadow);
   max-width: 600px;
   width: 90%;
-  margin: 2em auto; 
+  margin: 0.5em auto 2em auto;
   display: flex;
   flex-direction: column;
   gap: 1em;
@@ -790,4 +791,12 @@ textarea:focus {
   min-height: 100vh;
   padding-top: 6em;
   padding-bottom: 6em;
+}
+.contact-form h2 {
+  margin-bottom: 1em;
+  margin-top: 1em; 
+}
+.contact-form button {
+  margin: 0 auto;
+  display: block;
 }
