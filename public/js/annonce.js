@@ -5,7 +5,12 @@ document.querySelector('.search-form').addEventListener('submit', async function
     const params = new URLSearchParams(new FormData(form)).toString();
 
     try {
-        const data = await secureFetch(`/api/annonce/search?${params}`, { method: 'GET' });
+        const data = await secureFetch(`/api/annonce/search?${params}`, 
+            { 
+                method: 'GET',
+                headers: { "Content-Type": "application/json" },
+            });
+            
 
         const container = document.querySelector('.annonces-grid');
         container.innerHTML = '';

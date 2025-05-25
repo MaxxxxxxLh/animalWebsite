@@ -16,7 +16,7 @@
         N'hésitez pas à nous contacter avec le formulaire ci-dessous<br>si vous avez des questions ou des remarques.
     </h2>
     <div class="contact-form">
-    <form action="/contact" method="POST" class="loginContainer">
+    <form action="/contactForm" method="POST" class="loginContainer">
         <div class="form-group">
             <label for="nom">Nom</label>
             <input type="text" name="nom" id="nom" required>

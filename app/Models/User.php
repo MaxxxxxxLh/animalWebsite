@@ -81,4 +81,37 @@ class User
         return $stmt->execute([$id]);
     }
 
+    public function savePasswordResetToken(string $email, string $token, string $expires): bool
+    {
+        $pdo = self::getPDO();
+        $stmt = $pdo->prepare("DELETE FROM password_resets WHERE email = ?");
+        $stmt->execute([$email]);
+
+        $stmt = $pdo->prepare("INSERT INTO password_resets (email, token, expires) VALUES (?, ?, ?)");
+        return $stmt->execute([$email, $token, $expires]);
+    }
+
+    public function findByResetToken(string $token)
+    {
+        $pdo = self::getPDO();
+        $stmt = $pdo->prepare("SELECT email, expires FROM password_resets WHERE token = ?");
+        $stmt->execute([$token]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updatePassword(string $email, string $hashedPassword): bool
+    {
+        $pdo = self::getPDO();
+        $stmt = $pdo->prepare("UPDATE Personne SET password = ? WHERE email = ?");
+        return $stmt->execute([$hashedPassword, $email]);
+    }
+
+    public function deleteResetToken(string $token): bool
+    {
+        $pdo = self::getPDO();
+        $stmt = $pdo->prepare("DELETE FROM password_resets WHERE token = ?");
+        return $stmt->execute([$token]);
+    }
+
+
 }
