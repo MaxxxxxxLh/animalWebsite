@@ -8,7 +8,7 @@ else
 fi
 
 # Générer une clé secrète JWT si elle n'existe pas déjà
-JWT_KEY_FILE="./jwt.key"
+JWT_KEY_FILE="./app/Utils/jwt.key"
 if [ ! -f "$JWT_KEY_FILE" ]; then
   echo "Génération d'une nouvelle clé JWT..."
   openssl rand -hex 32 > "$JWT_KEY_FILE"

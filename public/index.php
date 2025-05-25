@@ -67,6 +67,8 @@ if (strpos($uri, '/api/') === 0) {
                 (new \App\Controllers\Api\AnimalController())->create();
             } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
                 (new \App\Controllers\Api\AnimalController())->update();
+            } elseif($_SERVER['REQUEST_METHOD'] === 'DELETE'){
+                (new \App\Controllers\Api\AnimalController())->delete();
             } else {
                 http_response_code(405); 
                 echo json_encode(['error' => 'Method not allowed']);
@@ -207,22 +209,19 @@ switch ($uri) {
         break;
 
     // Route : Ajouter un animal
-    if (preg_match('#^/ajouter-animal$#', $_SERVER['REQUEST_URI'])) {
+    case '/ajouter-animal':
         (new \App\Controllers\AnimalController())->ajouterAnimal();
-        exit;
-    }
+        break;
 
     // Route : Mes animaux (utilisateur)
-    if (preg_match('#^/mes-animaux$#', $_SERVER['REQUEST_URI'])) {
+    case '/mes-animaux':
         require_once __DIR__ . '/../app/Views/pages/mes-animaux.php';
-        exit;
-    }
+        break;
 
     // Route : Editer un animal
-    if (preg_match('#^/edit-animal$#', $_SERVER['REQUEST_URI'])) {
+   case '/edit-animal':
         require_once __DIR__ . '/../app/Views/pages/edit-animal.php';
-        exit;
-    }
+        break;
 
     // Route : Supprimer un animal
     if (preg_match('#^/delete-animal$#', $_SERVER['REQUEST_URI'])) {

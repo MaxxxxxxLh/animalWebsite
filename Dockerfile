@@ -20,5 +20,5 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 COPY . /var/www/html/
 WORKDIR /var/www/html/
 
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["apache2-foreground"]
