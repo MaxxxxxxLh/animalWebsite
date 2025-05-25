@@ -5,17 +5,6 @@
             <div class="footer-links">
                 <img src="/assets/images/logo.png" alt="Logo">
                 <p>Votre plateforme de confiance pour le gardiennage d'animaux. Trouvez la personne idéale pour prendre soin de vos compagnons.</p>
-                <div class="footer-social">
-                    <a href="#" class="social-icon" aria-label="Facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="social-icon" aria-label="Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="social-icon" aria-label="Twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                </div>
             </div>
         </div>
         
@@ -42,7 +31,7 @@
         
         <div class="footer-section">
             <h3 class="footer-title">Newsletter</h3>
-            <p>Inscrivez-vous pour recevoir nos actualités et conseils pour vos animaux</p>
+            <p>Ne manquez aucune information utile sur le bien-être animal, les nouveautés du site et nos recommandations pour mieux vivre avec vos animaux.</p>
             <div class="footer-newsletter">
                 <form id="newsletter-form">
                     <input type="email" placeholder="Votre adresse email" required>
