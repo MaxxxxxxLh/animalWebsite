@@ -12,6 +12,8 @@ $proprietaireId = $_SESSION['user']['id'];
     <meta charset="UTF-8">
     <title>Mes animaux</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/header.css"/>
+    <link rel="stylesheet" href="/css/footer.css" />
     <link rel="stylesheet" href="/css/pages/mesAnimaux.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>

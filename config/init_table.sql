@@ -69,7 +69,7 @@ CREATE TABLE AvisUtilisateur
   id INT NOT NULL AUTO_INCREMENT,
   commentaire VARCHAR(255) NOT NULL,
   notes INT NOT NULL,
-  date DATE NOT NULL,
+  date DATE NOT NULL DEFAULT CURRENT_DATE,
   envoyeurId INT NOT NULL,
   receveurId INT NOT NULL,
   annonceId INT NOT NULL,

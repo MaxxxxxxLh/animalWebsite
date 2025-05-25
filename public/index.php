@@ -155,6 +155,12 @@ if (strpos($uri, '/api/') === 0) {
             (new \App\Controllers\Api\MessageController())->findConversationBetween();
             break;
 
+        case 'avis':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+                (new \App\Controllers\Api\AvisController())->create();
+            }
+            break;
+
          
         default:
             http_response_code(404);
@@ -199,7 +205,7 @@ switch ($uri) {
         (new \App\Controllers\ProfileController())->profile();
         break;
     case '/faq':
-        include __DIR__ . '/../app/Views/pages/faq.php';
+        require __DIR__ . '/../app/Views/pages/faq.php';
         break;
     case '/creerAnnonces':
         (new \App\Controllers\AnnoncesController())->showForm();
@@ -240,14 +246,17 @@ switch ($uri) {
 
     // Route : Mes animaux (utilisateur)
     case '/mes-animaux':
-        require_once __DIR__ . '/../app/Views/pages/mes-animaux.php';
+        require __DIR__ . '/../app/Views/pages/mes-animaux.php';
         break;
 
     // Route : Editer un animal
    case '/edit-animal':
-        require_once __DIR__ . '/../app/Views/pages/edit-animal.php';
+        require __DIR__ . '/../app/Views/pages/edit-animal.php';
         break;
 
+    case '/noter-utilisateur':
+        require __DIR__ . '/../app/Views/pages/noter-utilisateur.php';
+        break;
     // Route : Supprimer un animal
     if (preg_match('#^/delete-animal$#', $_SERVER['REQUEST_URI'])) {
         (new \App\Controllers\DeleteAnimalController())->handle();
@@ -266,6 +275,6 @@ switch ($uri) {
 
     default:
         http_response_code(404);
-        include __DIR__ . '/../app/Views/default/notFound.php';
+        require __DIR__ . '/../app/Views/default/notFound.php';
         break;
 }
