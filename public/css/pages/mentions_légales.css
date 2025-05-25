@@ -1,0 +1,127 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--nature-beige);
+  color: #222;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Compensation pour la navbar sticky de 5em de hauteur */
+main.container {
+  margin-top: 2em; /* Espace après la navbar */
+  margin-bottom: 2em; /* Espace avant le footer */
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 40px 20px;
+  flex-grow: 1; /* Pour que le main prenne l'espace disponible */
+}
+
+h1,
+h2 {
+  color: #2e8b57;
+  margin-bottom: 1.5em;
+}
+
+h2 {
+  font-size: 2.2em;
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+section {
+  margin-bottom: 30px;
+}
+
+.form-section {
+  background: var(--nature-beige);
+  padding: 3em;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h3 {
+  color: #2e8b57;
+  margin-top: 2.5em;
+  margin-bottom: 1em;
+  font-size: 1.4em;
+  border-bottom: 2px solid #2e8b57;
+  padding-bottom: 0.5em;
+}
+
+.form-section h3:first-of-type {
+  margin-top: 0;
+}
+
+.subtitle {
+  font-size: 1.1em;
+  color: #555;
+  margin-bottom: 1em;
+  font-weight: 600;
+  background: var(--nature-beige);
+  padding: 0.5em;
+  border-left: 4px solid #2e8b57;
+}
+
+.form-section p {
+  line-height: 1.7;
+  margin-bottom: 1.5em;
+  text-align: justify;
+}
+
+.form-section ul {
+  margin: 1em 0;
+  padding-left: 2em;
+}
+
+.form-section li {
+  margin-bottom: 0.5em;
+  line-height: 1.6;
+}
+
+hr {
+  border: 0;
+  border-top: 2px solid #2e8b57;
+  margin: 2em 0;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Amélioration de la lisibilité */
+.form-section p strong {
+  color: #2e8b57;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  main.container {
+    margin-top: 1em;
+    padding: 20px 15px;
+  }
+
+  .form-section {
+    padding: 2em 1.5em;
+  }
+
+  h2 {
+    font-size: 1.8em;
+  }
+
+  .form-section h3 {
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-section {
+    padding: 1.5em 1em;
+  }
+
+  h2 {
+    font-size: 1.6em;
+  }
+}

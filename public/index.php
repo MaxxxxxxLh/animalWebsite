@@ -221,8 +221,22 @@ switch ($uri) {
         (new \App\Controllers\AnimalController())->ajouterAnimal();
         break;
 
+   
     case '/mentions-legales':
         include __DIR__ . '/../app/Views/pages/mentions_legales.php';
+        break;
+    case '/politique-confidentialite':
+        include __DIR__ . '/../app/Views/pages/politique-confidentialite.php';
+        break;
+    case '/cgu':
+        include __DIR__ . '/../app/Views/pages/cgu.php';
+        break;
+    case '/qui-sommes-nous':
+        include __DIR__ . '/../app/Views/pages/qui-sommes-nous.php';
+        break;
+    case '/devenir-gardien':
+        (new \App\Controllers\AnnoncesController())->showAnnonces();
+        break;
 
     // Route : Mes animaux (utilisateur)
     case '/mes-animaux':
