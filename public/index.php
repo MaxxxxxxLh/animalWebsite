@@ -11,6 +11,9 @@ header('Content-Type: text/html; charset=utf-8');
 // Chargement config
 require_once __DIR__ . '/../config/config.php';
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
+
 // Autoloader PSR-4 simple
 spl_autoload_register(function ($class) {
     $prefix = 'App\\';
@@ -47,7 +50,21 @@ if (strpos($uri, '/api/') === 0) {
         case 'users/create':
             (new \App\Controllers\Api\UserController())->create();
             break;
-
+        case 'users/update':
+            (new \App\Controllers\Api\UserController())->update();
+            break;
+        case 'users/findAll':
+            (new \App\Controllers\Api\UserController())->findAll();
+            break;
+        case 'users/delete':
+            (new \App\Controllers\Api\UserController())->delete();
+            break;
+        case 'users/requestPasswordReset':
+            (new \App\Controllers\Api\UserController())->requestPasswordReset();
+            break;
+        case 'auth/resetPassword':
+            (new \App\Controllers\Api\UserController())->resetPassword();
+            break;
         case 'animal':
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 (new \App\Controllers\Api\AnimalController())->findByProprietaireId();
@@ -70,7 +87,10 @@ if (strpos($uri, '/api/') === 0) {
                 (new \App\Controllers\Api\AnnonceController())->findById();
             } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 (new \App\Controllers\Api\AnnonceController())->create();
-            } else {
+            } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+                (new \App\Controllers\Api\AnnonceController())->delete();
+
+            }else {
                 http_response_code(405);
                 echo json_encode(['error' => 'Method not allowed']);
             }
@@ -84,6 +104,46 @@ if (strpos($uri, '/api/') === 0) {
             (new \App\Controllers\Api\AnnonceController())->search();
             break;
         
+        case 'auth/refreshToken':
+            (new \App\Controllers\Api\TokenController())->refreshToken();
+            break;
+
+        case 'message/create':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                (new \App\Controllers\Api\MessageController())->create();
+            } else {
+                http_response_code(405);
+                echo json_encode(['error' => 'Method not allowed']);
+            }
+            break;
+
+            case 'message/create':
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    (new \App\Controllers\Api\MessageController())->create();
+                } else {
+                    http_response_code(405);
+                    echo json_encode(['error' => 'Method not allowed']);
+                }
+                break;
+            
+            case 'message/conversation':
+                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                    (new \App\Controllers\Api\MessageController())->findByConversationId();
+                } else {
+                    http_response_code(405);
+                    echo json_encode(['error' => 'Method not allowed']);
+                }
+                break;
+            
+            case 'message/conversations':
+                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                    (new \App\Controllers\Api\MessageController())->findAllConversations();
+                } else {
+                    http_response_code(405);
+                    echo json_encode(['error' => 'Method not allowed']);
+                }
+                break;
+            
         default:
             http_response_code(404);
             echo json_encode(['error' => 'API endpoint not found']);
@@ -111,8 +171,14 @@ switch ($uri) {
     case '/forgotPassword':
         (new \App\Controllers\AuthController())->forgotPassword();
         break;
+    case '/resetPassword':
+        (new \App\Controllers\AuthController())->resetPassword();
+        break;
     case '/contact':
         (new \App\Controllers\ContactController())->render();
+        break;
+    case '/contactForm':
+        (new \App\Controllers\ContactController())->contact();
         break;
     case '/messagerie':
         (new \App\Controllers\MessagerieController())->showAllConversations();
@@ -129,6 +195,15 @@ switch ($uri) {
     case '/annonces':
         (new \App\Controllers\AnnoncesController())->showAnnonces();
         break;
+
+    case '/admin/users':
+        (new \App\Controllers\AdminController())->showUsers();
+        break;
+
+    case '/admin/annonces':
+        (new \App\Controllers\AdminController())->annonces();
+        break;
+
     default:
         http_response_code(404);
         include __DIR__ . '/../app/Views/default/notFound.php';

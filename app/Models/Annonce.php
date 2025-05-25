@@ -22,7 +22,33 @@ class Annonce
     public static function findAll(): ?array
     {
         $pdo = self::getPDO();
-        $stmt = $pdo->query("SELECT * FROM Annonce");
+        $sql = "
+            SELECT 
+                a.annonceId,
+                a.nom AS nom_annonce,
+                a.date,
+                a.service,
+                a.lieu,
+                a.tarif,
+                a.description,
+                
+                -- Infos du propriétaire
+                p.nom AS nom_personne,
+                p.prenom AS prenom_personne,
+                p.email,
+                p.photoUrl,
+
+                -- Infos de l'animal
+                ea.nom AS nom_animal,
+                ea.age,
+                ea.type,
+                ea.informations
+
+            FROM Annonce a
+            JOIN Personne p ON a.personneId = p.personneId
+            JOIN EspeceAnimal ea ON a.animalId = ea.animalId
+        ";
+        $stmt = $pdo->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
 
@@ -59,6 +85,13 @@ class Annonce
         $stmt->execute($params);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function delete(int $id): bool
+    {
+        $pdo = self::getPDO();
+        $stmt = $pdo->prepare("DELETE FROM Annonce WHERE annonceId = ?");
+        return $stmt->execute([$id]);
     }
 
 }

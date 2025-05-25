@@ -30,6 +30,7 @@ body {
   text-align: center;
 }
 
+
 .navbar {
   position: fixed;
   top: 0;
@@ -741,7 +742,9 @@ textarea:focus {
     width: 100%;
     font-size: 1.2em;
   }
+
 }
+
 .home-page {
   background-image: url('/assets/images/Chien-chat-fond.png');
   background-size: cover;
@@ -788,3 +791,4 @@ textarea:focus {
   padding-top: 6em;
   padding-bottom: 6em;
 }
+

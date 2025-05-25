@@ -15,6 +15,7 @@ $proprietaireId = $_SESSION['user']['id'] ?? null;
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <script src="/js/secureFetch.js"></script>
 
 </head>
 <body>
@@ -127,44 +128,7 @@ $proprietaireId = $_SESSION['user']['id'] ?? null;
 <script>
     const proprietaireId = <?= json_encode($proprietaireId) ?>;
 </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('annonceForm');
-
-        form.addEventListener('submit', async function (e) {
-            e.preventDefault();
-
-            const data = {
-                nom: document.getElementById('titre').value,
-                date: document.getElementById('date').value,
-                service: document.getElementById('service').value,
-                lieu: document.getElementById('lieu').value,
-                tarif: document.getElementById('tarif').value,
-                description: document.getElementById('description').value,
-                personneId: proprietaireId, 
-                animalId: document.getElementById('animalId').value
-            };
-            try {
-                const response = await fetch('/api/annonce', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-                if (result.success) {
-                    window.location.href = "/";
-                } else {
-                    alert("Erreur: " + (result.error || "Une erreur inconnue"));
-                }
-            } catch (err) {
-                console.error(err);
-                alert("Erreur lors de l'envoi des données.");
-            }
-        });
-
-    });
-</script>
-
+<script src="/js/creerAnnonce.js"></script>
+<script src="/js/secureFetch.js"></script>
 </body>
 </html>
