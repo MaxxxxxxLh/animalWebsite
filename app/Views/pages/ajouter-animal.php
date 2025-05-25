@@ -14,6 +14,8 @@ $pageTitle = 'Ajouter un animal';
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/pages/creerAnnonces.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
 <?php include(__DIR__ . '/../includes/header.php'); ?>
