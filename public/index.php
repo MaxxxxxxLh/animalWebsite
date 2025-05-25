@@ -221,6 +221,9 @@ switch ($uri) {
         (new \App\Controllers\AnimalController())->ajouterAnimal();
         break;
 
+    case '/mentions-legales':
+        include __DIR__ . '/../app/Views/pages/mentions_legales.php';
+
     // Route : Mes animaux (utilisateur)
     case '/mes-animaux':
         require_once __DIR__ . '/../app/Views/pages/mes-animaux.php';
