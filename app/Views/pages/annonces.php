@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Annonces - Gardiennage d'animaux</title>
-    <link rel="stylesheet" href="../../../public/assets/css/style.css">
+    <link rel="stylesheet" href="../../../public/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
     
-    <main class="container">
+    <main class="container" style="margin-top: 90px;">
         <section class="search-section">
             <h2>Rechercher une annonce</h2>
             <form class="search-form" method="GET" action="/annonces">

@@ -1,4 +1,14 @@
 /* Footer amélioré */
+html,
+body {
+  height: 100%;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .main-footer {
   background-color: var(--nature-beige);
   color: var(--footer-text);
@@ -10,7 +20,7 @@
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 30px;
 }
 
@@ -98,7 +108,7 @@
 
 .footer-newsletter input {
   padding: 12px 15px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.1);
   color: var(--footer-text);
@@ -135,7 +145,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 0.9rem;
   color: var(--nature-beige);
-
+}
 /* Responsive */
 @media (max-width: 992px) {
   .navbar {
@@ -155,6 +165,10 @@
 
   .profile-icon {
     order: 2;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -201,5 +215,4 @@
 
 .fadeIn {
   animation: fadeIn 0.5s ease forwards;
-}
 }

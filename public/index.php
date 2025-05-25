@@ -125,6 +125,21 @@ switch ($uri) {
     case '/annonces':
         (new \App\Controllers\AnnoncesController())->showAnnonces();
         break;
+    case '/mentions-legales':
+        include __DIR__ . '/../app/Views/pages/mentions_legales.php';
+        break;
+    case '/cgu':
+        include __DIR__ . '/../app/Views/pages/cgu.php';
+        break;
+    case '/politique-confidentialite':
+        include __DIR__ . '/../app/Views/pages/politique-confidentialite.php';
+        break;  
+    case '/qui-sommes-nous':
+        include __DIR__ . '/../app/Views/pages/qui-sommes-nous.php';
+        break;
+    case '/devenir-gardien':
+        include __DIR__ . '/../app/Views/pages/devenir-gardien.php';
+        break;
     default:
         http_response_code(404);
         include __DIR__ . '/../app/Views/default/notFound.php';
