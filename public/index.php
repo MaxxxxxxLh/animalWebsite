@@ -151,7 +151,9 @@ if (strpos($uri, '/api/') === 0) {
                 echo json_encode(['error' => 'Method not allowed']);
             }
             break;
-        
+        case 'message/conversationBetween':
+            (new \App\Controllers\Api\MessageController())->findConversationBetween();
+            break;
 
          
         default:
