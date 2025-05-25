@@ -1,15 +1,10 @@
 <?php
-if (!isset($_SESSION)) session_start();
 if (!isset($_SESSION['user'])) {
     header('Location: /login');
     exit;
 }
 $pageTitle = 'Mes animaux';
-$personneId = $_SESSION['user']['personneId'] ?? $_SESSION['user']['id'] ?? null;
-
-// Récupération des animaux du propriétaire
-require_once __DIR__ . '/../../Models/Animal.php';
-$animaux = \App\Models\Animal::findByProprietaire($personneId);
+$proprietaireId = $_SESSION['user']['id'];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -17,7 +12,7 @@ $animaux = \App\Models\Animal::findByProprietaire($personneId);
     <meta charset="UTF-8">
     <title>Mes animaux</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/pages/creerAnnonces.css">
+    <link rel="stylesheet" href="/css/pages/mesAnimaux.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -28,34 +23,9 @@ $animaux = \App\Models\Animal::findByProprietaire($personneId);
         <a href="/ajouter-animal" class="btn-add-animal" style="margin-bottom:1.5rem;display:inline-block;">
             <i class="fas fa-plus"></i> Ajouter un animal
         </a>
-        <?php if (empty($animaux)): ?>
-            <div class="error-message">Vous n'avez pas encore ajouté d'animal.</div>
-        <?php else: ?>
-            <div class="animaux-list">
-                <?php foreach ($animaux as $animal): ?>
-                    <div class="animal-card">
-                        <?php if (!empty($animal['photoUrl'])): ?>
-                            <img src="<?= htmlspecialchars($animal['photoUrl']) ?>" alt="Photo de <?= htmlspecialchars($animal['nom']) ?>" class="animal-photo">
-                        <?php endif; ?>
-                        <div class="animal-info">
-                            <h3><?= htmlspecialchars($animal['nom']) ?></h3>
-                            <p><strong>Type :</strong> <?= htmlspecialchars($animal['type']) ?></p>
-                            <p><strong>Âge :</strong> <?= htmlspecialchars($animal['age']) ?> an(s)</p>
-                            <p><strong>Infos :</strong> <?= htmlspecialchars($animal['informations']) ?></p>
-                        </div>
-                        <?php if ((isset($_SESSION['user']['personneId']) && $_SESSION['user']['personneId'] == $animal['proprietaireId']) || (isset($_SESSION['user']['isAdmin']) && $_SESSION['user']['isAdmin'] == 1)): ?>
-                        <div class="animal-actions" style="margin-top:1rem;display:flex;gap:1rem;">
-                            <a href="/edit-animal?id=<?= $animal['animalId'] ?>" class="btn-edit-animal" title="Modifier"><i class="fas fa-edit"></i></a>
-                            <form action="/delete-animal" method="POST" style="display:inline;" onsubmit="return confirm('Supprimer cet animal ?');">
-                                <input type="hidden" name="id" value="<?= $animal['animalId'] ?>">
-                                <button type="submit" class="btn-delete-animal" title="Supprimer"><i class="fas fa-trash"></i></button>
-                            </form>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
+        <div id="animaux-container">
+            <div class="loading-message">Chargement des animaux...</div>
+        </div>
     </section>
 </main>
 <?php include(__DIR__ . '/../includes/footer.php'); ?>
@@ -117,6 +87,93 @@ $animaux = \App\Models\Animal::findByProprietaire($personneId);
     background: #ffeaea;
     color: #c0392b;
 }
+.error-message {
+    color: #c0392b;
+    background: #ffeaea;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
 </style>
+<script src="/js/secureFetch.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+    const container = document.getElementById('animaux-container');
+    try {
+        const animaux = await secureFetch(`/api/animal?proprietaireId=${<?= json_encode($proprietaireId) ?>}`);
+        if (!animaux || animaux.length === 0) {
+            container.innerHTML = '<div class="error-message">Vous n\'avez pas encore ajouté d\'animal.</div>';
+            return;
+        }
+
+        const list = document.createElement('div');
+        list.className = 'animaux-list';
+
+        for (const animal of animaux) {
+            const card = document.createElement('div');
+            card.className = 'animal-card';
+
+            if (animal.photoUrl) {
+                const img = document.createElement('img');
+                img.src = animal.photoUrl;
+                img.alt = 'Photo de ' + animal.nom;
+                img.className = 'animal-photo';
+                card.appendChild(img);
+            }
+
+            const info = document.createElement('div');
+            info.className = 'animal-info';
+            info.innerHTML = `
+                <h3>${animal.nom}</h3>
+                <p><strong>Type :</strong> ${animal.type}</p>
+                <p><strong>Âge :</strong> ${animal.age} an(s)</p>
+                <p><strong>Infos :</strong> ${animal.informations}</p>
+            `;
+            card.appendChild(info);
+
+            const editBtn = document.createElement('a');
+            editBtn.href = '/edit-animal?id=' + animal.animalId;
+            editBtn.className = 'btn-edit-animal';
+            editBtn.title = 'Modifier cet animal';
+            editBtn.style = 'margin-top: 1rem;';
+            editBtn.innerHTML = '<i class="fas fa-edit"></i> Modifier';
+            card.appendChild(editBtn);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn-delete-animal';
+            deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Supprimer';
+            deleteBtn.style = 'margin-top: 0.5rem;';
+            deleteBtn.onclick = async () => {
+                if (!confirm('Supprimer cet animal ?')) return;
+
+                try {
+                    const url = `/api/animal?id=${encodeURIComponent(animal.animalId)}`;
+                    const res = await secureFetch(url, {
+                        method: 'DELETE'
+                    });
+
+                    if (res && res.success) {
+                        card.remove();
+                    } else {
+                        alert('Erreur lors de la suppression de l\'animal.');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert('Une erreur est survenue lors de la suppression.');
+                }
+            };
+            card.appendChild(deleteBtn);
+
+            list.appendChild(card);
+        }
+
+        container.innerHTML = '';
+        container.appendChild(list);
+    } catch (err) {
+        container.innerHTML = '<div class="error-message">Erreur lors du chargement des animaux.</div>';
+        console.error(err);
+    }
+});
+</script>
 </body>
 </html>

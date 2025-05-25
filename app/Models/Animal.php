@@ -35,15 +35,15 @@ class Animal
 
         return (int)$pdo->lastInsertId();
     }
-    public static function updateAnimal(string $nom, int $age, string $type, string $informations, int $proprietaireId): bool
+    public static function updateAnimal(string $nom, int $age, string $type, string $informations, int $animalId): bool
     {
         $pdo = self::getPDO();
         $stmt = $pdo->prepare("
             UPDATE EspeceAnimal
             SET nom = ?, age = ?, type = ?, informations = ?
-            WHERE proprietaireId = ?
+            WHERE animalId = ?
         ");
-        return $stmt->execute([$nom, $age, $type, $informations, $proprietaireId]);
+        return $stmt->execute([$nom, $age, $type, $informations, $animalId]);
     }
 
     public static function findByProprietaire($proprietaireId) {

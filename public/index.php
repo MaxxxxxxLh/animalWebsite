@@ -74,7 +74,9 @@ if (strpos($uri, '/api/') === 0) {
                 echo json_encode(['error' => 'Method not allowed']);
             }
             break;
-
+        case 'animal/id':
+            (new \App\Controllers\Api\AnimalController()) -> findById();
+            break;
         case 'animal/exists':
             (new \App\Controllers\Api\AnimalController())->exists();
             break;
@@ -101,6 +103,10 @@ if (strpos($uri, '/api/') === 0) {
             (new \App\Controllers\Api\AnnonceController())->search();
             break;
         
+        case 'annonce/me':
+            (new \App\Controllers\Api\AnnonceController())->me();
+            break;
+
         case 'auth/refreshToken':
             (new \App\Controllers\Api\TokenController())->refreshToken();
             break;
@@ -114,46 +120,33 @@ if (strpos($uri, '/api/') === 0) {
             }
             break;
 
-            case 'message/create':
-                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    (new \App\Controllers\Api\MessageController())->create();
-                } else {
-                    http_response_code(405);
-                    echo json_encode(['error' => 'Method not allowed']);
-                }
-                break;
-            
-            case 'message/conversation':
-                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                    (new \App\Controllers\Api\MessageController())->findByConversationId();
-                } else {
-                    http_response_code(405);
-                    echo json_encode(['error' => 'Method not allowed']);
-                }
-                break;
-            
-            case 'message/conversations':
-                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                    (new \App\Controllers\Api\MessageController())->findAllConversations();
-                } else {
-                    http_response_code(405);
-                    echo json_encode(['error' => 'Method not allowed']);
-                }
-                break;
-            
-            case 'message/getOrCreateConversation':
-                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                    // Soit créer cette méthode dans MessageController,
-                    // soit supprimer ce bloc si non utilisé
-                    //(new \App\Controllers\Api\MessageController())->getOrCreateConversation();
-                    http_response_code(501);
-                    echo json_encode(['error' => 'Not implemented']);
-                } else {
-                    http_response_code(405);
-                    echo json_encode(['error' => 'Method not allowed']);
-                }
-                break;
-            
+        case 'message/create':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                (new \App\Controllers\Api\MessageController())->create();
+            } else {
+                http_response_code(405);
+                echo json_encode(['error' => 'Method not allowed']);
+            }
+            break;
+        
+        case 'message/conversation':
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                (new \App\Controllers\Api\MessageController())->findByConversationId();
+            } else {
+                http_response_code(405);
+                echo json_encode(['error' => 'Method not allowed']);
+            }
+            break;
+        
+        case 'message/conversations':
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                (new \App\Controllers\Api\MessageController())->findAllConversations();
+            } else {
+                http_response_code(405);
+                echo json_encode(['error' => 'Method not allowed']);
+            }
+            break;
+        
         default:
             http_response_code(404);
             echo json_encode(['error' => 'API endpoint not found']);
@@ -234,6 +227,10 @@ switch ($uri) {
         require_once __DIR__ . '/../app/Views/admin/animaux.php';
         exit;
     }
+
+    case '/mes-annonces':
+        require_once __DIR__ . '/../app/Views/pages/mes-annonces.php';
+        break;
 
     default:
         http_response_code(404);

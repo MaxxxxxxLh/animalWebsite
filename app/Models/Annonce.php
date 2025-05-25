@@ -94,4 +94,20 @@ class Annonce
         return $stmt->execute([$id]);
     }
 
+    public static function findByPersonneId($personneId)
+    {
+        $pdo = self::getPDO();
+        $stmt = $pdo->prepare("
+            SELECT 
+                a.*, 
+                e.nom AS animalNom 
+            FROM Annonce a
+            JOIN EspeceAnimal e ON a.animalId = e.animalId
+            WHERE a.personneId = ?
+            ORDER BY a.date DESC
+        ");
+        $stmt->execute([$personneId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

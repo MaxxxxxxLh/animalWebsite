@@ -151,6 +151,48 @@ class ApiClient
         return is_array($result) ? $result : ['error' => 'Invalid JSON: ' . $response];
     }
 
+    public static function put(string $url, array $data): array
+    {
+        $headers = [
+            "Content-Type: application/json",
+            "X-CSRF-Token: " . self::getCsrfToken(),
+        ];
+
+        $accessToken = self::getAccessToken();
+        if ($accessToken) {
+            $headers[] = "Authorization: Bearer " . $accessToken;
+        }
+
+        $options = [
+            'http' => [
+                'header'  => implode("\r\n", $headers),
+                'method'  => 'PUT',
+                'content' => json_encode($data),
+            ],
+        ];
+
+        $context = stream_context_create($options);
+        $response = @file_get_contents($url, false, $context);
+
+        if ($response === false) {
+            $error = error_get_last();
+            return ['error' => 'API PUT request failed: ' . ($error['message'] ?? 'Unknown error')];
+        }
+
+        $result = json_decode($response, true);
+
+        if (self::isUnauthorized($http_response_header)) {
+            if (self::refreshToken()) {
+                return self::put($url, $data);
+            } else {
+                self::logoutSession();
+                return ['error' => 'Session expirée, veuillez vous reconnecter.'];
+            }
+        }
+
+        return is_array($result) ? $result : ['error' => 'Invalid JSON: ' . $response];
+    }
+
     public static function delete(string $url): array
     {
         $headers = [

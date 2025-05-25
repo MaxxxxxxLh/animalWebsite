@@ -74,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadMessages(conversationId) {
         try {
             const messages = await secureFetch(`/api/message/conversation?conversationId=${conversationId}`);
-            console.log(messages);
             messagesContainer.innerHTML = '';
 
             if (messages.length === 0) {

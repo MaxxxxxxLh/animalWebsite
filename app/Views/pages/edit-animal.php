@@ -1,81 +1,104 @@
 <?php
-if (!isset($_SESSION)) session_start();
 if (!isset($_SESSION['user'])) {
     header('Location: /login');
     exit;
 }
-require_once __DIR__ . '/../../Models/Animal.php';
-$animal = null;
-$error = $success = '';
-if (isset($_GET['id'])) {
-    $animal = \App\Models\Animal::findById((int)$_GET['id']);
-    if (!$animal) {
-        $error = "Animal introuvable.";
-    }
-} else {
-    $error = "Aucun animal sélectionné.";
-}
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $animal) {
-    $nom = trim($_POST['nom'] ?? '');
-    $age = intval($_POST['age'] ?? 0);
-    $type = trim($_POST['type'] ?? '');
-    $informations = trim($_POST['informations'] ?? '');
-    if ($nom && $age && $type) {
-        \App\Models\Animal::updateById($animal['animalId'], $nom, $age, $type, $informations);
-        $success = "Animal modifié avec succès.";
-        $animal = \App\Models\Animal::findById($animal['animalId']);
-    } else {
-        $error = "Tous les champs obligatoires doivent être remplis.";
-    }
-}
 $pageTitle = 'Modifier un animal';
+$proprietaireId = $_SESSION['user']['id'];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Modifier un animal</title>
+    <title><?= $pageTitle ?></title>
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/pages/creerAnnonces.css">
+    <link rel="stylesheet" href="/css/pages/edit-animal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 <?php include(__DIR__ . '/../includes/header.php'); ?>
 <main class="container">
     <section class="form-section">
-        <h2>Modifier un animal</h2>
-        <?php if ($error): ?><div class="error-message"><?= htmlspecialchars($error) ?></div><?php endif; ?>
-        <?php if ($success): ?><div class="success-message"><?= htmlspecialchars($success) ?></div><?php endif; ?>
-        <?php if ($animal): ?>
-        <form action="?id=<?= $animal['animalId'] ?>" method="POST" class="animal-form">
+        <h2><?= $pageTitle ?></h2>
+        <div id="message"></div>
+        <form id="animalForm" class="animal-form">
             <div class="form-group">
                 <label for="nom">Nom de l'animal</label>
-                <input type="text" id="nom" name="nom" value="<?= htmlspecialchars($animal['nom']) ?>" required>
+                <input type="text" id="nom" name="nom" required>
             </div>
             <div class="form-group">
                 <label for="age">Âge</label>
-                <input type="number" id="age" name="age" min="0" value="<?= htmlspecialchars($animal['age']) ?>" required>
+                <input type="number" id="age" name="age" min="0" required>
             </div>
             <div class="form-group">
                 <label for="type">Type</label>
                 <select id="type" name="type" required>
-                    <option value="Chien" <?= $animal['type'] === 'Chien' ? 'selected' : '' ?>>Chien</option>
-                    <option value="Chat" <?= $animal['type'] === 'Chat' ? 'selected' : '' ?>>Chat</option>
-                    <option value="Oiseau" <?= $animal['type'] === 'Oiseau' ? 'selected' : '' ?>>Oiseau</option>
-                    <option value="Autre" <?= $animal['type'] === 'Autre' ? 'selected' : '' ?>>Autre</option>
+                    <option value="Chien">Chien</option>
+                    <option value="Chat">Chat</option>
+                    <option value="Oiseau">Oiseau</option>
+                    <option value="Autre">Autre</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="informations">Informations complémentaires</label>
-                <textarea id="informations" name="informations" rows="3"><?= htmlspecialchars($animal['informations']) ?></textarea>
+                <textarea id="informations" name="informations" rows="3"></textarea>
             </div>
             <button type="submit" class="btn-submit">
                 <i class="fas fa-save"></i> Enregistrer
             </button>
         </form>
-        <?php endif; ?>
     </section>
 </main>
 <?php include(__DIR__ . '/../includes/footer.php'); ?>
+
+<script src="/js/secureFetch.js"></script>
+<script>
+    const animalId = new URLSearchParams(window.location.search).get('id');
+    const form = document.getElementById('animalForm');
+    const messageDiv = document.getElementById('message');
+
+    async function loadAnimal() {
+        try {
+            const animal = await secureFetch(`/api/animal/id?id=${animalId}`);
+            document.getElementById('nom').value = animal.nom;
+            document.getElementById('age').value = animal.age;
+            document.getElementById('type').value = animal.type;
+            document.getElementById('informations').value = animal.informations || '';
+        } catch (err) {
+            messageDiv.innerHTML = `<div class="error-message">Erreur lors du chargement : ${err.message}</div>`;
+        }
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const data = {
+            nom: form.nom.value.trim(),
+            age: parseInt(form.age.value, 10),
+            type: form.type.value,
+            informations: form.informations.value.trim(),
+            animalId: animalId
+        };
+
+        try {
+            await secureFetch(`/api/animal`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            messageDiv.innerHTML = `<div class="success-message">Animal modifié avec succès.</div>`;
+        } catch (err) {
+            messageDiv.innerHTML = `<div class="error-message">Erreur : ${err.message}</div>`;
+        }
+    });
+
+    if (animalId) {
+        loadAnimal();
+    } else {
+        messageDiv.innerHTML = `<div class="error-message">Aucun identifiant fourni.</div>`;
+        form.style.display = 'none';
+    }
+</script>
 </body>
 </html>
