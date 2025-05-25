@@ -16,16 +16,20 @@
 
     <main class="container home-page">
         <?php
-            
-            $prenom = isset($_SESSION["user"]["prenom"]) ? htmlspecialchars($_SESSION["user"]["prenom"]) : null;
-            $nom = isset($_SESSION["user"]["nom"]) ? htmlspecialchars($_SESSION["user"]["nom"]) : null;
+            if (session_status() === PHP_SESSION_NONE) {
+              session_start();
+            }
+            $prenom = '';
+            $nom = '';
+            if (isset($_SESSION["user"])) {
+                $prenom = htmlspecialchars($_SESSION["user"]["prenom"] ?? '');
+                $nom = htmlspecialchars($_SESSION["user"]["nom"] ?? '');
 
-            if ($prenom && $nom) {
                 echo "<p class='welcome-msg'>Bienvenue, $prenom $nom !</p>";
             } else {
                 echo "<p class='welcome-msg'>Bonjour !</p>";
             }
-        ?>
+            ?>
             <section class="intro"> 
             <div class="text-box">
                 <h1 class="h1Index">Envie de garder des animaux ou de les promener ?</h1>
