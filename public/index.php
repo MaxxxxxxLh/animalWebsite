@@ -72,12 +72,16 @@ if (strpos($uri, '/api/') === 0) {
                 (new \App\Controllers\Api\AnimalController())->create();
             } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
                 (new \App\Controllers\Api\AnimalController())->update();
+            } elseif($_SERVER['REQUEST_METHOD'] === 'DELETE'){
+                (new \App\Controllers\Api\AnimalController())->delete();
             } else {
                 http_response_code(405); 
                 echo json_encode(['error' => 'Method not allowed']);
             }
             break;
-
+        case 'animal/id':
+            (new \App\Controllers\Api\AnimalController()) -> findById();
+            break;
         case 'animal/exists':
             (new \App\Controllers\Api\AnimalController())->exists();
             break;
@@ -104,6 +108,10 @@ if (strpos($uri, '/api/') === 0) {
             (new \App\Controllers\Api\AnnonceController())->search();
             break;
         
+        case 'annonce/me':
+            (new \App\Controllers\Api\AnnonceController())->me();
+            break;
+
         case 'auth/refreshToken':
             (new \App\Controllers\Api\TokenController())->refreshToken();
             break;
@@ -117,33 +125,35 @@ if (strpos($uri, '/api/') === 0) {
             }
             break;
 
-            case 'message/create':
-                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    (new \App\Controllers\Api\MessageController())->create();
-                } else {
-                    http_response_code(405);
-                    echo json_encode(['error' => 'Method not allowed']);
-                }
-                break;
-            
-            case 'message/conversation':
-                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                    (new \App\Controllers\Api\MessageController())->findByConversationId();
-                } else {
-                    http_response_code(405);
-                    echo json_encode(['error' => 'Method not allowed']);
-                }
-                break;
-            
-            case 'message/conversations':
-                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                    (new \App\Controllers\Api\MessageController())->findAllConversations();
-                } else {
-                    http_response_code(405);
-                    echo json_encode(['error' => 'Method not allowed']);
-                }
-                break;
-            
+        case 'message/create':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                (new \App\Controllers\Api\MessageController())->create();
+            } else {
+                http_response_code(405);
+                echo json_encode(['error' => 'Method not allowed']);
+            }
+            break;
+        
+        case 'message/conversation':
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                (new \App\Controllers\Api\MessageController())->findByConversationId();
+            } else {
+                http_response_code(405);
+                echo json_encode(['error' => 'Method not allowed']);
+            }
+            break;
+        
+        case 'message/conversations':
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                (new \App\Controllers\Api\MessageController())->findAllConversations();
+            } else {
+                http_response_code(405);
+                echo json_encode(['error' => 'Method not allowed']);
+            }
+            break;
+        
+
+         
         default:
             http_response_code(404);
             echo json_encode(['error' => 'API endpoint not found']);
@@ -202,6 +212,37 @@ switch ($uri) {
 
     case '/admin/annonces':
         (new \App\Controllers\AdminController())->annonces();
+        break;
+
+    // Route : Ajouter un animal
+    case '/ajouter-animal':
+        (new \App\Controllers\AnimalController())->ajouterAnimal();
+        break;
+
+    // Route : Mes animaux (utilisateur)
+    case '/mes-animaux':
+        require_once __DIR__ . '/../app/Views/pages/mes-animaux.php';
+        break;
+
+    // Route : Editer un animal
+   case '/edit-animal':
+        require_once __DIR__ . '/../app/Views/pages/edit-animal.php';
+        break;
+
+    // Route : Supprimer un animal
+    if (preg_match('#^/delete-animal$#', $_SERVER['REQUEST_URI'])) {
+        (new \App\Controllers\DeleteAnimalController())->handle();
+        exit;
+    }
+
+    // Route : Admin - voir tous les animaux
+    if (preg_match('#^/admin/animaux$#', $_SERVER['REQUEST_URI'])) {
+        require_once __DIR__ . '/../app/Views/admin/animaux.php';
+        exit;
+    }
+
+    case '/mes-annonces':
+        require_once __DIR__ . '/../app/Views/pages/mes-annonces.php';
         break;
 
     default:

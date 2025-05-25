@@ -1,0 +1,122 @@
+/* Section principale */
+.form-section {
+    background-color: #f5f9f4;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(107, 142, 35, 0.08);
+    margin-top: 2rem;
+}
+
+/* Titre */
+.form-section h2 {
+    color: #2c5530;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+/* Bouton "Ajouter un animal" */
+.btn-add-animal {
+    background-color: #6b8e23;
+    color: white;
+    padding: 0.7rem 1.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+.btn-add-animal:hover {
+    background-color: #557a1f;
+}
+
+/* Liste des animaux */
+.animaux-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Carte animal */
+.animal-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 1.5rem;
+    text-align: center;
+    transition: box-shadow 0.2s ease;
+}
+.animal-card:hover {
+    box-shadow: 0 4px 16px rgba(107,142,35,0.15);
+}
+
+/* Photo de l'animal */
+.animal-photo {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #6b8e23;
+    margin-bottom: 1rem;
+}
+
+/* Informations de l'animal */
+.animal-info h3 {
+    color: #6b8e23;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+.animal-info p {
+    margin: 0.2rem 0;
+    font-size: 0.95rem;
+    color: #2c5530;
+}
+
+/* Boutons */
+.btn-edit-animal,
+.btn-delete-animal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.9rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 0.3rem;
+}
+
+.btn-edit-animal {
+    background-color: #e5f5e0;
+    color: #2c5530;
+}
+.btn-edit-animal:hover {
+    background-color: #d1eccb;
+}
+
+.btn-delete-animal {
+    background-color: #ffeaea;
+    color: #c0392b;
+}
+.btn-delete-animal:hover {
+    background-color: #ffd6d6;
+}
+
+/* Message d'erreur */
+.error-message {
+    background-color: #ffeaea;
+    color: #c0392b;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Message de chargement */
+.loading-message {
+    color: #6b8e23;
+    font-weight: bold;
+    padding: 2rem;
+    text-align: center;
+}

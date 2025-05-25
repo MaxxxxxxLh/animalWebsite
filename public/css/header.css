@@ -100,66 +100,6 @@
   transition: transform 0.3s ease;
 }
 
-/* Profile et Dropdown */
-.profile-icon {
-  position: relative;
-}
-
-.dropdown {
-  position: relative;
-}
-
-.dropdown-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.profile-avatar {
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--nature-green);
-}
-
-.dropdown-menu {
-  position: absolute;
-  right: 0;
-  top: 120%;
-  background-color: var(--nature-beige);
-  box-shadow: var(--shadow);
-  border-radius: 8px;
-  min-width: 180px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
-  z-index: 10;
-  overflow: hidden;
-}
-
-.dropdown:hover .dropdown-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.dropdown-menu a {
-  display: block;
-  padding: 12px 20px;
-  color: var(--nature-text);
-  border-bottom: 1px solid var(--nature-border);
-}
-
-.dropdown-menu a:last-child {
-  border-bottom: none;
-}
-
-.dropdown-menu a:hover {
-  background-color: var(--nature-beige);
-  color: var(--nature-green);
-}
 
 .login-btn {
   display: flex;

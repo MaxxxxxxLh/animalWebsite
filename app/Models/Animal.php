@@ -35,15 +35,46 @@ class Animal
 
         return (int)$pdo->lastInsertId();
     }
-    public static function updateAnimal(string $nom, int $age, string $type, string $informations, int $proprietaireId): bool
+    public static function updateAnimal(string $nom, int $age, string $type, string $informations, int $animalId): bool
     {
         $pdo = self::getPDO();
         $stmt = $pdo->prepare("
             UPDATE EspeceAnimal
             SET nom = ?, age = ?, type = ?, informations = ?
-            WHERE proprietaireId = ?
+            WHERE animalId = ?
         ");
-        return $stmt->execute([$nom, $age, $type, $informations, $proprietaireId]);
+        return $stmt->execute([$nom, $age, $type, $informations, $animalId]);
     }
 
+    public static function findByProprietaire($proprietaireId) {
+        global $db;
+        $stmt = $db->prepare("SELECT * FROM EspeceAnimal WHERE proprietaireId = ? ORDER BY animalId DESC");
+        $stmt->execute([$proprietaireId]);
+        return $stmt->fetchAll();
+    }
+
+    public static function findAll() {
+        $pdo = self::getPDO();
+        $stmt = $pdo->query("SELECT * FROM EspeceAnimal ORDER BY animalId DESC");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function findById($animalId) {
+        $pdo = self::getPDO();
+        $stmt = $pdo->prepare("SELECT * FROM EspeceAnimal WHERE animalId = ?");
+        $stmt->execute([$animalId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function updateById($animalId, $nom, $age, $type, $informations) {
+        $pdo = self::getPDO();
+        $stmt = $pdo->prepare("UPDATE EspeceAnimal SET nom = ?, age = ?, type = ?, informations = ? WHERE animalId = ?");
+        return $stmt->execute([$nom, $age, $type, $informations, $animalId]);
+    }
+
+    public static function deleteById($animalId) {
+        $pdo = self::getPDO();
+        $stmt = $pdo->prepare("DELETE FROM EspeceAnimal WHERE animalId = ?");
+        return $stmt->execute([$animalId]);
+    }
 }

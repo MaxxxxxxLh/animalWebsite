@@ -35,5 +35,5 @@ else
   echo "✅ Clé JWT déjà présente dans $JWT_KEY_FILE"
 fi
 
-# Lancer le commandement principal (ici apache)
+# Lancer le commandement principal (ici apache) 
 exec "$@"

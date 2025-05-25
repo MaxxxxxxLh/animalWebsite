@@ -143,4 +143,18 @@ class AnnonceController
         }
     }
 
+    public function me()
+    {
+        if (!isset($_GET['id'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthorized']);
+            return;
+        }
+    
+        $personneId = $_GET['id'];
+        $annonces = Annonce::findByPersonneId($personneId);
+    
+        header('Content-Type: application/json');
+        echo json_encode($annonces);
+    }
 }
