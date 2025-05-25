@@ -16,14 +16,16 @@
 
     <main class="container home-page">
         <?php
-            $prenom = isset($_SESSION["user"]["prenom"]) ? htmlspecialchars($_SESSION["user"]["prenom"]) : null;
-            $nom = isset($_SESSION["user"]["nom"]) ? htmlspecialchars($_SESSION["user"]["nom"]) : null;
+            $prenom = htmlspecialchars($_SESSION["user"]["prenom"] ?? '');
+            $nom = htmlspecialchars($_SESSION["user"]["nom"] ?? '');
 
-                echo "<p class='welcome-msg'>Bienvenue, $prenom $nom !</p>";
+            if (!empty($prenom) && !empty($nom)) {
+                echo "<p class='welcome-msg'>Bienvenue, $prenom $nom !</p>";
             } else {
                 echo "<p class='welcome-msg'>Bienvenue sur notre plateforme de gardiennage d’animaux 🐾</p>";
             }
-            ?>
+        ?>
+
             <section class="intro"> 
             <div class="text-box">
                 <h1 class="h1Index">Envie de garder des animaux ou de les promener ?</h1>
