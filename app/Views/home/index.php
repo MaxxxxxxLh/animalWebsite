@@ -16,18 +16,12 @@
 
     <main class="container home-page">
         <?php
-            if (session_status() === PHP_SESSION_NONE) {
-              session_start();
-            }
-            $prenom = '';
-            $nom = '';
-            if (isset($_SESSION["user"])) {
-                $prenom = htmlspecialchars($_SESSION["user"]["prenom"] ?? '');
-                $nom = htmlspecialchars($_SESSION["user"]["nom"] ?? '');
+            $prenom = isset($_SESSION["user"]["prenom"]) ? htmlspecialchars($_SESSION["user"]["prenom"]) : null;
+            $nom = isset($_SESSION["user"]["nom"]) ? htmlspecialchars($_SESSION["user"]["nom"]) : null;
 
                 echo "<p class='welcome-msg'>Bienvenue, $prenom $nom !</p>";
             } else {
-                echo "<p class='welcome-msg'>Bonjour !</p>";
+                echo "<p class='welcome-msg'>Bienvenue sur notre plateforme de gardiennage d’animaux 🐾</p>";
             }
             ?>
             <section class="intro"> 
