@@ -1,3 +1,7 @@
+<?php
+$userId = $_SESSION['user']['id'];
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,11 +13,9 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
-    <script src="/js/secureFetch.js"></script>
 </head>
 <body>
 <?php include __DIR__ . '/../includes/header.php'; ?>
-    
     <main class="container">
         <section class="search-section">
             <h2>Rechercher une annonce</h2>
@@ -71,56 +73,16 @@
                         <i class="fas fa-info-circle"></i>
                         <p>Aucune annonce ne correspond à votre recherche.</p>
                     </div>
-                <?php else: ?>
-                    <?php foreach ($annonces as $annonce): ?>
-                        <div class="annonce-card">
-                            <div class="annonce-header">
-                                <h3><?= htmlspecialchars($annonce['nom_annonce']) ?></h3>
-                                <span class="service-tag"><?= htmlspecialchars($annonce['service']) ?></span>
-                            </div>
-                            
-                            <div class="annonce-content">
-                                <p class="annonce-description"><?= htmlspecialchars($annonce['description'] ?? '') ?></p>
-                                
-                                <div class="annonce-details">
-                                    <div class="detail">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <span><?= htmlspecialchars($annonce['lieu']) ?></span>
-                                    </div>
-                                    <div class="detail">
-                                        <i class="fas fa-calendar"></i>
-                                        <span><?= (new DateTime($annonce['date']))->format('d/m/Y') ?></span>
-                                    </div>
-                                    <div class="detail">
-                                        <i class="fas fa-paw"></i>
-                                        <span><?= htmlspecialchars($annonce['nom_animal']) ?></span>
-                                    </div>
-                                    <div class="detail">
-                                        <i class="fas fa-user"></i>
-                                        <span><?= htmlspecialchars($annonce['nom_personne']) ?> <?= htmlspecialchars($annonce['prenom_personne']) ?></span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="annonce-footer">
-                                <button class="btn-contact" onclick="window.location.href='/contact?annonce=<?= $annonce['annonceId'] ?>'">
-                                    <i class="fas fa-envelope"></i> Contacter
-                                </button>
-                                <?php if (isset($annonce['tarif'])): ?>
-                                    <div class="tarif">
-                                        <i class="fas fa-tag"></i>
-                                        <span><?= number_format($annonce['tarif'], 2) ?> €</span>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
                 <?php endif; ?>
             </div>
         </section>
     </main>
     <?php include __DIR__ . '/../includes/footer.php'; ?>
+    <script>
+        userId = <?= json_encode($userId) ?>;
+    </script>
     <script src="/js/annonce.js"></script>
     <script src="/js/secureFetch.js"></script>
+    <script src="/js/openConversation.js"></script>
 </body>
-</html>
+</html> 

@@ -151,7 +151,9 @@ if (strpos($uri, '/api/') === 0) {
                 echo json_encode(['error' => 'Method not allowed']);
             }
             break;
-        
+        case 'message/conversationBetween':
+            (new \App\Controllers\Api\MessageController())->findConversationBetween();
+            break;
 
          
         default:
@@ -218,6 +220,9 @@ switch ($uri) {
     case '/ajouter-animal':
         (new \App\Controllers\AnimalController())->ajouterAnimal();
         break;
+
+    case '/mentions-legales':
+        include __DIR__ . '/../app/Views/pages/mentions_legales.php';
 
     // Route : Mes animaux (utilisateur)
     case '/mes-animaux':

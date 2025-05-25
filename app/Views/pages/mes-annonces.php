@@ -20,7 +20,6 @@ $pageTitle = 'Mes annonces';
 <main class="container">
     <section class="form-section">
         <h2>Mes annonces</h2>
-        <!-- Bouton créer annonce -->
         <div style="margin-bottom: 20px;">
             <button id="btnCreerAnnonce" class="btn btn-primary">
                 <i class="fa fa-plus"></i> Créer une annonce
@@ -39,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const container = document.getElementById('annonces-container');
 
     document.getElementById('btnCreerAnnonce').addEventListener('click', () => {
-        window.location.href = '/creerAnnonce';
+        window.location.href = '/creerAnnonces';
     });
 
     const userId = <?= json_encode($personneId) ?>;

@@ -4,6 +4,7 @@ document.querySelector('.search-form').addEventListener('submit', async function
     const form = e.target;
     const params = new URLSearchParams(new FormData(form)).toString();
 
+    console.log(params)
     try {
         const data = await secureFetch(`/api/annonce/search?${params}`, 
             { 
@@ -42,7 +43,7 @@ document.querySelector('.search-form').addEventListener('submit', async function
                         </div>
                     </div>
                     <div class="annonce-footer">
-                        <button class="btn-contact" onclick="window.location.href='/contact?annonce=${annonce.annonceId}'">
+                        <button class="btn-contact" onclick="openConversation(${userId}, ${annonce.personneId})">
                             <i class="fas fa-envelope"></i> Contacter
                         </button>
                         ${annonce.tarif ? `
@@ -55,6 +56,7 @@ document.querySelector('.search-form').addEventListener('submit', async function
             `;
             container.insertAdjacentHTML('beforeend', html);
         });
+        
 
     } catch (err) {
         alert('Erreur lors de la récupération des annonces : ' + err.message);
