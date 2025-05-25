@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/footer.css">
 
 </head>
-<body>
+<body class="home-page">
 
 <?php include(__DIR__ . '/../includes/header.php');?>
 
