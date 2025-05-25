@@ -1,0 +1,93 @@
+:root {
+    --nature-green: #6B8E23;
+    --nature-green-dark: #5A7A1B;
+    --nature-beige: #FAF3E0;
+    --nature-white: #FFFFFF;
+    --nature-text: #2F3E2E;
+    --nature-border: rgba(104, 142, 59, 0.35);
+    --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--nature-beige);
+    color: var(--nature-text);
+    margin: 0;
+    padding: 20px;
+  }
+  
+  h1 {
+    color: var(--nature-green);
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  form#formNotation {
+    background-color: var(--nature-white);
+    border: 1px solid var(--nature-border);
+    padding: 20px;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin: 2rem auto; 
+    display: block;
+  }
+  
+  
+  form#formNotation label {
+    display: block;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+    color: var(--nature-green);
+  }
+  
+  form#formNotation select,
+  form#formNotation textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--nature-border);
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+  }
+  
+  form#formNotation select:focus,
+  form#formNotation textarea:focus {
+    outline: none;
+    border-color: var(--nature-green);
+    background-color: var(--nature-beige);
+  }
+  
+  form#formNotation button[type="submit"] {
+    margin-top: 1.5rem;
+    padding: 10px 15px;
+    background-color: var(--nature-green);
+    color: var(--nature-white);
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  form#formNotation button[type="submit"]:hover {
+    background-color: var(--nature-green-dark);
+  }
+  
+  #message {
+    margin-top: 1rem;
+    font-weight: 600;
+  }
+  
+  #message.success {
+    color: var(--nature-green);
+  }
+  
+  #message.error {
+    color: #b00020; /* rouge d'erreur, tu peux laisser fixe ou créer une variable */
+  }
+  

@@ -318,7 +318,7 @@
 
   .search-group input,
   .search-group select {
-    background-color: rgba(60, 60, 60, 0.9);
+    background-color: var(--gradient-primary);
     color: #ffffff;
   }
 

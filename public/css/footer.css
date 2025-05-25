@@ -13,8 +13,8 @@
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
   align-items: flex-start;
-  justify-items: center; 
-  text-align: center; 
+  justify-items: center;
+  text-align: center;
 }
 
 .footer-section {
@@ -63,7 +63,7 @@
 }
 
 .footer-links a:hover {
-  color: var(--nature-beige);
+  color: var(--nature-green-dark);
   transform: translateX(3px);
 }
 
@@ -85,7 +85,7 @@
   flex-direction: column;
   gap: 10px;
   margin-top: 1em;
-    align-items: center;
+  align-items: center;
 }
 
 .footer-newsletter input {
@@ -131,6 +131,6 @@
 }
 .footer-newsletter input,
 .footer-newsletter button {
-  width: 80%;           
-  max-width: 250px;     
+  width: 80%;
+  max-width: 250px;
 }
