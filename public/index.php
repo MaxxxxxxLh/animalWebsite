@@ -59,7 +59,12 @@ if (strpos($uri, '/api/') === 0) {
         case 'users/delete':
             (new \App\Controllers\Api\UserController())->delete();
             break;
-
+        case 'users/requestPasswordReset':
+            (new \App\Controllers\Api\UserController())->requestPasswordReset();
+            break;
+        case 'auth/resetPassword':
+            (new \App\Controllers\Api\UserController())->resetPassword();
+            break;
         case 'animal':
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 (new \App\Controllers\Api\AnimalController())->findByProprietaireId();
@@ -147,6 +152,8 @@ if (strpos($uri, '/api/') === 0) {
             }
             break;
         
+
+         
         default:
             http_response_code(404);
             echo json_encode(['error' => 'API endpoint not found']);
@@ -174,8 +181,14 @@ switch ($uri) {
     case '/forgotPassword':
         (new \App\Controllers\AuthController())->forgotPassword();
         break;
+    case '/resetPassword':
+        (new \App\Controllers\AuthController())->resetPassword();
+        break;
     case '/contact':
         (new \App\Controllers\ContactController())->render();
+        break;
+    case '/contactForm':
+        (new \App\Controllers\ContactController())->contact();
         break;
     case '/messagerie':
         (new \App\Controllers\MessagerieController())->showAllConversations();

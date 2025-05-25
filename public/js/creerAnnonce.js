@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const result = await secureFetch('/api/annonce', {
                 method: 'POST',
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
             });
 

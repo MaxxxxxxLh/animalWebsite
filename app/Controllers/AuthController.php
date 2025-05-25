@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Utils\SecurityHelper;
 use App\Utils\ApiClient;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class AuthController
 {
@@ -150,6 +152,39 @@ class AuthController
         header("Location: /profile");
         exit();
     }
+    private function sendResetPasswordEmail(string $email, string $resetLink): bool
+    {
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';     
+            $mail->SMTPAuth = true;
+            $mail->Username = 'maximilien.lhote@gmail.com';
+            $mail->Password = 'vfau elsc tshx rwed';    
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; 
+            $mail->Port = 587;                     
+            $mail->setFrom('maximilien.lhote@gmail.com', 'no-reply@animauxFascinants.com');
+            $mail->addAddress($email);
+
+            $mail->Subject = 'Reinitialisation de votre mot de passe';
+            $mail->Body    = "Bonjour,\n\nPour réinitialiser votre mot de passe, cliquez sur ce lien :\n$resetLink\n\nCe lien est valide 1 heure.\n\nSi vous n'avez pas demandé cette réinitialisation, ignorez ce mail.";
+            $mail->SMTPOptions = [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true,
+                ],
+            ];
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            error_log('Mail error: ' . $mail->ErrorInfo);
+            echo 'Erreur d’envoi : ' . $mail->ErrorInfo; 
+            return false;
+        }
+        
+    }
 
     public function forgotPassword()
     {
@@ -171,7 +206,48 @@ class AuthController
             return;
         }
 
-        // Logique à compléter (envoi de lien de réinitialisation, token unique, etc.)
+        $user = ApiClient::get("http://localhost/api/users/find?email=" . urlencode($email));
+        if (isset($user['error']) || !$user) {
+            $this->render('forgotPassword', ['success' => "Si cet email est enregistré, vous allez recevoir un lien pour réinitialiser votre mot de passe."]);
+            return;
+        }
+
+        $tokenData = ApiClient::post("http://localhost/api/users/requestPasswordReset", [
+            'email' => $email
+        ]);
+
+        if (!isset($tokenData['success']) || !$tokenData['success']) {
+            $this->render('forgotPassword', ['error' => "Erreur lors de la demande de réinitialisation.", 'csrf_token' => SecurityHelper::generateCsrfToken()]);
+            return;
+        }
+
+        $token = $tokenData['token'] ?? null;
+
+        if ($token) {
+            $resetLink = "http://localhost:8080/resetPassword?token=" . urlencode($token);
+            $emailSent = $this->sendResetPasswordEmail($email, $resetLink);
+
+            if ($emailSent) {
+                $this->render('forgotPassword', [
+                    'success' => "Si cet email est enregistré, vous allez recevoir un lien pour réinitialiser votre mot de passe."
+                ]);
+            } else {
+                $this->render('forgotPassword', [
+                    'error' => "Une erreur est survenue lors de l'envoi de l'email. Veuillez réessayer plus tard."
+                ]);
+            }
+        } else {
+            $this->render('forgotPassword', [
+                'error' => "Une erreur interne est survenue. Veuillez réessayer plus tard."
+            ]);
+        }
+    }
+
+    public function resetPassword()
+    {
+        $token = $_GET['token'] ?? '';
+    
+        $this->render('resetPassword', ['token' => $token]);
     }
 
     public function logout()

@@ -119,7 +119,6 @@
             </div>
         </section>
     </main>
-    
     <?php include __DIR__ . '/../includes/footer.php'; ?>
     <script src="/js/annonce.js"></script>
     <script src="/js/secureFetch.js"></script>

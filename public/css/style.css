@@ -30,6 +30,25 @@ body {
   text-align: center;
 }
 
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em 2em;
+  background: var(--nature-white);
+  border-bottom: 1px solid #D9D9D9;
+  border-radius: 0; 
+  box-shadow: var(--shadow);
+  flex-wrap: nowrap;
+  gap: 1em;
+  z-index: 1000; 
+}
 .logo {
   width: 2.5em;
   margin-bottom: 1em;
@@ -724,5 +743,52 @@ textarea:focus {
     font-size: 1.2em;
   }
 
+}
+
+.home-page {
+  background-image: url('/assets/images/Chien-chat-fond.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+.home-page .container {
+  min-height: 100vh; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 2em; 
+}
+.faq-page {
+  background: url('/assets/images/animaux-de-compagnie-2.png') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+}
+
+
+.contact-page {
+  background-image: url('/assets/images/animaux-de-compagnie.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  position: relative;
+  z-index: 0;
+}
+
+.loginContainer {
+  margin: 0 auto;
+  display: block;
+  padding: 2em;
+  margin-top: 8em;
+}
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: 6em;
+  padding-bottom: 6em;
 }
 
