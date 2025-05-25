@@ -1,5 +1,5 @@
 <?php
-$userId = $_SESSION['user']['id'];
+$userId = $_SESSION['user']['id'] ?? null;
 ?>
 
 <!DOCTYPE html>
