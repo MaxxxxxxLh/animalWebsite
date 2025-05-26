@@ -54,7 +54,6 @@
             margin: 0 auto;
         }
 
-        /* Partie contacts - Redesign */
         .contacts-list {
             width: 350px;
             border-right: 1px solid #e0e0e0;
@@ -168,7 +167,6 @@
             margin-left: 5px;
         }
 
-        /* Partie conversation - Recentrée */
         .chat-area {
             flex-grow: 1;
             display: flex;
@@ -345,7 +343,6 @@
             font-size: 1.3rem;
         }
 
-        /* Effets de scroll personnalisés */
         .contacts-scrollable::-webkit-scrollbar,
         .messages-container::-webkit-scrollbar {
             width: 6px;
@@ -367,7 +364,6 @@
             background: #a8a8a8;
         }
 
-        /* Responsive */
         @media (max-width: 992px) {
             .messagerie-container {
                 width: 98%;
