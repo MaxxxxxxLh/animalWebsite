@@ -62,7 +62,10 @@ class AnnoncesController
             echo json_encode(['error' => 'User not found']);
             return;
         }
-
+        $animalExists = ApiClient::get("http://localhost/api/animal/exists?proprietaireId=$proprietaireId");
+        if(!$animalExists["exists"]) {
+            header('Location: /ajouter-animal');
+        }
         $animaux = ApiClient::get("http://localhost/api/animal?proprietaireId=$proprietaireId");
 
         require __DIR__ . '/../Views/pages/creerAnnonces.php';

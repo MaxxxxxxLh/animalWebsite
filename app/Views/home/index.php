@@ -29,8 +29,7 @@
             <section class="intro"> 
             <div class="text-box">
                 <h1 class="h1Index">Envie de garder des animaux ou de les promener ?</h1>
-                <a href="/annonces"><button class="btn">Voir les annonces</button>
-                
+                <a href="/annonces"><button class="btn">Voir les annonces</button><a>
             </div>
             <div class="text-box">
                 <h1 class="h1Index">Pas le temps de promener votre animal ?</h1>

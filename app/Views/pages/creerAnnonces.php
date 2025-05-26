@@ -15,7 +15,6 @@ $proprietaireId = $_SESSION['user']['id'] ?? null;
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
-    <script src="/js/secureFetch.js"></script>
 
 </head>
 <body>
@@ -128,7 +127,8 @@ $proprietaireId = $_SESSION['user']['id'] ?? null;
 <script>
     const proprietaireId = <?= json_encode($proprietaireId) ?>;
 </script>
-<script src="/js/creerAnnonce.js"></script>
 <script src="/js/secureFetch.js"></script>
+<script src="/js/creerAnnonce.js"></script>
+
 </body>
 </html>
