@@ -80,12 +80,17 @@ class MessageController
 
         $conversation = Message::findConversationBetween($user1, $user2);
 
-        if ($conversation) {
-            header('Content-Type: application/json');
-            echo json_encode($conversation);
-        } else {
-            http_response_code(404);
-            echo json_encode(['error' => 'Conversation not found']);
+        if (!$conversation) {
+            $conversationId = Message::createConversation($user1, $user2);
+            $conversation = [
+                'conversationId' => $conversationId,
+                'personne1Id' => $user1,
+                'personne2Id' => $user2
+            ];
         }
+
+        header('Content-Type: application/json');
+        echo json_encode($conversation);
     }
+
 }
