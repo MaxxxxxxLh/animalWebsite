@@ -56,27 +56,27 @@ $envoyeurId = $_SESSION['user']['id'];
         annonceId: annonceId,
         receveurId: receveurId,
         envoyeurId: envoyeurId,
-        note: note,
+        notes: note,
         commentaire: commentaire
       };
-      console.log(payload)
       try {
         const res = await secureFetch('/api/avis', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-        const result = await res.json();
         const msgElem = document.getElementById('message');
-        if (res.ok) {
-          msgElem.textContent = result.message;
+        if (res.success) {
+          msgElem.textContent = res.message;
           msgElem.className = 'success';
+          alert('Merci pour votre notation !');
+          document.location.href = '/annonces';
         } else {
-          msgElem.textContent = result.message;
+          msgElem.textContent = res.message;
           msgElem.className = 'error';
         }
       } catch (err) {
-        
+        console.log(err)
       }
     });
   </script>

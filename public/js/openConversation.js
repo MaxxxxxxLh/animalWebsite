@@ -6,8 +6,8 @@ async function openConversation(user1, user2) {
     }
     try {
         const response = await secureFetch(`/api/message/conversationBetween?user1=${user1}&user2=${user2}`);
-        
-        if (response && response.conversation_id) {
+        console.log(response)
+        if (response && response.conversationId) {
             window.location.href = `/messagerie?conversationId=${response.conversation_id}`;
         } else {
             const createResp = await secureFetch('/api/message/create', {

@@ -64,14 +64,14 @@ if (empty($_SESSION['csrf_token'])) {
             <label for="password">Votre mot de passe</label>
             <input type="password" id="password" name="password" required style="padding-right: 30px;">
             <i class="fa fa-eye eye-icon" id="eye-password" onclick="togglePassword()">👁️</i>
-            <div class="password-requirements" id="password-conditions">
+        </div>
+        <div class="password-requirements" id="password-conditions">
                 <span id="length" class="invalid"> Au moins 8 caractères</span>
                 <span id="uppercase" class="invalid"> Une majuscule</span>
                 <span id="lowercase" class="invalid"> Une minuscule</span>
                 <span id="number" class="invalid"> Un chiffre</span>
                 <span id="special" class="invalid"> Un caractère spécial</span>
             </div>
-        </div>
 
         <div class="form-group" style="position: relative;">
             <label for="passwordConfirmation">Confirmez votre mot de passe</label>
