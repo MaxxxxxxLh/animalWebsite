@@ -13,8 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             container.innerHTML = '';
+            const annoncesFiltrees = data.filter(annonce => annonce.personneId !== userId);
 
-            if (!data || data.length === 0) {
+            if (!annoncesFiltrees || annoncesFiltrees.length === 0) {
                 container.innerHTML = `
                     <div class="no-results">
                         <i class="fas fa-info-circle"></i>
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            data.forEach(annonce => {
+            annoncesFiltrees.forEach(annonce => {
                 const html = `
                     <div class="annonce-card">
                         <div class="annonce-header">
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                         </div>
                         <div class="annonce-footer">
-                            <button class="btn-contact" onclick="openConversation(${typeof userId !== 'undefined' ? userId : 'null'}, ${annonce.personneId})">
+                            <button class="btn-contact" onclick="openConversation(${userId}, ${annonce.personneId})">
                                 <i class="fas fa-envelope"></i> Contacter
                             </button>
                             <a class="btn-rate" href="/noter-utilisateur?userId=${annonce.personneId}&annonceId=${annonce.annonceId}">

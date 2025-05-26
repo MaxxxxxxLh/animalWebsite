@@ -42,7 +42,7 @@
     </div>
     
     <div class="footer-bottom">
-        <p>&copy; <?php echo date('Y'); ?> - Gardiennage d'animaux - Tous droits réservés</p>
+        <p>&copy; <?php echo date('Y'); ?> - Gardiennage d'animaux - Tous droits réservés - Non conforme</p>
     </div>
 </footer>
 

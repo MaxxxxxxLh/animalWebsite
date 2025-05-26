@@ -60,9 +60,12 @@ class AdminController {
         require __DIR__ . '/../Views/admin/annonces.php';
     }
 
-    public function getUser(){
-        $user = ApiClient::get("https://localhost/api/users/find", ['email' => $email]);
-        include __DIR__ . '/../Views/admin/edit_user.php';
+    public function showUsers()
+    {
+        $this->checkAdmin();
+
+        $users = ApiClient::get("http://localhost/api/users/findAll");
+        require __DIR__ . '/../Views/admin/users.php';
     }
 
     public function deleteUser()
