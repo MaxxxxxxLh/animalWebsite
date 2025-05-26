@@ -26,7 +26,7 @@ $proprietaireId = $_SESSION['user']['id'];
             <i class="fas fa-plus"></i> Ajouter un animal
         </a>
         <div id="animaux-container">
-            <div class="loading-message">Chargement des animaux...</div>
+            <div class="loading-message" id="loading-message">Chargement des animaux...</div>
         </div>
     </section>
 </main>
@@ -101,73 +101,76 @@ $proprietaireId = $_SESSION['user']['id'];
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
     const container = document.getElementById('animaux-container');
+    const loadingMessage = document.getElementById('loading-message');
     try {
-        const animaux = await secureFetch(`/api/animal?proprietaireId=${<?= json_encode($proprietaireId) ?>}`);
-        if (!animaux || animaux.length === 0) {
-            container.innerHTML = '<div class="error-message">Vous n\'avez pas encore ajouté d\'animal.</div>';
+        animauxExists = await secureFetch(`/api/animal/exists?proprietaireId=${<?= json_encode($proprietaireId) ?>}`);
+        if(!animauxExists.exists) {
+            loadingMessage.innerHTML = "Vous n\'avez pas encore ajouté d\'animal.";
             return;
-        }
+        }else{
+            const animaux = await secureFetch(`/api/animal?proprietaireId=${<?= json_encode($proprietaireId) ?>}`);
+            const list = document.createElement('div');
+            list.className = 'animaux-list';
 
-        const list = document.createElement('div');
-        list.className = 'animaux-list';
+            for (const animal of animaux) {
+                const card = document.createElement('div');
+                card.className = 'animal-card';
 
-        for (const animal of animaux) {
-            const card = document.createElement('div');
-            card.className = 'animal-card';
-
-            if (animal.photoUrl) {
-                const img = document.createElement('img');
-                img.src = animal.photoUrl;
-                img.alt = 'Photo de ' + animal.nom;
-                img.className = 'animal-photo';
-                card.appendChild(img);
-            }
-
-            const info = document.createElement('div');
-            info.className = 'animal-info';
-            info.innerHTML = `
-                <h3>${animal.nom}</h3>
-                <p><strong>Type :</strong> ${animal.type}</p>
-                <p><strong>Âge :</strong> ${animal.age} an(s)</p>
-                <p><strong>Infos :</strong> ${animal.informations}</p>
-            `;
-            card.appendChild(info);
-
-            const editBtn = document.createElement('a');
-            editBtn.href = '/edit-animal?id=' + animal.animalId;
-            editBtn.className = 'btn-edit-animal';
-            editBtn.title = 'Modifier cet animal';
-            editBtn.style = 'margin-top: 1rem;';
-            editBtn.innerHTML = '<i class="fas fa-edit"></i> Modifier';
-            card.appendChild(editBtn);
-
-            const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'btn-delete-animal';
-            deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Supprimer';
-            deleteBtn.style = 'margin-top: 0.5rem;';
-            deleteBtn.onclick = async () => {
-                if (!confirm('Supprimer cet animal ?')) return;
-
-                try {
-                    const url = `/api/animal?id=${encodeURIComponent(animal.animalId)}`;
-                    const res = await secureFetch(url, {
-                        method: 'DELETE'
-                    });
-
-                    if (res && res.success) {
-                        card.remove();
-                    } else {
-                        alert('Erreur lors de la suppression de l\'animal.');
-                    }
-                } catch (err) {
-                    console.error(err);
-                    alert('Une erreur est survenue lors de la suppression.');
+                if (animal.photoUrl) {
+                    const img = document.createElement('img');
+                    img.src = animal.photoUrl;
+                    img.alt = 'Photo de ' + animal.nom;
+                    img.className = 'animal-photo';
+                    card.appendChild(img);
                 }
-            };
+
+                const info = document.createElement('div');
+                info.className = 'animal-info';
+                info.innerHTML = `
+                    <h3>${animal.nom}</h3>
+                    <p><strong>Type :</strong> ${animal.type}</p>
+                    <p><strong>Âge :</strong> ${animal.age} an(s)</p>
+                    <p><strong>Infos :</strong> ${animal.informations}</p>
+                `;
+                card.appendChild(info);
+
+                const editBtn = document.createElement('a');
+                editBtn.href = '/edit-animal?id=' + animal.animalId;
+                editBtn.className = 'btn-edit-animal';
+                editBtn.title = 'Modifier cet animal';
+                editBtn.style = 'margin-top: 1rem;';
+                editBtn.innerHTML = '<i class="fas fa-edit"></i> Modifier';
+                card.appendChild(editBtn);
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'btn-delete-animal';
+                deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Supprimer';
+                deleteBtn.style = 'margin-top: 0.5rem;';
+                deleteBtn.onclick = async () => {
+                    if (!confirm('Supprimer cet animal ?')) return;
+
+                    try {
+                        const url = `/api/animal?id=${encodeURIComponent(animal.animalId)}`;
+                        const res = await secureFetch(url, {
+                            method: 'DELETE'
+                        });
+
+                        if (res && res.success) {
+                            card.remove();
+                        } else {
+                            alert('Erreur lors de la suppression de l\'animal.');
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        alert('Une erreur est survenue lors de la suppression.');
+                    }
+                };
             card.appendChild(deleteBtn);
 
             list.appendChild(card);
         }
+        }
+
 
         container.innerHTML = '';
         container.appendChild(list);
