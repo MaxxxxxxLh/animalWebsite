@@ -137,6 +137,7 @@ body {
   border-radius: 20px;
   box-shadow: var(--shadow);
   color: var(--nature-text);
+  margin-bottom: 14em;
 }
 
 .loginBtn,
@@ -753,7 +754,7 @@ textarea:focus {
   background-attachment: fixed;
   background-repeat: no-repeat;
 }
-.home-page .container {
+.home-page git pull.container {
   min-height: 100vh; 
   display: flex;
   flex-direction: column;
@@ -799,4 +800,26 @@ textarea:focus {
 .contact-form button {
   margin: 0 auto;
   display: block;
+}
+body.contrast-mode {
+  background-color: #000;
+  color: #FFF;
+}
+
+body.contrast-mode a,
+body.contrast-mode h1,
+body.contrast-mode p,
+body.contrast-mode .btn {
+  color: #FFF;
+  background-color: #111;
+  border: 2px solid #FFF;
+}
+
+body.contrast-mode .btn:hover {
+  background-color: #333;
+}
+.text-box:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }

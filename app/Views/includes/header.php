@@ -51,4 +51,8 @@
             });
         });
     </script>
+    
+        <button onclick="document.body.classList.toggle('contrast-mode')" class="logoutBtn">
+        Mode contraste
+    </button>
 </header>
